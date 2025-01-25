@@ -22,7 +22,7 @@ public class CandleCommand extends Command {
   @Override
   public void initialize() {
 
-candleSubsystem.setCandleBlue();
+candleSubsystem.setCandleJavaBlue();
 
   }
 
@@ -34,7 +34,7 @@ candleSubsystem.setCandleBlue();
   @Override
   public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
+  // Returns true when the co mmand should end.
   @Override
   public boolean isFinished() {
     return false;
