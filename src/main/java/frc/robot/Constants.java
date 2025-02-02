@@ -18,4 +18,7 @@ public final class Constants {
   }
 
   public static final int CANDLE_ID = 57;
+  public static final double WRIST_MOTOR_SPEED = 0.2;
+  public static final double WRIST_POSITION_TWO = 50;
+  public static final double WRIST_POSITION_ONE = 0;
 }
