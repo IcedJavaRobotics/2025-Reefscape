@@ -41,4 +41,18 @@ SwerveDrive  swerveDrive;
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+  public SwerveDrive getSwerveDrive(){
+    return swerveDrive;
+  }
+
+  public void driveFieldOrientated(ChassisSpeeds velocity){
+    swerveDrive.driveFieldOrientated(velocity)
+  }
+
+  public Command driveFieldOrientated(Supplier<ChassisSpeeds> velocity){
+    return run(->{
+swerveDrive.driveFieldOrientated(velocity.get())
+    });
+  }
 }

@@ -20,5 +20,9 @@ public final class Constants {
   }
 
   public static final int CANDLE_ID = 57;
+
+
+
   public static final double MAX_SPEED = Units.feetToMeters(4.5);
+  public static final double DEADBAND = 0.05;
 }

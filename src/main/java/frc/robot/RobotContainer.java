@@ -26,7 +26,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final CandleSubsystem candleSubsystem = new CandleSubsystem();
-
+  private final SwerveSubsystem drivebase = new SwerveSubsystem();
 
    XboxController xboxController = new XboxController(0);
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -39,7 +39,29 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
     candleSubsystem.setCandleJavaBlue();
+    drivebase.setDefaultCommand(driveFieldOrientatedAngularVelocity);
   }
+
+
+
+SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(), 
+                                                              () -> m_driverController.getLeftY() * -1,
+                                                              () -> m_driverController.getLeftX() * -1)
+                                                              .withControllerRotationAxis(m_driverController::getRightX)
+                                                              .deadband(OperatorConstants.DEADBAND) 
+                                                              .scaleTranslation(0.8) //THIS VALUE IS CHANGABLE TO ADJUST ROBOT SPEED
+                                                              .allianceRelativeControl(true);
+
+  
+  SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(m_driverController::getRightX,
+                                                                                            m_driverController::getRightY)
+                                                                                            .headingWhile(true)
+
+  Command driveFieldOrientatedDirectAngle = drivebase.driveFieldOrientated(driveDirectAngle);
+
+  Command driveFieldOrientatedAngularVelocity = drivebase.driveFieldOrientated(driveAngularVelocity)
+
+
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
