@@ -23,6 +23,6 @@ public final class Constants {
 
 
 
-  public static final double MAX_SPEED = Units.feetToMeters(2);
+  public static final double MAX_SPEED = Units.feetToMeters(8);
   public static final double DEADBAND = 0.05;
 }
