@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import swervelib.parser.SwerveParser;
 import swervelib.SwerveDrive;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -54,15 +53,13 @@ SwerveDrive swerveDrive;
     return swerveDrive;
   }
 
-  public void driveFieldOriented(ChassisSpeeds velocity){
+  public void driveFieldOrientated(ChassisSpeeds velocity){
     swerveDrive.driveFieldOriented(velocity);
   }
 
-  public Command driveFieldOrientated(ChassisSpeeds velocity){
-    return run( () -> {
-      System.out.println("driving field oriented");
-      SmartDashboard.putNumber("Vx", velocity.vxMetersPerSecond);
-      swerveDrive.driveFieldOriented(velocity);
+  public Command driveFieldOrientated(Supplier<ChassisSpeeds> velocity){
+    return run( () ->{
+      swerveDrive.driveFieldOriented(velocity.get());
     });
   }
 }

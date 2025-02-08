@@ -59,8 +59,9 @@ SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerv
                                                                                             m_driverController::getRightY)
                                                                                             .headingWhile(true);
 
-  Command driveFieldOrientatedDirectAngle = drivebase.driveFieldOrientated(driveDirectAngle.get());
-  Command driveFieldOrientatedAngularVelocity = drivebase.driveFieldOrientated(driveAngularVelocity.get());
+  Command driveFieldOrientatedDirectAngle = drivebase.driveFieldOrientated(driveDirectAngle);
+
+  Command driveFieldOrientatedAngularVelocity = drivebase.driveFieldOrientated(driveAngularVelocity);
 
 
 
