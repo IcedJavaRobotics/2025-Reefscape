@@ -10,6 +10,8 @@ import frc.robot.commands.CandleRed;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.CandleSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.SwerveSubsystem;
+import swervelib.SwerveInputStream;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -48,18 +50,17 @@ SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerv
                                                               () -> m_driverController.getLeftY() * -1,
                                                               () -> m_driverController.getLeftX() * -1)
                                                               .withControllerRotationAxis(m_driverController::getRightX)
-                                                              .deadband(OperatorConstants.DEADBAND) 
+                                                              .deadband(Constants.DEADBAND) 
                                                               .scaleTranslation(0.8) //THIS VALUE IS CHANGABLE TO ADJUST ROBOT SPEED
                                                               .allianceRelativeControl(true);
 
   
   SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(m_driverController::getRightX,
                                                                                             m_driverController::getRightY)
-                                                                                            .headingWhile(true)
+                                                                                            .headingWhile(true);
 
-  Command driveFieldOrientatedDirectAngle = drivebase.driveFieldOrientated(driveDirectAngle);
-
-  Command driveFieldOrientatedAngularVelocity = drivebase.driveFieldOrientated(driveAngularVelocity)
+  Command driveFieldOrientatedDirectAngle = drivebase.driveFieldOrientated(driveDirectAngle.get());
+  Command driveFieldOrientatedAngularVelocity = drivebase.driveFieldOrientated(driveAngularVelocity.get());
 
 
 

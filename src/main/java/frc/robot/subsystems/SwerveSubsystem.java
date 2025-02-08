@@ -4,16 +4,22 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import static edu.wpi.first.units.Units.Meter;
 import java.io.File;
+import java.io.IOException;
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import swervelib.parser.SwerveParser;
 import swervelib.SwerveDrive;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 
 public class SwerveSubsystem extends SubsystemBase {
@@ -22,20 +28,22 @@ public class SwerveSubsystem extends SubsystemBase {
 
 
 File directory = new File(Filesystem.getDeployDirectory(),"swerve");
-SwerveDrive  swerveDrive;
+SwerveDrive swerveDrive;
 
 
   public SwerveSubsystem() {
-  swerveDrive = new SwerveParser(directory).createSwerveDrive(Constants.MAX_SPEED,
-                                                                  new Pose2d(new Translation2d(Meter.of(1),
-                                                                                               Meter.of(4)),
-                                                                             Rotation2d.fromDegrees(0)));
+  try {
+    swerveDrive = new SwerveParser(directory).createSwerveDrive(Constants.MAX_SPEED,
+                                                                    new Pose2d(new Translation2d(Meter.of(1),
+                                                                                                 Meter.of(4)),
+                                                                               Rotation2d.fromDegrees(0)));
+  } catch (IOException e) {
+    // TODO Auto-generated catch block
+    e.printStackTrace();
+  }
       // Alternative method if you don't want to supply the conversion factor via JSON files.
       // swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed, angleConversionFactor, driveConversionFactor);
-    } catch (Exception e)
-    {
-      throw new RuntimeException(e);
-    }
+    } 
 
   @Override
   public void periodic() {
@@ -46,13 +54,15 @@ SwerveDrive  swerveDrive;
     return swerveDrive;
   }
 
-  public void driveFieldOrientated(ChassisSpeeds velocity){
-    swerveDrive.driveFieldOrientated(velocity)
+  public void driveFieldOriented(ChassisSpeeds velocity){
+    swerveDrive.driveFieldOriented(velocity);
   }
 
-  public Command driveFieldOrientated(Supplier<ChassisSpeeds> velocity){
-    return run(->{
-swerveDrive.driveFieldOrientated(velocity.get())
+  public Command driveFieldOrientated(ChassisSpeeds velocity){
+    return run( () -> {
+      System.out.println("driving field oriented");
+      SmartDashboard.putNumber("Vx", velocity.vxMetersPerSecond);
+      swerveDrive.driveFieldOriented(velocity);
     });
   }
 }
