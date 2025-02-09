@@ -19,7 +19,7 @@ public class TestSubsystem extends SubsystemBase {
     double speedValue = 0;
   /** Creates a new TestSubsystem. */
   public TestSubsystem() {
-    this.testMotor = new TalonFX(61, "CANivore-name");
+    this.testMotor = new TalonFX(61);
   }
 
   public void increaseSpeed(double increase){
