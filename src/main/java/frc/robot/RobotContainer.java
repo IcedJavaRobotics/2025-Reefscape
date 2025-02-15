@@ -14,7 +14,9 @@ import frc.robot.subsystems.CandleSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.TestMotorCommand;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.TestSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -36,6 +38,7 @@ public class RobotContainer {
 
   private final WristSubsystem wristSubsystem = new WristSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final TestSubsystem testSubsystem = new TestSubsystem();
 
 
    XboxController xboxController = new XboxController(0);
@@ -70,6 +73,9 @@ public class RobotContainer {
 
     new JoystickButton(xboxController, XboxController.Button.kA.value)
         .whileTrue(new WristCommand(wristSubsystem));
+
+    new JoystickButton(xboxController, XboxController.Button.kY.value)
+        .whileTrue(new TestMotorCommand(testSubsystem));
         
 
         new JoystickButton(xboxController, XboxController.Button.kRightBumper.value)
