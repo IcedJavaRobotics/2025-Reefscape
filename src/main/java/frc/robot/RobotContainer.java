@@ -5,11 +5,14 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ActuatorInCommand;
+import frc.robot.commands.ActuatorOutCommand;
 import frc.robot.commands.Autos;
 import frc.robot.commands.CandleRed;
 import frc.robot.commands.ExampleCommand;
 
 import frc.robot.commands.WristCommand;
+import frc.robot.subsystems.ActuatorSubsystem;
 import frc.robot.subsystems.CandleSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.WristSubsystem;
@@ -39,9 +42,11 @@ public class RobotContainer {
   private final WristSubsystem wristSubsystem = new WristSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final TestSubsystem testSubsystem = new TestSubsystem();
+  private final ActuatorSubsystem actuatorSubsystem = new ActuatorSubsystem();
 
 
    XboxController xboxController = new XboxController(0);
+   XboxController auxboxController = new XboxController(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
@@ -78,8 +83,14 @@ public class RobotContainer {
         .whileTrue(new TestMotorCommand(testSubsystem));
         
 
-        new JoystickButton(xboxController, XboxController.Button.kRightBumper.value)
+    new JoystickButton(xboxController, XboxController.Button.kRightBumper.value)
         .whileTrue(new IntakeCommand(intakeSubsystem));
+
+    new JoystickButton(auxboxController, XboxController.Button.kB.value)
+      .whileTrue(new ActuatorOutCommand(actuatorSubsystem));       
+
+    new JoystickButton(auxboxController, XboxController.Button.kA.value)
+      .whileTrue(new ActuatorInCommand(actuatorSubsystem));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
