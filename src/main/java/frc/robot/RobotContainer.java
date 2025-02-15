@@ -8,10 +8,17 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.CandleRed;
 import frc.robot.commands.ExampleCommand;
+
+import frc.robot.commands.WristCommand;
 import frc.robot.subsystems.CandleSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.WristSubsystem;
+import frc.robot.commands.IntakeCommand;
+import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -26,6 +33,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final CandleSubsystem candleSubsystem = new CandleSubsystem();
+
+  private final WristSubsystem wristSubsystem = new WristSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
 
    XboxController xboxController = new XboxController(0);
@@ -57,6 +67,13 @@ public class RobotContainer {
 
     new JoystickButton(xboxController, XboxController.Button.kB.value)
         .whileTrue(new CandleRed(candleSubsystem));
+
+    new JoystickButton(xboxController, XboxController.Button.kA.value)
+        .whileTrue(new WristCommand(wristSubsystem));
+        
+
+        new JoystickButton(xboxController, XboxController.Button.kRightBumper.value)
+        .whileTrue(new IntakeCommand(intakeSubsystem));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
