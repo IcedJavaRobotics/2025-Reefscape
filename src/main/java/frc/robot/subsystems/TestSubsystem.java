@@ -15,32 +15,45 @@ import static frc.robot.Constants.WristConstants.*;
 public class TestSubsystem extends SubsystemBase {
 
   //true is going clockwise false is counterclockwise
-  TalonFX testMotor;
-  
+  TalonFX testMotor1;
+  TalonFX testMotor2;
+  TalonFX testMotor3;
+  TalonFX testMotor4;
   /** Creates a new WristSubsystem. */
   public TestSubsystem() {
-    testMotor = new TalonFX(61);
-    testMotor.setPosition(0);
+    testMotor1 = new TalonFX(12);
+    testMotor1.setPosition(0);
+    testMotor2 = new TalonFX(22);
+    testMotor2.setPosition(0);
+    testMotor3 = new TalonFX(32);
+    testMotor3.setPosition(0);
+    testMotor4 = new TalonFX(42);
+    testMotor4.setPosition(0);
   }
 
   public void set(double speed){
-    testMotor.set(speed);
+    testMotor1.set(speed);
+    testMotor2.set(speed);
+    testMotor3.set(speed);
+    testMotor4.set(speed);
   }
 
   public void stop(){
-    testMotor.set(0);
+    testMotor1.set(0);
+    testMotor2.set(0);
+    testMotor3.set(0);
+    testMotor4.set(0);
   }
 
-
- public double getEncoder(){
-  return testMotor.getPosition().getValueAsDouble();
- }
 
  
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("test-encoder-val", testMotor.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("test-encoder-val1", testMotor1.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("test-encoder-val2", testMotor2.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("test-encoder-val3", testMotor3.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("test-encoder-val4", testMotor4.getPosition().getValueAsDouble());
     // This method will be called once per scheduler run
   }
 }
