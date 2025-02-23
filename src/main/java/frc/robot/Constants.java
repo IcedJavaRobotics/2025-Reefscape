@@ -17,7 +17,5 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
   
-  public static final int CANDLE_ID = 1;
-
-  public static final double MAX_SPEED = 0.5;
+  public static final String MAX_SPEED = null;
 }
