@@ -73,8 +73,8 @@ public class RobotContainer {
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
 
-    new JoystickButton(xboxController, XboxController.Button.kB.value)
-        .whileTrue(new CandleRed(candleSubsystem));
+    // new JoystickButton(xboxController, XboxController.Button.kB.value)
+    //     .whileTrue(new CandleRed(candleSubsystem));
 
     new JoystickButton(xboxController, XboxController.Button.kA.value)
         .whileTrue(new WristCommand(wristSubsystem));
@@ -86,10 +86,10 @@ public class RobotContainer {
     new JoystickButton(xboxController, XboxController.Button.kRightBumper.value)
         .whileTrue(new IntakeCommand(intakeSubsystem));
 
-    new JoystickButton(auxboxController, XboxController.Button.kB.value)
+    new JoystickButton(xboxController, XboxController.Button.kB.value)
       .whileTrue(new ActuatorOutCommand(actuatorSubsystem));       
 
-    new JoystickButton(auxboxController, XboxController.Button.kA.value)
+    new JoystickButton(xboxController, XboxController.Button.kX.value)
       .whileTrue(new ActuatorInCommand(actuatorSubsystem));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,

@@ -18,6 +18,7 @@ public class ActuatorSubsystem extends SubsystemBase {
 
   public void ActuatorOUT() {
     climberActuator.set(1);
+
   }
 
   public void ActuatorIN() {

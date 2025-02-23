@@ -21,6 +21,7 @@ public class ActuatorOutCommand extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("IM TRYING TO DO THE ACTUATOR OUT COMMAND RAAAHHHH");
     actuatorSubsystem.ActuatorOUT();
   }
 }
