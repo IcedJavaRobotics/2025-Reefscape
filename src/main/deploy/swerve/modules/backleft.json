@@ -5,19 +5,19 @@
   },
   "absoluteEncoderOffset": 0,
   "drive": {
-    "type": "sparkmax_neo",
+    "type": "krakenx60foc",
     "id": 31,
-    "canbus": "CANivore"
+    "canbus": "iceberg-canivore"
   },
   "angle": {
     "type": "krakenx60foc",
     "id": 32,
-    "canbus": "CANivore"
+    "canbus": "iceberg-canivore"
   },
   "encoder": {
     "type": "cancoder",
     "id": 30,
-    "canbus": "CANivore"
+    "canbus": "iceberg-canivore"
   },
   "inverted": {
     "drive": false,
