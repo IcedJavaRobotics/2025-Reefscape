@@ -39,6 +39,10 @@ public final class Constants {
     public static final double INTAKE_PULSE_LENGTH = 1; //This value is in seconds
   }
 
+public static final int length = 125; //Servo Length
+
+
+
 
 
 

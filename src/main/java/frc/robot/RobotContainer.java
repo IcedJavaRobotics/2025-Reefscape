@@ -17,7 +17,7 @@ import frc.robot.subsystems.CandleSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.TestMotorCommand;
+//import frc.robot.commands.TestMotorCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.TestSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
@@ -36,12 +36,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final CandleSubsystem candleSubsystem = new CandleSubsystem();
+  //private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  //private final CandleSubsystem candleSubsystem = new CandleSubsystem();
 
-  private final WristSubsystem wristSubsystem = new WristSubsystem();
-  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  private final TestSubsystem testSubsystem = new TestSubsystem();
+  //private final WristSubsystem wristSubsystem = new WristSubsystem();
+  //private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  //private final TestSubsystem testSubsystem = new TestSubsystem();
   private final ActuatorSubsystem actuatorSubsystem = new ActuatorSubsystem();
 
 
@@ -56,7 +56,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    candleSubsystem.setCandleJavaBlue();
+    //candleSubsystem.setCandleJavaBlue();
   }
 
   /**
@@ -70,21 +70,21 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+    // new Trigger(m_exampleSubsystem::exampleCondition)
+    //     .onTrue(new ExampleCommand(m_exampleSubsystem));
 
-    // new JoystickButton(xboxController, XboxController.Button.kB.value)
-    //     .whileTrue(new CandleRed(candleSubsystem));
+    // // new JoystickButton(xboxController, XboxController.Button.kB.value)
+    // //     .whileTrue(new CandleRed(candleSubsystem));
 
-    new JoystickButton(xboxController, XboxController.Button.kA.value)
-        .whileTrue(new WristCommand(wristSubsystem));
+    // new JoystickButton(xboxController, XboxController.Button.kA.value)
+    //     .whileTrue(new WristCommand(wristSubsystem));
 
-    new JoystickButton(xboxController, XboxController.Button.kY.value)
-        .whileTrue(new TestMotorCommand(testSubsystem));
+    // new JoystickButton(xboxController, XboxController.Button.kY.value)
+    //     .whileTrue(new TestMotorCommand(testSubsystem));
         
 
-    new JoystickButton(xboxController, XboxController.Button.kRightBumper.value)
-        .whileTrue(new IntakeCommand(intakeSubsystem));
+    // new JoystickButton(xboxController, XboxController.Button.kRightBumper.value)
+    //     .whileTrue(new IntakeCommand(intakeSubsystem));
 
     new JoystickButton(xboxController, XboxController.Button.kB.value)
       .whileTrue(new ActuatorOutCommand(actuatorSubsystem));       
@@ -94,7 +94,7 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    //m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
   }
 
   /**
@@ -104,6 +104,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return null;//Autos.exampleAuto(m_exampleSubsystem);
   }
 }
