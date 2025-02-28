@@ -18,4 +18,5 @@ public final class Constants {
   }
 
   public static final int CANDLE_ID = 57;
+  public static final double ELAVATOR_MOTOR_SPEED = 0.5;
 }
