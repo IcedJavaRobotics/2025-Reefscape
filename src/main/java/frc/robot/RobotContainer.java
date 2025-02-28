@@ -7,11 +7,11 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.CandleRed;
-import frc.robot.commands.ElavatorINCommand;
-import frc.robot.commands.ElavatorOUTCommand;
+import frc.robot.commands.ElevatorINCommand;
+import frc.robot.commands.ElevatorOUTCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.CandleSubsystem;
-import frc.robot.subsystems.ElavatorSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,7 +32,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final CandleSubsystem candleSubsystem = new CandleSubsystem();
-  private final ElavatorSubsystem elavatorSubsystem = new ElavatorSubsystem();
+  private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
 
   XboxController xboxController = new XboxController(0);
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -71,10 +71,10 @@ public class RobotContainer {
         .whileTrue(new CandleRed(candleSubsystem));
 
     new JoystickButton(xboxController, XboxController.Button.kA.value)
-        .whileTrue(new ElavatorINCommand(elavatorSubsystem));
+        .whileTrue(new ElevatorINCommand(elevatorSubsystem));
 
     new JoystickButton(xboxController, XboxController.Button.kX.value)
-        .whileTrue(new ElavatorOUTCommand(elavatorSubsystem));
+        .whileTrue(new ElevatorOUTCommand(elevatorSubsystem));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is
     // pressed,

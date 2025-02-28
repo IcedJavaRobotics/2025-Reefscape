@@ -9,28 +9,28 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class ElavatorSubsystem extends SubsystemBase {
-  /** Creates a new ElavatorSubsystem. */
+public class ElevatorSubsystem extends SubsystemBase {
+  /** Creates a new ElevatorSubsystem. */
 
-  TalonFX elavatorMotor;
+  TalonFX elevatorMotor;
 
-  public ElavatorSubsystem() {
+  public ElevatorSubsystem() {
 
-    this.elavatorMotor = new TalonFX(51, "rio");
+    this.elevatorMotor = new TalonFX(51, "rio");
   }
 
-  public void elavatorOUT() {
+  public void elevatorOUT() {
 
-    elavatorMotor.set(Constants.ELAVATOR_MOTOR_SPEED);
+    elevatorMotor.set(Constants.Elevator_MOTOR_SPEED);
   }
 
-  public void elavatorIN() {
+  public void elevatorIN() {
 
-    elavatorMotor.set(-Constants.ELAVATOR_MOTOR_SPEED);
+    elevatorMotor.set(-Constants.Elevator_MOTOR_SPEED);
   }
 
-  public void elavatorStop() {
-    elavatorMotor.set(0);
+  public void elevatorStop() {
+    elevatorMotor.set(0);
   }
 
   @Override
