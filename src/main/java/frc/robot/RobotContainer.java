@@ -10,6 +10,7 @@ import frc.robot.commands.CandleRed;
 import frc.robot.commands.ExampleCommand;
 
 import frc.robot.commands.WristCommand;
+import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.subsystems.CandleSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.WristSubsystem;
@@ -92,12 +93,14 @@ public class RobotContainer {
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
 
-        new JoystickButton(xboxController, XboxController.Button.kB.value)
+        new JoystickButton(xboxController, XboxController.Button.kX.value)
         .whileTrue(new CandleRed(candleSubsystem));
 
     new JoystickButton(xboxController, XboxController.Button.kA.value)
         .whileTrue(new WristCommand(wristSubsystem));
         
+    new JoystickButton(xboxController, XboxController.Button.kB.value)
+        .whileTrue(new ZeroGyroCommand(drivebase));
 
         new JoystickButton(xboxController, XboxController.Button.kRightBumper.value)
         .whileTrue(new IntakeCommand(intakeSubsystem));
