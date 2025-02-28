@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
@@ -69,10 +70,11 @@ public class RobotContainer {
      * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor
      * with an arbitrary predicate, or via the named factories in {@link
      * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-     * null null null null null null null null null     {@link
+     * null null null null null null null null null null null null     {@link
    * CommandXboxController
      * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-     * PS4} controllers or null null null null null null null null null     {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+     * PS4} controllers or null null null null null null null null null null
+     * null null     {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
      */
     private void configureBindings() {
@@ -110,10 +112,10 @@ public class RobotContainer {
         new JoystickButton(xboxController, XboxController.Button.kA.value)
                 .whileTrue(new MoveL4Command(shoulderSubsystem, elevatorSubsystem));
 
-        new JoystickButton(xboxController, XboxController.Button.kRightBumper.value)
+        new POVButton(xboxController, 0) /* D-Pad pressed UP */
                 .whileTrue(new MoveCoralStationCommand(shoulderSubsystem, elevatorSubsystem));
 
-        new JoystickButton(xboxController, XboxController.Button.kLeftBumper.value)
+        new POVButton(xboxController, 180) /* D-Pad pressed DOWN */
                 .whileTrue(new MoveGroundCommand(shoulderSubsystem, elevatorSubsystem));
 
         // Schedule `exampleMethodCommand` when the Xbox controller's B button is
