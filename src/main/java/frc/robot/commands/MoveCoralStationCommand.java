@@ -4,45 +4,43 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.WristSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.ShoulderSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class WristCommand extends Command {
+public class MoveCoralStationCommand extends Command {
 
-    WristSubsystem wristSubsystem;
+    ShoulderSubsystem shoulderSubsystem;
+    ElevatorSubsystem elevatorSubsystem;
 
     /**
-     * Creates a new WristCommand.
+     * Creates a new MoveL1Command.
      */
-    public WristCommand(WristSubsystem wristSubsystem) {
+    public MoveCoralStationCommand(ShoulderSubsystem shoulderSubsystem, ElevatorSubsystem elevatorSubsystem) {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(wristSubsystem);
-        this.wristSubsystem = wristSubsystem;
+        addRequirements(shoulderSubsystem, elevatorSubsystem);
+        this.shoulderSubsystem = new ShoulderSubsystem();
+        this.elevatorSubsystem = new ElevatorSubsystem();
     }
 
-    // Called when the command is initially scheduled.
-    @Override
     public void initialize() {
-
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        wristSubsystem.wristRotate();
+        shoulderSubsystem.moveShoulderCoralStation();
+        elevatorSubsystem.moveElevatorCoralStation();
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        wristSubsystem.wristMotorOFF();
-        wristSubsystem.toggleDirection();
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-
         return false;
     }
 }
