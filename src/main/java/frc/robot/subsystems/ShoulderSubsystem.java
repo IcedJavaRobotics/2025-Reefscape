@@ -16,8 +16,7 @@ public class ShoulderSubsystem extends SubsystemBase {
 
   /** Creates a new ShoulderSubsystem. */
   public ShoulderSubsystem() {
-    shoulderMotor = new TalonFX(50, "CANivore-name");
-    shoulderMotor.getPosition().getValueAsDouble();
+    shoulderMotor = new TalonFX(50, "rio");
     shoulderPidController.setTolerance(0.6, 0.005);
     zeroEncoder();
   }
@@ -38,20 +37,66 @@ public class ShoulderSubsystem extends SubsystemBase {
     return shoulderMotor.getPosition().getValueAsDouble();
   }
 
-  public void zeroEncoder(){
+  public void zeroEncoder() {
     shoulderMotor.setPosition(0);
-   }
-
-  public void shoulderMove(){
-  if(shoulderMotor.getPosition().getValueAsDouble() >= 10) {
-    shoulderMotorOFF();
-    return;
   }
 
-  // intakeMotor.set(-IntakeConstants.SPEED);
-
-  shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+  public void shoulderMove() {
+    if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
+      shoulderMotorOFF();
+      return;
+    }
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
   }
+
+  public void moveShoulderL1() {
+    if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
+      shoulderMotorOFF();
+      return;
+    }
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+  }
+
+  public void moveShoulderL2() {
+    if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
+      shoulderMotorOFF();
+      return;
+    }
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+  }
+
+  public void moveShoulderL3() {
+    if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
+      shoulderMotorOFF();
+      return;
+    }
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+  }
+
+  public void moveShoulderL4() {
+    if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
+      shoulderMotorOFF();
+      return;
+    }
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+  }
+
+  public void moveShoulderCoralStation() {
+    if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
+      shoulderMotorOFF();
+      return;
+    }
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+  }
+
+  public void moveShoulderZero() {
+    if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
+      shoulderMotorOFF();
+      return;
+    }
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

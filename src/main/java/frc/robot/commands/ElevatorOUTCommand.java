@@ -32,7 +32,7 @@ public class ElevatorOUTCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    elevatorSubsystem.elevatorStop();
+    elevatorSubsystem.elevatorOFF();
   }
 
   // Returns true when the command should end.

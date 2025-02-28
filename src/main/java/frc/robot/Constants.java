@@ -43,4 +43,7 @@ public final class Constants {
     public static final double INTAKE_PULSE_LENGTH = 1; // This value is in seconds
   }
 
+  public static class ElevatorConstants {
+    public static final double Elevator_MOTOR_SPEED = 0.5;
+  }
 }

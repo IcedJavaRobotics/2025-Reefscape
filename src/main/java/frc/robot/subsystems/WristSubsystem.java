@@ -15,69 +15,64 @@ import static frc.robot.Constants.WristConstants.*;
 public class WristSubsystem extends SubsystemBase {
 
   boolean wristDirection = true;
-  //true is going clockwise false is counterclockwise
+  // true is going clockwise false is counterclockwise
   TalonFX wristMotor;
   public PIDController intakePidController = new PIDController(0.02, 0, 0.001);
-  
+
   /** Creates a new WristSubsystem. */
   public WristSubsystem() {
-    wristMotor = new TalonFX(61, "CANivore-name");
+    wristMotor = new TalonFX(61, "rio");
     wristMotor.getPosition().getValueAsDouble();
     intakePidController.setTolerance(0.6, 0.005);
     zeroEncoder();
   }
 
-  public void wristRotate(){
-    if(wristDirection == true){
-      if(wristMotor.getPosition().getValueAsDouble() >= WRIST_POSITION_TWO) {
-      wristMotorOFF();
-      return;
+  public void wristRotate() {
+    if (wristDirection == true) {
+      if (wristMotor.getPosition().getValueAsDouble() >= WRIST_POSITION_TWO) {
+        wristMotorOFF();
+        return;
+      }
+
+      // intakeMotor.set(-IntakeConstants.SPEED);
+
+      wristMotor.set(intakePidController.calculate(wristMotor.getPosition().getValueAsDouble(), WRIST_POSITION_TWO));
+    } else {
+      if (wristMotor.getPosition().getValueAsDouble() <= WRIST_POSITION_ONE) {
+        wristMotorOFF();
+        return;
+      }
+
+      // intakeMotor.set(-IntakeConstants.SPEED);
+
+      wristMotor.set(intakePidController.calculate(wristMotor.getPosition().getValueAsDouble(), WRIST_POSITION_ONE));
     }
 
-    // intakeMotor.set(-IntakeConstants.SPEED);
-
-    wristMotor.set(intakePidController.calculate(wristMotor.getPosition().getValueAsDouble(), WRIST_POSITION_TWO));
-  }else{
-    if(wristMotor.getPosition().getValueAsDouble() <= WRIST_POSITION_ONE) {
-      wristMotorOFF();
-      return;
-    }
-
-    // intakeMotor.set(-IntakeConstants.SPEED);
-
-    wristMotor.set(intakePidController.calculate(wristMotor.getPosition().getValueAsDouble(), WRIST_POSITION_ONE));
-  }
-    
   }
 
-
-  
-  public void toggleDirection(){
+  public void toggleDirection() {
     wristDirection = !wristDirection;
   }
 
- public void wristMotorFRW(){
-  wristMotor.set(WRIST_MOTOR_SPEED);
- }
+  public void wristMotorFRW() {
+    wristMotor.set(WRIST_MOTOR_SPEED);
+  }
 
- public void wristMotorBCK(){
-  wristMotor.set(-WRIST_MOTOR_SPEED);
- }
+  public void wristMotorBCK() {
+    wristMotor.set(-WRIST_MOTOR_SPEED);
+  }
 
+  public void wristMotorOFF() {
+    wristMotor.set(0);
+  }
 
- public void wristMotorOFF(){
-  wristMotor.set(0);
- }
+  public void zeroEncoder() {
+    wristMotor.setPosition(0);
+  }
 
- public void zeroEncoder(){
-  wristMotor.setPosition(0);
- }
-
- public double getEncoder(){
-  return wristMotor.getPosition().getValueAsDouble();
- }
-
- 
+  public double getEncoder() {
+    return wristMotor.getPosition().getValueAsDouble();
+  }
 
   @Override
   public void periodic() {
