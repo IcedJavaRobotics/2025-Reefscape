@@ -58,11 +58,14 @@ public class RobotContainer {
     drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
   }
     
+  private double getRightX(){
+    return -m_driverController.getRightX();
+  }
 
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
                                                                 () -> m_driverController.getLeftY() * -1,
                                                                 () -> m_driverController.getLeftX() * -1)
-                                                                .withControllerRotationAxis(m_driverController::getRightX)
+                                                                .withControllerRotationAxis(() -> getRightX())
                                                                 .deadband(OperatorConstants.DEADBAND)
                                                                 .scaleTranslation(0.9)//Can be changed to alter speed
                                                                 .allianceRelativeControl(true);
