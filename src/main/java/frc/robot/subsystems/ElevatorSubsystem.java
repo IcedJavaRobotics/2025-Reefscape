@@ -15,7 +15,13 @@ public class ElevatorSubsystem extends SubsystemBase {
     /**
      * Creates a new ElevatorSubsystem.
      */
-    string elevatorPosition = "start";
+
+    public enum elevatorPosition {
+        START, L1, L2, L3, L4, CORAL_STATION, GROUND
+    }
+
+    elevatorPosition myVAR = elevatorPosition.START;
+
     TalonFX elevatorMotor;
     public PIDController elevatorPidController = new PIDController(0.02, 0, 0.001);
 
@@ -37,7 +43,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     public void moveElevatorL1() {
         if (elevatorMotor.getPosition().getValueAsDouble() >= 10) {
             elevatorOFF();
-            elevatorPosition = "L1";
+            myVAR = elevatorPosition.L1;
             return;
         }
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 10));
@@ -46,7 +52,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     public void moveElevatorL2() {
         if (elevatorMotor.getPosition().getValueAsDouble() >= 10) {
             elevatorOFF();
-            elevatorPosition = "L2";
+            myVAR = elevatorPosition.L2;
             return;
         }
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 10));
@@ -55,7 +61,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     public void moveElevatorL3() {
         if (elevatorMotor.getPosition().getValueAsDouble() >= 10) {
             elevatorOFF();
-            elevatorPosition = "L3";
+            myVAR = elevatorPosition.L3;
             return;
         }
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 10));
@@ -64,7 +70,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     public void moveElevatorL4() {
         if (elevatorMotor.getPosition().getValueAsDouble() >= 10) {
             elevatorOFF();
-            elevatorPosition = "L4";
+            myVAR = elevatorPosition.L4;
             return;
         }
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 10));
@@ -73,7 +79,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     public void moveElevatorCoralStation() {
         if (elevatorMotor.getPosition().getValueAsDouble() >= 10) {
             elevatorOFF();
-            elevatorPosition = "Coral Station";
+            myVAR = elevatorPosition.CORAL_STATION;
             return;
         }
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 10));
@@ -82,7 +88,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     public void moveElevatorGround() {
         if (elevatorMotor.getPosition().getValueAsDouble() >= 10) {
             elevatorOFF();
-            elevatorPosition = "Ground";
+            myVAR = elevatorPosition.GROUND;
             return;
         }
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 10));
@@ -105,7 +111,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("encoder-val", elevatorMotor.getPosition().getValueAsDouble());
-        SmartDashboard.putString("elevatorPosition", elevatorPosition);
+        SmartDashboard.putString("elevatorPosition", myVAR.toString());
         // This method will be called once per scheduler run
     }
 }

@@ -39,98 +39,98 @@ import frc.robot.subsystems.WristSubsystem;
  * commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-    // The robot's subsystems and commands are defined here...
+        // The robot's subsystems and commands are defined here...
 
-    private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-    private final CandleSubsystem candleSubsystem = new CandleSubsystem();
-    private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
-    private final ShoulderSubsystem shoulderSubsystem = new ShoulderSubsystem();
-    private final WristSubsystem wristSubsystem = new WristSubsystem();
-    private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-    private final TestSubsystem testSubsystem = new TestSubsystem();
+        private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+        private final CandleSubsystem candleSubsystem = new CandleSubsystem();
+        private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
+        private final ShoulderSubsystem shoulderSubsystem = new ShoulderSubsystem();
+        private final WristSubsystem wristSubsystem = new WristSubsystem();
+        private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+        private final TestSubsystem testSubsystem = new TestSubsystem();
 
-    XboxController xboxController = new XboxController(0);
-    // Replace with CommandPS4Controller or CommandJoystick if needed
-    private final CommandXboxController m_driverController = new CommandXboxController(
-            OperatorConstants.kDriverControllerPort);
+        XboxController xboxController = new XboxController(0);
+        // Replace with CommandPS4Controller or CommandJoystick if needed
+        private final CommandXboxController m_driverController = new CommandXboxController(
+                        OperatorConstants.kDriverControllerPort);
 
-    /**
-     * The container for the robot. Contains subsystems, OI devices, and
-     * commands.
-     */
-    public RobotContainer() {
-        // Configure the trigger bindings
-        configureBindings();
-        candleSubsystem.setCandleJavaBlue();
-    }
+        /**
+         * The container for the robot. Contains subsystems, OI devices, and
+         * commands.
+         */
+        public RobotContainer() {
+                // Configure the trigger bindings
+                configureBindings();
+                candleSubsystem.setCandleJavaBlue();
+        }
 
-    /**
-     * Use this method to define your trigger->command mappings. Triggers can be
-     * created via the
-     * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor
-     * with an arbitrary predicate, or via the named factories in {@link
-     * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-     * null null null null null null null null null null null null     {@link
-   * CommandXboxController
-     * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-     * PS4} controllers or null null null null null null null null null null
-     * null null     {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-     */
-    private void configureBindings() {
-        // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-        // new Trigger(m_exampleSubsystem::exampleCondition)
-        //     .onTrue(new ExampleCommand(m_exampleSubsystem));
+        /**
+         * Use this method to define your trigger->command mappings. Triggers can be
+         * created via the
+         * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor
+         * with an arbitrary predicate, or via the named factories in {@link
+         * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
+         * null null null null null null null null null null null null {@link
+         * CommandXboxController
+         * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+         * PS4} controllers or null null null null null null null null null null
+         * null null {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+         * joysticks}.
+         */
+        private void configureBindings() {
+                // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+                // new Trigger(m_exampleSubsystem::exampleCondition)
+                // .onTrue(new ExampleCommand(m_exampleSubsystem));
 
-        new JoystickButton(xboxController, XboxController.Button.kB.value)
-                .whileTrue(new CandleRed(candleSubsystem));
+                new JoystickButton(xboxController, XboxController.Button.kB.value)
+                                .whileTrue(new CandleRed(candleSubsystem));
 
-        new JoystickButton(xboxController, XboxController.Button.kA.value)
-                .whileTrue(new WristCommand(wristSubsystem));
+                new JoystickButton(xboxController, XboxController.Button.kA.value)
+                                .whileTrue(new WristCommand(wristSubsystem));
 
-        new JoystickButton(xboxController, XboxController.Button.kY.value)
-                .whileTrue(new TestMotorCommand(testSubsystem));
+                new JoystickButton(xboxController, XboxController.Button.kY.value)
+                                .whileTrue(new TestMotorCommand(testSubsystem));
 
-        new JoystickButton(xboxController, XboxController.Button.kRightBumper.value)
-                .whileTrue(new IntakeCommand(intakeSubsystem));
+                new JoystickButton(xboxController, XboxController.Button.kRightBumper.value)
+                                .whileTrue(new IntakeCommand(intakeSubsystem));
 
-        new JoystickButton(xboxController, XboxController.Button.kA.value)
-                .whileTrue(new ElevatorINCommand(elevatorSubsystem));
+                new JoystickButton(xboxController, XboxController.Button.kA.value)
+                                .whileTrue(new ElevatorINCommand(elevatorSubsystem));
 
-        new JoystickButton(xboxController, XboxController.Button.kX.value)
-                .whileTrue(new ElevatorOUTCommand(elevatorSubsystem));
+                new JoystickButton(xboxController, XboxController.Button.kX.value)
+                                .whileTrue(new ElevatorOUTCommand(elevatorSubsystem));
 
-        new JoystickButton(xboxController, XboxController.Button.kX.value)
-                .whileTrue(new MoveL1Command(shoulderSubsystem, elevatorSubsystem));
+                new JoystickButton(xboxController, XboxController.Button.kX.value)
+                                .whileTrue(new MoveL1Command(shoulderSubsystem, elevatorSubsystem));
 
-        new JoystickButton(xboxController, XboxController.Button.kY.value)
-                .whileTrue(new MoveL2Command(shoulderSubsystem, elevatorSubsystem));
+                new JoystickButton(xboxController, XboxController.Button.kY.value)
+                                .whileTrue(new MoveL2Command(shoulderSubsystem, elevatorSubsystem));
 
-        new JoystickButton(xboxController, XboxController.Button.kB.value)
-                .whileTrue(new MoveL3Command(shoulderSubsystem, elevatorSubsystem));
+                new JoystickButton(xboxController, XboxController.Button.kB.value)
+                                .whileTrue(new MoveL3Command(shoulderSubsystem, elevatorSubsystem));
 
-        new JoystickButton(xboxController, XboxController.Button.kA.value)
-                .whileTrue(new MoveL4Command(shoulderSubsystem, elevatorSubsystem));
+                new JoystickButton(xboxController, XboxController.Button.kA.value)
+                                .whileTrue(new MoveL4Command(shoulderSubsystem, elevatorSubsystem));
 
-        new POVButton(xboxController, 0) /* D-Pad pressed UP */
-                .whileTrue(new MoveCoralStationCommand(shoulderSubsystem, elevatorSubsystem));
+                new POVButton(xboxController, 0) /* D-Pad pressed UP */
+                                .whileTrue(new MoveCoralStationCommand(shoulderSubsystem, elevatorSubsystem));
 
-        new POVButton(xboxController, 180) /* D-Pad pressed DOWN */
-                .whileTrue(new MoveGroundCommand(shoulderSubsystem, elevatorSubsystem));
+                new POVButton(xboxController, 180) /* D-Pad pressed DOWN */
+                                .whileTrue(new MoveGroundCommand(shoulderSubsystem, elevatorSubsystem));
 
-        // Schedule `exampleMethodCommand` when the Xbox controller's B button is
-        // pressed,
-        // cancelling on release.
-        m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-    }
+                // Schedule `exampleMethodCommand` when the Xbox controller's B button is
+                // pressed,
+                // cancelling on release.
+                m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+        }
 
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand() {
-        // An example command will be run in autonomous
-        return Autos.exampleAuto(m_exampleSubsystem);
-    }
+        /**
+         * Use this to pass the autonomous command to the main {@link Robot} class.
+         *
+         * @return the command to run in autonomous
+         */
+        public Command getAutonomousCommand() {
+                // An example command will be run in autonomous
+                return Autos.exampleAuto(m_exampleSubsystem);
+        }
 }

@@ -12,7 +12,11 @@ import static frc.robot.Constants.ShoulderConstants.SHOULDER_MOTOR_SPEED;
 
 public class ShoulderSubsystem extends SubsystemBase {
 
-    string shoulderPosition = "start";
+    public enum shoulderPosition {
+        START, L1, L2, L3, L4, CORAL_STATION, GROUND
+    }
+
+    shoulderPosition myVAR = shoulderPosition.START;
 
     TalonFX shoulderMotor;
     public PIDController shoulderPidController = new PIDController(0.02, 0, 0.001);
@@ -55,60 +59,78 @@ public class ShoulderSubsystem extends SubsystemBase {
     }
 
     public void moveShoulderL1() {
-        /* This moves the shoulder to the position of L1 on the Reef and updates the string shoulderPosition */
+        /*
+         * This moves the shoulder to the position of L1 on the Reef and updates the
+         * string shoulderPosition
+         */
         if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
             shoulderMotorOFF();
-            shoulderPosition = "L1";
+            myVAR = shoulderPosition.L1;
             return;
         }
         shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
     }
 
     public void moveShoulderL2() {
-        /* This moves the shoulder to the position of L2 on the Reef and updates the string shoulderPosition */
+        /*
+         * This moves the shoulder to the position of L2 on the Reef and updates the
+         * string shoulderPosition
+         */
         if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
             shoulderMotorOFF();
-            shoulderPosition = "L2";
+            myVAR = shoulderPosition.L2;
             return;
         }
         shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
     }
 
     public void moveShoulderL3() {
-        /* This moves the shoulder to the position of L3 on the Reef and updates the string shoulderPosition */
+        /*
+         * This moves the shoulder to the position of L3 on the Reef and updates the
+         * string shoulderPosition
+         */
         if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
             shoulderMotorOFF();
-            shoulderPosition = "L3";
+            myVAR = shoulderPosition.L3;
             return;
         }
         shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
     }
 
     public void moveShoulderL4() {
-        /* This moves the shoulder to the position of L4 on the Reef and updates the string shoulderPosition*/
+        /*
+         * This moves the shoulder to the position of L4 on the Reef and updates the
+         * string shoulderPosition
+         */
         if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
             shoulderMotorOFF();
-            shoulderPosition = "L4";
+            myVAR = shoulderPosition.L4;
             return;
         }
         shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
     }
 
     public void moveShoulderCoralStation() {
-        /* This moves the shoulder to the position of the Coral Station to intake a peice and updates the string shoulderPosition*/
+        /*
+         * This moves the shoulder to the position of the Coral Station to intake a
+         * peice and updates the string shoulderPosition
+         */
         if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
             shoulderMotorOFF();
-            shoulderPosition = "Coral Station";
+            myVAR = shoulderPosition.CORAL_STATION;
             return;
         }
         shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
     }
 
     public void moveShoulderGround() {
-        /* This moves the shoulder to the lowest possible position and updates the string shoulderPosition*/
+        /*
+         * This moves the shoulder to the lowest possible position and updates the
+         * string shoulderPosition
+         */
         if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
             shoulderMotorOFF();
-            shoulderPosition = "Ground";
+            myVAR = shoulderPosition.GROUND;
             return;
         }
         shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
@@ -117,7 +139,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         SmartDashboard.putNumber("encoder-val", shoulderMotor.getPosition().getValueAsDouble());
-        SmartDashboard.putString("shoulderPosition", shoulderPosition);
+        SmartDashboard.putString("shoulderPosition", myVAR.toString());
         // This method will be called once per scheduler run
     }
 
