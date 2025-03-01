@@ -21,8 +21,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public IntakeSubsystem() {
     // this.intakeMotor = new TalonFX(61);
-    this.intakeMotor = new TalonFX(61, "CANivore-name");
-    this.CANrange = new CANrange(62, "CANivore-name");
+    this.intakeMotor = new TalonFX(61);
+    this.CANrange = new CANrange(62);
 
   }
 

@@ -9,12 +9,15 @@ import frc.robot.commands.ActuatorInCommand;
 import frc.robot.commands.ActuatorOutCommand;
 import frc.robot.commands.Autos;
 import frc.robot.commands.CandleRed;
+import frc.robot.commands.ElevatorINCommand;
+import frc.robot.commands.ElevatorOUTCommand;
 import frc.robot.commands.ExampleCommand;
 
 import frc.robot.commands.WristCommand;
 import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.subsystems.ActuatorSubsystem;
 import frc.robot.subsystems.CandleSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.commands.IntakeCommand;
@@ -52,7 +55,7 @@ public class RobotContainer {
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final TestSubsystem testSubsystem = new TestSubsystem();
   private final ActuatorSubsystem actuatorSubsystem = new ActuatorSubsystem();
-
+        private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
 
    XboxController xboxController = new XboxController(0);
 
@@ -122,17 +125,31 @@ public class RobotContainer {
     new JoystickButton(xboxController, XboxController.Button.kB.value)
     .whileTrue(new ZeroGyroCommand(drivebase));
 
-    new JoystickButton(xboxController, XboxController.Button.kA.value)
-      .whileTrue(new ActuatorOutCommand(actuatorSubsystem));       
+    // new JoystickButton(xboxController, XboxController.Button.kA.value)
+    //   .whileTrue(new ActuatorOutCommand(actuatorSubsystem));       
 
+    // new JoystickButton(xboxController, XboxController.Button.kX.value)
+    //   .whileTrue(new ActuatorInCommand(actuatorSubsystem));
+
+    
     new JoystickButton(xboxController, XboxController.Button.kX.value)
-      .whileTrue(new ActuatorInCommand(actuatorSubsystem));
+      .whileTrue(new WristCommand(wristSubsystem));
+
+      new JoystickButton(xboxController, XboxController.Button.kA.value)
+        .whileTrue(new IntakeCommand(intakeSubsystem));
 
     new JoystickButton(xboxController, XboxController.Button.kStart.value)
       .whileTrue(new ShoulderCommand(shoulderSubsystem, 1));
 
       new JoystickButton(xboxController, XboxController.Button.kBack.value)
       .whileTrue(new ShoulderCommand(shoulderSubsystem, -1));
+
+      new JoystickButton(xboxController, XboxController.Button.kLeftBumper.value)
+                                .whileTrue(new ElevatorINCommand(elevatorSubsystem));
+
+      new JoystickButton(xboxController, XboxController.Button.kRightBumper.value)
+                                .whileTrue(new ElevatorOUTCommand(elevatorSubsystem));
+
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     //m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());

@@ -28,7 +28,7 @@ public final class Constants {
 
   public static class WristConstants{
     public static final double WRIST_MOTOR_SPEED = 0.2;
-    public static final double WRIST_POSITION_TWO = 50;
+    public static final double WRIST_POSITION_TWO = 5;
     public static final double WRIST_POSITION_ONE = 0;
   }
 
@@ -47,6 +47,9 @@ public static final int length = 100; //Servo Length
 public static final double MAX_SPEED = Units.feetToMeters(4.5);
 
 
+public static class ElevatorConstants {
+  public static final double Elevator_MOTOR_SPEED = 0.1;
+}
 
 
 

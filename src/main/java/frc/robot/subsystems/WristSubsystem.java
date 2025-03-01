@@ -21,8 +21,8 @@ public class WristSubsystem extends SubsystemBase {
   
   /** Creates a new WristSubsystem. */
   public WristSubsystem() {
-    wristMotor = new TalonFX(47, "CANivore-name");
-    wristMotor.getPosition().getValueAsDouble();
+    wristMotor = new TalonFX(47);
+    //wristMotor.getPosition().getValueAsDouble();
     intakePidController.setTolerance(0.6, 0.005);
     zeroEncoder();
   }
@@ -36,7 +36,7 @@ public class WristSubsystem extends SubsystemBase {
 
     // intakeMotor.set(-IntakeConstants.SPEED);
 
-    wristMotor.set(intakePidController.calculate(wristMotor.getPosition().getValueAsDouble(), WRIST_POSITION_TWO));
+    wristMotor.set(0.02);
   }else{
     if(wristMotor.getPosition().getValueAsDouble() <= WRIST_POSITION_ONE) {
       wristMotorOFF();
@@ -45,7 +45,7 @@ public class WristSubsystem extends SubsystemBase {
 
     // intakeMotor.set(-IntakeConstants.SPEED);
 
-    wristMotor.set(intakePidController.calculate(wristMotor.getPosition().getValueAsDouble(), WRIST_POSITION_ONE));
+    wristMotor.set(-0.02);
   }
     
   }
@@ -81,7 +81,7 @@ public class WristSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("encoder-val", wristMotor.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("wrist-encoder-val", wristMotor.getPosition().getValueAsDouble());
     SmartDashboard.putBoolean("wristDirection", wristDirection);
     // This method will be called once per scheduler run
   }
