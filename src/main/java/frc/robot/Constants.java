@@ -43,13 +43,12 @@ public final class Constants {
     public static final double INTAKE_PULSE_LENGTH = 1; //This value is in seconds
   }
 
-public static final int length = 125; //Servo Length
+public static final int length = 100; //Servo Length
+public static final double MAX_SPEED = Units.feetToMeters(4.5);
 
 
 
 
 
-
-}
 
 }

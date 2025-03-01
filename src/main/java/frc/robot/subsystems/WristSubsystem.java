@@ -21,7 +21,7 @@ public class WristSubsystem extends SubsystemBase {
   
   /** Creates a new WristSubsystem. */
   public WristSubsystem() {
-    wristMotor = new TalonFX(61, "CANivore-name");
+    wristMotor = new TalonFX(47, "CANivore-name");
     wristMotor.getPosition().getValueAsDouble();
     intakePidController.setTolerance(0.6, 0.005);
     zeroEncoder();

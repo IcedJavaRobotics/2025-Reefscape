@@ -19,7 +19,7 @@ public class TestSubsystem extends SubsystemBase {
   
   /** Creates a new WristSubsystem. */
   public TestSubsystem() {
-    testMotor = new TalonFX(61);
+    testMotor = new TalonFX(65);
     testMotor.setPosition(0);
   }
 

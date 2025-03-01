@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.ShoulderConstants.*;
 
@@ -16,7 +17,9 @@ public class ShoulderSubsystem extends SubsystemBase {
 
   /** Creates a new ShoulderSubsystem. */
   public ShoulderSubsystem() {
-    shoulderMotor = new TalonFX(50, "CANivore-name");
+    shoulderMotor = new TalonFX(50);
+    System.out.println("IS MOTOR CONNECTED???/");
+    System.out.println(shoulderMotor.isConnected());
     shoulderMotor.getPosition().getValueAsDouble();
     shoulderPidController.setTolerance(0.6, 0.005);
     zeroEncoder();
@@ -42,19 +45,25 @@ public class ShoulderSubsystem extends SubsystemBase {
     shoulderMotor.setPosition(0);
    }
 
-  public void shoulderMove(){
-  if(shoulderMotor.getPosition().getValueAsDouble() >= 10) {
-    shoulderMotorOFF();
-    return;
-  }
+  public void shoulderMove(int multiplier){
+  // if(shoulderMotor.getPosition().getValueAsDouble() >= 10) {
+  //   shoulderMotorOFF();
+  //   return;
+  // }
 
-  // intakeMotor.set(-IntakeConstants.SPEED);
+  // // intakeMotor.set(-IntakeConstants.SPEED);
 
-  shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+  // shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+  shoulderMotor.set(0.6 * multiplier);
   }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Shoulder torque", getTorque());
+  }
+
+  private double getTorque(){
+    return shoulderMotor.getTorqueCurrent().getValueAsDouble() * shoulderMotor.getMotorKT().getValueAsDouble();
   }
 
 }

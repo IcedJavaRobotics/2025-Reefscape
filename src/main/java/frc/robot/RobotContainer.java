@@ -12,13 +12,16 @@ import frc.robot.commands.CandleRed;
 import frc.robot.commands.ExampleCommand;
 
 import frc.robot.commands.WristCommand;
+import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.subsystems.ActuatorSubsystem;
 import frc.robot.subsystems.CandleSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.ShoulderCommand;
 //import frc.robot.commands.TestMotorCommand;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShoulderSubsystem;
 import frc.robot.subsystems.TestSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -41,12 +44,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  //private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  //private final CandleSubsystem candleSubsystem = new CandleSubsystem();
+  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final CandleSubsystem candleSubsystem = new CandleSubsystem();
 
-  //private final WristSubsystem wristSubsystem = new WristSubsystem();
-  //private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  //private final TestSubsystem testSubsystem = new TestSubsystem();
+  private final ShoulderSubsystem shoulderSubsystem = new ShoulderSubsystem();
+  private final WristSubsystem wristSubsystem = new WristSubsystem();
+  private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final TestSubsystem testSubsystem = new TestSubsystem();
   private final ActuatorSubsystem actuatorSubsystem = new ActuatorSubsystem();
 
 
@@ -65,11 +69,14 @@ public class RobotContainer {
     drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
   }
     
+  private double getRightX(){
+    return -m_driverController.getRightX();
+  }
 
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
                                                                 () -> m_driverController.getLeftY() * -1,
                                                                 () -> m_driverController.getLeftX() * -1)
-                                                                .withControllerRotationAxis(m_driverController::getRightX)
+                                                                .withControllerRotationAxis(() -> getRightX())
                                                                 .deadband(OperatorConstants.DEADBAND)
                                                                 .scaleTranslation(0.9)//Can be changed to alter speed
                                                                 .allianceRelativeControl(true);
@@ -113,12 +120,19 @@ public class RobotContainer {
     //     .whileTrue(new IntakeCommand(intakeSubsystem));
 
     new JoystickButton(xboxController, XboxController.Button.kB.value)
+    .whileTrue(new ZeroGyroCommand(drivebase));
+
+    new JoystickButton(xboxController, XboxController.Button.kA.value)
       .whileTrue(new ActuatorOutCommand(actuatorSubsystem));       
 
     new JoystickButton(xboxController, XboxController.Button.kX.value)
       .whileTrue(new ActuatorInCommand(actuatorSubsystem));
 
+    new JoystickButton(xboxController, XboxController.Button.kStart.value)
+      .whileTrue(new ShoulderCommand(shoulderSubsystem, 1));
 
+      new JoystickButton(xboxController, XboxController.Button.kBack.value)
+      .whileTrue(new ShoulderCommand(shoulderSubsystem, -1));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     //m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());

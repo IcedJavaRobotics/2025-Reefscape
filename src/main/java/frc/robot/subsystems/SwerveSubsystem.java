@@ -104,9 +104,7 @@ SwerveDrive swerveDrive;
     });
   }
 
-  // public Command zeroMotors(){
-  //   return run(() -> {
-  //     swerveDrive.
-  //   });
-  // }
+  public void zeroGyro(){
+    swerveDrive.zeroGyro();
+  }
 }
