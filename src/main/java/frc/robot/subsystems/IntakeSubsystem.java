@@ -10,7 +10,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import static frc.robot.Constants.IntakeConstants.*;
+import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new IntakeSubsystem. */
@@ -21,13 +21,17 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public IntakeSubsystem() {
     // this.intakeMotor = new TalonFX(61);
-    this.intakeMotor = new TalonFX(61);
-    this.CANrange = new CANrange(62);
+    this.intakeMotor = new TalonFX(61, "rio");
+    this.CANrange = new CANrange(62, "rio");
 
   }
 
-  public void intakeMotorON() {
-    intakeMotor.set(INTAKE_MOTOR_SPEED);
+  public void intakeMotorFWD() {
+    intakeMotor.set(Constants.INTAKE_MOTOR_SPEED);
+  }
+
+  public void intakeMotorBKWD() {
+    intakeMotor.set(-Constants.INTAKE_MOTOR_SPEED);
   }
 
   public void intakeMotorOFF() {
@@ -41,25 +45,36 @@ public class IntakeSubsystem extends SubsystemBase {
 
   
   public void intakeGamePiece() {
-    SmartDashboard.putBoolean("intakeWorking", (CANrange.getDistance().getValueAsDouble() > DISTANCE_FROM_PIECE / 39.3701));
-    if (CANrange.getDistance().getValueAsDouble() > (DISTANCE_FROM_PIECE/39.3701)*2) {// might be broken hasn't
-                                                                                              // been tested
-      intakeMotorON();
-    } else {
-      if (recordedTime > Timer.getTimestamp() - INTAKE_PULSE_INTERVAL) {
-        intakeMotorOFF();
-      } else {
-        if (recordedTime > Timer.getTimestamp() - (INTAKE_PULSE_INTERVAL + INTAKE_PULSE_LENGTH)) {
-          intakeMotorON();
-        } else {
-          getTime();
-          intakeMotorOFF();
-        }
+    // SmartDashboard.putBoolean("intakeWorking", (CANrange.getDistance().getValueAsDouble() > Constants.DISTANCE_FROM_PIECE / 39.3701));
+    // if (CANrange.getDistance().getValueAsDouble() > (Constants.DISTANCE_FROM_PIECE/39.3701)*2) {// might be broken hasn't
+    //                                                                                           // been tested
+    //   intakeMotorON();
+    // } else {
+    //   if (recordedTime > Timer.getTimestamp() - Constants.INTAKE_PULSE_INTERVAL) {
+    //     intakeMotorOFF();
+    //   } else {
+    //     if (recordedTime > Timer.getTimestamp() - (Constants.INTAKE_PULSE_INTERVAL + Constants.INTAKE_PULSE_LENGTH)) {
+    //       intakeMotorON();
+    //     } else {
+    //       getTime();
+    //       intakeMotorOFF();
+    //     }
 
-      }
+    //   }
+    // }
+
+    SmartDashboard.putBoolean("intakeWorking", (CANrange.getDistance().getValueAsDouble() > Constants.DISTANCE_FROM_PIECE / 39.3701));
+     if (CANrange.getDistance().getValueAsDouble() > (Constants.DISTANCE_FROM_PIECE/39.3701)*2){
+     intakeMotorFWD();
     }
+     else{
+      intakeMotorOFF();
+     }
   }
 
+  public void ejectGamePiece(){
+    intakeMotorBKWD();
+  }
   @Override
   public void periodic() {
     SmartDashboard.putNumber("range", CANrange.getDistance().getValueAsDouble());

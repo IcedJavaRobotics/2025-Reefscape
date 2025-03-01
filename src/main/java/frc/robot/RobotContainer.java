@@ -21,6 +21,7 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.ShoulderCommand;
 //import frc.robot.commands.TestMotorCommand;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -75,10 +76,16 @@ public class RobotContainer {
   private double getRightX(){
     return -m_driverController.getRightX();
   }
+  private double getLeftX(){
+    return -m_driverController.getLeftX();
+  }
+  private double getLeftY(){
+    return -m_driverController.getLeftY();
+  }
 
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                () -> m_driverController.getLeftY() * -1,
-                                                                () -> m_driverController.getLeftX() * -1)
+                                                                () -> m_driverController.getLeftY() * 1,
+                                                                () -> m_driverController.getLeftX() * 1)
                                                                 .withControllerRotationAxis(() -> getRightX())
                                                                 .deadband(OperatorConstants.DEADBAND)
                                                                 .scaleTranslation(0.9)//Can be changed to alter speed
@@ -137,6 +144,11 @@ public class RobotContainer {
 
       new JoystickButton(xboxController, XboxController.Button.kA.value)
         .whileTrue(new IntakeCommand(intakeSubsystem));
+
+        new JoystickButton(xboxController, XboxController.Button.kY.value)
+        .whileTrue(new IntakeOutCommand(intakeSubsystem));
+
+
 
     new JoystickButton(xboxController, XboxController.Button.kStart.value)
       .whileTrue(new ShoulderCommand(shoulderSubsystem, 1));
