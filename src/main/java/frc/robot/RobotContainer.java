@@ -12,21 +12,27 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.CandleRed;
-import frc.robot.commands.ElevatorINCommand;
-import frc.robot.commands.ElevatorOUTCommand;
 import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.MoveCoralStationCommand;
-import frc.robot.commands.MoveGroundCommand;
-import frc.robot.commands.MoveL1Command;
-import frc.robot.commands.MoveL2Command;
-import frc.robot.commands.MoveL3Command;
-import frc.robot.commands.MoveL4Command;
-import frc.robot.commands.TestMotorCommand;
+import frc.robot.commands.ToggleAuxLockCommand;
 import frc.robot.commands.WristCommand;
+import frc.robot.commands.cursorControls.CursorDownCommand;
+import frc.robot.commands.cursorControls.CursorLeftCommand;
+import frc.robot.commands.cursorControls.CursorRightCommand;
+import frc.robot.commands.cursorControls.CursorUpCommand;
+import frc.robot.commands.moveToCommands.MoveCoralStationCommand;
+import frc.robot.commands.moveToCommands.MoveGroundCommand;
+import frc.robot.commands.moveToCommands.MoveL1Command;
+import frc.robot.commands.moveToCommands.MoveL2Command;
+import frc.robot.commands.moveToCommands.MoveL3Command;
+import frc.robot.commands.moveToCommands.MoveL4Command;
+import frc.robot.commands.testCommands.ElevatorINCommand;
+import frc.robot.commands.testCommands.ElevatorOUTCommand;
+import frc.robot.commands.testCommands.TestMotorCommand;
 import frc.robot.subsystems.CandleSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.SelectorSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
 import frc.robot.subsystems.TestSubsystem;
 import frc.robot.subsystems.WristSubsystem;
@@ -43,6 +49,7 @@ public class RobotContainer {
 
         private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
         private final CandleSubsystem candleSubsystem = new CandleSubsystem();
+        private final SelectorSubsystem selectorSubsystem = new SelectorSubsystem();
         private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
         private final ShoulderSubsystem shoulderSubsystem = new ShoulderSubsystem();
         private final WristSubsystem wristSubsystem = new WristSubsystem();
@@ -50,6 +57,7 @@ public class RobotContainer {
         private final TestSubsystem testSubsystem = new TestSubsystem();
 
         XboxController xboxController = new XboxController(0);
+        XboxController auXboxController = new XboxController(1);
         // Replace with CommandPS4Controller or CommandJoystick if needed
         private final CommandXboxController m_driverController = new CommandXboxController(
                         OperatorConstants.kDriverControllerPort);
@@ -117,6 +125,21 @@ public class RobotContainer {
 
                 new POVButton(xboxController, 180) /* D-Pad pressed DOWN */
                                 .whileTrue(new MoveGroundCommand(shoulderSubsystem, elevatorSubsystem));
+
+                new POVButton(auXboxController, 180) /* D-Pad pressed DOWN */
+                                .whileTrue(new CursorDownCommand(selectorSubsystem));
+
+                new POVButton(auXboxController, 0) /* D-Pad pressed UP */
+                                .whileTrue(new CursorUpCommand(selectorSubsystem));
+
+                new POVButton(auXboxController, 90) /* D-Pad pressed Right */
+                                .whileTrue(new CursorRightCommand(selectorSubsystem));
+
+                new POVButton(auXboxController, 270) /* D-Pad pressed Left */
+                                .whileTrue(new CursorLeftCommand(selectorSubsystem));
+
+                new JoystickButton(xboxController, XboxController.Button.kRightBumper.value)
+                                .whileTrue(new ToggleAuxLockCommand(selectorSubsystem));
 
                 // Schedule `exampleMethodCommand` when the Xbox controller's B button is
                 // pressed,

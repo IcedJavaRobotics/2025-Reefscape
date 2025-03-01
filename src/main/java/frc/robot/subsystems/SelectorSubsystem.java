@@ -7,19 +7,32 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class SelectorSubsytem extends SubsystemBase {
-  /** Creates a new SelectorSubsytem. */
-  public SelectorSubsytem() {
+public class SelectorSubsystem extends SubsystemBase {
+  /** Creates a new SelectorSubsystem. */
+  public SelectorSubsystem() {
     smartDashboardDisplay();
   }
 
+  boolean auxLock = false; // false is unlocked, true is locked
   int[][] selectorArray = { { -1, 2, 5, -1 }, { 0, 3, 6, 8 }, { 1, 3, 7, 9 } };
 
   int[] cursor = { 1, 0 };
 
   boolean[] smartArray = { false, false, false, false, false, false, false, false, false, false };
 
+  public void toggleAuxLock() {
+    auxLock = !auxLock;
+  }
+
+  public void auxLockOff() {
+    auxLock = false;
+  }
+
   public void cursorUp() {
+    if (auxLock) {
+      return;
+    }
+
     cursor[1]--;
     if (cursor[1] == -1) {
       cursor[1] += 4;
@@ -27,9 +40,13 @@ public class SelectorSubsytem extends SubsystemBase {
     if (cursor[1] == 0 && cursor[0] == 0) {
       cursor[1] += 2;
     }
+
   }
 
   public void cursorDown() {
+    if (auxLock) {
+      return;
+    }
     cursor[1]++;
     if (cursor[1] == 4) {
       cursor[1] -= 4;
@@ -40,6 +57,9 @@ public class SelectorSubsytem extends SubsystemBase {
   }
 
   public void cursorRight() {
+    if (auxLock) {
+      return;
+    }
     cursor[0]++;
     if (cursor[0] == 3 && (cursor[1] == 0 || cursor[1] == 3)) {
       cursor[0] -= 2;
@@ -49,6 +69,9 @@ public class SelectorSubsytem extends SubsystemBase {
   }
 
   public void cursorLeft() {
+    if (auxLock) {
+      return;
+    }
     cursor[0]--;
     if (cursor[0] == 0 && (cursor[1] == 0 || cursor[1] == 3)) {
       cursor[0] += 2;
