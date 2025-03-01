@@ -15,6 +15,10 @@ import frc.robot.commands.ExampleCommand;
 
 import frc.robot.commands.WristCommand;
 import frc.robot.commands.ZeroGyroCommand;
+import frc.robot.commands.cursorControls.CursorDownCommand;
+import frc.robot.commands.cursorControls.CursorLeftCommand;
+import frc.robot.commands.cursorControls.CursorRightCommand;
+import frc.robot.commands.cursorControls.CursorUpCommand;
 import frc.robot.subsystems.ActuatorSubsystem;
 import frc.robot.subsystems.CandleSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -23,8 +27,10 @@ import frc.robot.subsystems.WristSubsystem;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.ShoulderCommand;
+import frc.robot.commands.ToggleAuxLockCommand;
 //import frc.robot.commands.TestMotorCommand;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.SelectorSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
 import frc.robot.subsystems.TestSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
@@ -38,6 +44,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -58,7 +65,10 @@ public class RobotContainer {
   private final ActuatorSubsystem actuatorSubsystem = new ActuatorSubsystem();
         private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
 
+        private final SelectorSubsystem selectorSubsystem = new SelectorSubsystem();
+
    XboxController xboxController = new XboxController(0);
+   XboxController auXboxController = new XboxController(1);
 
   private final SwerveSubsystem drivebase = new SwerveSubsystem();
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -162,6 +172,22 @@ public class RobotContainer {
       new JoystickButton(xboxController, XboxController.Button.kRightBumper.value)
                                 .whileTrue(new ElevatorOUTCommand(elevatorSubsystem));
 
+        
+
+      new POVButton(auXboxController, 180) /* D-Pad pressed DOWN */
+                                .whileTrue(new CursorDownCommand(selectorSubsystem));
+
+                new POVButton(auXboxController, 0) /* D-Pad pressed UP */
+                                .whileTrue(new CursorUpCommand(selectorSubsystem));
+
+                new POVButton(auXboxController, 90) /* D-Pad pressed Right */
+                                .whileTrue(new CursorRightCommand(selectorSubsystem));
+
+                new POVButton(auXboxController, 270) /* D-Pad pressed Left */
+                                .whileTrue(new CursorLeftCommand(selectorSubsystem));
+
+                                new JoystickButton(xboxController, XboxController.Button.kRightBumper.value)
+                                .whileTrue(new ToggleAuxLockCommand(selectorSubsystem));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     //m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
