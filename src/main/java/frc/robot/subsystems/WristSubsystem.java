@@ -10,7 +10,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import static frc.robot.Constants.WristConstants.*;
 
 public class WristSubsystem extends SubsystemBase {
 
@@ -29,23 +29,23 @@ public class WristSubsystem extends SubsystemBase {
 
   public void wristRotate(){
     if(wristDirection == true){
-      if(wristMotor.getPosition().getValueAsDouble() >= Constants.WRIST_POSITION_TWO) {
+      if(wristMotor.getPosition().getValueAsDouble() >= WRIST_POSITION_TWO) {
       wristMotorOFF();
       return;
     }
 
     // intakeMotor.set(-IntakeConstants.SPEED);
 
-    wristMotor.set(intakePidController.calculate(wristMotor.getPosition().getValueAsDouble(), Constants.WRIST_POSITION_TWO));
+    wristMotor.set(intakePidController.calculate(wristMotor.getPosition().getValueAsDouble(), WRIST_POSITION_TWO));
   }else{
-    if(wristMotor.getPosition().getValueAsDouble() <= Constants.WRIST_POSITION_ONE) {
+    if(wristMotor.getPosition().getValueAsDouble() <= WRIST_POSITION_ONE) {
       wristMotorOFF();
       return;
     }
 
     // intakeMotor.set(-IntakeConstants.SPEED);
 
-    wristMotor.set(intakePidController.calculate(wristMotor.getPosition().getValueAsDouble(), Constants.WRIST_POSITION_ONE));
+    wristMotor.set(intakePidController.calculate(wristMotor.getPosition().getValueAsDouble(), WRIST_POSITION_ONE));
   }
     
   }
@@ -57,11 +57,11 @@ public class WristSubsystem extends SubsystemBase {
   }
 
  public void wristMotorFRW(){
-  wristMotor.set(Constants.WRIST_MOTOR_SPEED);
+  wristMotor.set(WRIST_MOTOR_SPEED);
  }
 
  public void wristMotorBCK(){
-  wristMotor.set(-Constants.WRIST_MOTOR_SPEED);
+  wristMotor.set(-WRIST_MOTOR_SPEED);
  }
 
 

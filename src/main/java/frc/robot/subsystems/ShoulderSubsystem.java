@@ -8,7 +8,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import static frc.robot.Constants.ShoulderConstants.*;
 
 public class ShoulderSubsystem extends SubsystemBase {
   TalonFX shoulderMotor;
@@ -23,11 +23,11 @@ public class ShoulderSubsystem extends SubsystemBase {
   }
 
   public void shoulderMotorFRW() {
-    shoulderMotor.set(Constants.SHOULDER_MOTOR_SPEED);
+    shoulderMotor.set(SHOULDER_MOTOR_SPEED);
   }
 
   public void shoulderMotorBCK() {
-    shoulderMotor.set(-Constants.SHOULDER_MOTOR_SPEED);
+    shoulderMotor.set(-SHOULDER_MOTOR_SPEED);
   }
 
   public void shoulderMotorOFF() {

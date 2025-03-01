@@ -1,8 +1,9 @@
 {
   "imu": {
     "type": "pigeon2",
-    "id": 6,
+    "id": 1,
     "canbus": "iceberg-canivore"
+
   },
   "invertedIMU": false,
   "modules": [

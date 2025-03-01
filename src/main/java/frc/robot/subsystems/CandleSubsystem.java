@@ -16,7 +16,7 @@ import frc.robot.Constants.*;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import static frc.robot.Constants.CandleConstants.*;
 
 public class CandleSubsystem extends SubsystemBase {
   CANdle candle;
@@ -24,7 +24,7 @@ public class CandleSubsystem extends SubsystemBase {
   /** Creates a new CandleSubsystem. */
   public CandleSubsystem() {
 
-    CANdle candle = new CANdle(Constants.CANDLE_ID); 
+    CANdle candle = new CANdle(CANDLE_ID); 
     CANdleConfiguration config = new CANdleConfiguration();
     config.stripType = LEDStripType.RGB;
     //set led type

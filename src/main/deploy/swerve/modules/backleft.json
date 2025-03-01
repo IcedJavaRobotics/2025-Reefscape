@@ -7,7 +7,6 @@
   "drive": {
     "type": "krakenx60foc",
     "id": 31,
-    "canbus": "iceberg-canivore"
   },
   "angle": {
     "type": "krakenx60foc",

@@ -15,21 +15,41 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
     // public static final String DEADBAND = "0.5";
     public static final double DEADBAND = 0.05;
   }
 
-  public static final int CANDLE_ID = 57;
-  public static final double WRIST_MOTOR_SPEED = 0.2;
-  public static final double WRIST_POSITION_TWO = 50;
-  public static final double WRIST_POSITION_ONE = 0;
-  public static final double SHOULDER_MOTOR_SPEED = 0.5;
-  public static final double INTAKE_MOTOR_SPEED = 0.1;
-  public static final double DISTANCE_FROM_PIECE = 1; //This value is in inches
-  public static final double INTAKE_PULSE_INTERVAL = 2.5; //This value is in seconds
-  public static final double INTAKE_PULSE_LENGTH = 1; //This value is in seconds
+  public static class CandleConstants{
+    public static final int CANDLE_ID = 57;
+  }
+
+  public static class WristConstants{
+    public static final double WRIST_MOTOR_SPEED = 0.2;
+    public static final double WRIST_POSITION_TWO = 50;
+    public static final double WRIST_POSITION_ONE = 0;
+  }
+
+  public static class ShoulderConstants{
+    public static final double SHOULDER_MOTOR_SPEED = 0.5;
+  }
+
+  public static class IntakeConstants{
+    public static final double INTAKE_MOTOR_SPEED = 0.1;
+    public static final double DISTANCE_FROM_PIECE = 1; //This value is in inches
+    public static final double INTAKE_PULSE_INTERVAL = 2.5; //This value is in seconds
+    public static final double INTAKE_PULSE_LENGTH = 1; //This value is in seconds
+  }
+
+public static final int length = 125; //Servo Length
+
+
+
+
+
+
 }
 
 }
