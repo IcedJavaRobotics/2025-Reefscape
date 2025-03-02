@@ -17,7 +17,7 @@ public class ElevatorSubsystem extends SubsystemBase {
      */
 
     public enum elevatorPosition {
-        START, L1, L2, L3, L4, CORAL_STATION, GROUND
+        START, L1, L2, L3, L4, CORAL_STATION, GROUND, UPPER_ALGAE, LOWER_ALGAE
     }
 
     elevatorPosition myVAR = elevatorPosition.START;
@@ -94,6 +94,24 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 10));
     }
 
+    public void moveElevatorUpperAlgae() {
+        if (elevatorMotor.getPosition().getValueAsDouble() >= 10) {
+            elevatorOFF();
+            myVAR = elevatorPosition.UPPER_ALGAE;
+            return;
+        }
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 10));
+    }
+
+    public void moveElevatorLowerAlgae() {
+        if (elevatorMotor.getPosition().getValueAsDouble() >= 10) {
+            elevatorOFF();
+            myVAR = elevatorPosition.LOWER_ALGAE;
+            return;
+        }
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 10));
+    }
+
     public void elevatorOUT() {
 
         elevatorMotor.set(ElevatorConstants.Elevator_MOTOR_SPEED);
@@ -110,7 +128,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("encoder-val", elevatorMotor.getPosition().getValueAsDouble());
+        SmartDashboard.putNumber("elevator-encoder-val", elevatorMotor.getPosition().getValueAsDouble());
         SmartDashboard.putString("elevatorPosition", myVAR.toString());
         // This method will be called once per scheduler run
     }

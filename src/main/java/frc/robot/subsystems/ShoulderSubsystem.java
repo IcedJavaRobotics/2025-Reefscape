@@ -13,7 +13,7 @@ import static frc.robot.Constants.ShoulderConstants.SHOULDER_MOTOR_SPEED;
 public class ShoulderSubsystem extends SubsystemBase {
 
     public enum shoulderPosition {
-        START, L1, L2, L3, L4, CORAL_STATION, GROUND
+        START, L1, L2, L3, L4, CORAL_STATION, GROUND, UPPER_ALGAE, LOWER_ALGAE
     }
 
     shoulderPosition myVAR = shoulderPosition.START;
@@ -136,9 +136,35 @@ public class ShoulderSubsystem extends SubsystemBase {
         shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
     }
 
+    public void moveShoulderUpperAlgae() {
+        /*
+         * This moves the shoulder to the position of upper algae on the Reef and
+         * updates the string shoulderPosition
+         */
+        if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
+            shoulderMotorOFF();
+            myVAR = shoulderPosition.UPPER_ALGAE;
+            return;
+        }
+        shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+    }
+
+    public void moveShoulderLowerAlgae() {
+        /*
+         * This moves the shoulder to the position of the lower algae on the Reef and
+         * updates the string shoulderPosition
+         */
+        if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
+            shoulderMotorOFF();
+            myVAR = shoulderPosition.LOWER_ALGAE;
+            return;
+        }
+        shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+    }
+
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("encoder-val", shoulderMotor.getPosition().getValueAsDouble());
+        SmartDashboard.putNumber("shoulder-encoder-val", shoulderMotor.getPosition().getValueAsDouble());
         SmartDashboard.putString("shoulderPosition", myVAR.toString());
         // This method will be called once per scheduler run
     }

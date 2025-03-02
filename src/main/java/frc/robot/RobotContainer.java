@@ -14,6 +14,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.CandleRed;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ToggleAuxLockCommand;
+import frc.robot.commands.ToggleDriverLockCommand;
 import frc.robot.commands.WristCommand;
 import frc.robot.commands.cursorControls.CursorDownCommand;
 import frc.robot.commands.cursorControls.CursorLeftCommand;
@@ -21,10 +22,10 @@ import frc.robot.commands.cursorControls.CursorRightCommand;
 import frc.robot.commands.cursorControls.CursorUpCommand;
 import frc.robot.commands.moveToCommands.MoveCoralStationCommand;
 import frc.robot.commands.moveToCommands.MoveGroundCommand;
-import frc.robot.commands.moveToCommands.MoveL1Command;
-import frc.robot.commands.moveToCommands.MoveL2Command;
-import frc.robot.commands.moveToCommands.MoveL3Command;
-import frc.robot.commands.moveToCommands.MoveL4Command;
+import frc.robot.commands.moveToCommands.MoveRightL1Command;
+import frc.robot.commands.moveToCommands.MoveLeftL2Command;
+import frc.robot.commands.moveToCommands.MoveRightL3Command;
+import frc.robot.commands.moveToCommands.MoveRightL4Command;
 import frc.robot.commands.testCommands.ElevatorINCommand;
 import frc.robot.commands.testCommands.ElevatorOUTCommand;
 import frc.robot.commands.testCommands.TestMotorCommand;
@@ -49,12 +50,12 @@ public class RobotContainer {
 
         private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
         private final CandleSubsystem candleSubsystem = new CandleSubsystem();
-        private final SelectorSubsystem selectorSubsystem = new SelectorSubsystem();
         private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
         private final ShoulderSubsystem shoulderSubsystem = new ShoulderSubsystem();
         private final WristSubsystem wristSubsystem = new WristSubsystem();
         private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
         private final TestSubsystem testSubsystem = new TestSubsystem();
+        private final SelectorSubsystem selectorSubsystem = new SelectorSubsystem(shoulderSubsystem, elevatorSubsystem);
 
         XboxController xboxController = new XboxController(0);
         XboxController auXboxController = new XboxController(1);
@@ -109,16 +110,16 @@ public class RobotContainer {
                                 .whileTrue(new ElevatorOUTCommand(elevatorSubsystem));
 
                 new JoystickButton(xboxController, XboxController.Button.kX.value)
-                                .whileTrue(new MoveL1Command(shoulderSubsystem, elevatorSubsystem));
+                                .whileTrue(new MoveRightL1Command(shoulderSubsystem, elevatorSubsystem));
 
                 new JoystickButton(xboxController, XboxController.Button.kY.value)
-                                .whileTrue(new MoveL2Command(shoulderSubsystem, elevatorSubsystem));
+                                .whileTrue(new MoveLeftL2Command(shoulderSubsystem, elevatorSubsystem));
 
                 new JoystickButton(xboxController, XboxController.Button.kB.value)
-                                .whileTrue(new MoveL3Command(shoulderSubsystem, elevatorSubsystem));
+                                .whileTrue(new MoveRightL3Command(shoulderSubsystem, elevatorSubsystem));
 
                 new JoystickButton(xboxController, XboxController.Button.kA.value)
-                                .whileTrue(new MoveL4Command(shoulderSubsystem, elevatorSubsystem));
+                                .whileTrue(new MoveRightL4Command(shoulderSubsystem, elevatorSubsystem));
 
                 new POVButton(xboxController, 0) /* D-Pad pressed UP */
                                 .whileTrue(new MoveCoralStationCommand(shoulderSubsystem, elevatorSubsystem));
@@ -141,10 +142,24 @@ public class RobotContainer {
                 new JoystickButton(xboxController, XboxController.Button.kRightBumper.value)
                                 .whileTrue(new ToggleAuxLockCommand(selectorSubsystem));
 
+                new Trigger(() -> getRightTriggerValue())
+                                .whileTrue(new ToggleDriverLockCommand(selectorSubsystem));
+
                 // Schedule `exampleMethodCommand` when the Xbox controller's B button is
                 // pressed,
                 // cancelling on release.
                 m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+        }
+
+        private boolean getRightTriggerValue() {
+                if (xboxController != null) {
+                        if (xboxController.getRightTriggerAxis() >= 0.5) {
+                                return true;
+                        }
+                        return false;
+                } else {
+                        return false;
+                }
         }
 
         /**

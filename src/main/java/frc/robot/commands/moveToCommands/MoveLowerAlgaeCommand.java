@@ -8,15 +8,15 @@ import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class MoveL4Command extends Command {
+public class MoveLowerAlgaeCommand extends Command {
 
     ShoulderSubsystem shoulderSubsystem;
     ElevatorSubsystem elevatorSubsystem;
 
     /**
-     * Creates a new MoveL1Command.
+     * Creates a new MoveUpperAlgaeCommand.
      */
-    public MoveL4Command(ShoulderSubsystem shoulderSubsystem, ElevatorSubsystem elevatorSubsystem) {
+    public MoveLowerAlgaeCommand(ShoulderSubsystem shoulderSubsystem, ElevatorSubsystem elevatorSubsystem) {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(shoulderSubsystem, elevatorSubsystem);
         this.shoulderSubsystem = new ShoulderSubsystem();
@@ -29,8 +29,8 @@ public class MoveL4Command extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        shoulderSubsystem.moveShoulderL4();
-        elevatorSubsystem.moveElevatorL4();
+        shoulderSubsystem.moveShoulderLowerAlgae();
+        elevatorSubsystem.moveElevatorLowerAlgae();
     }
 
     // Called once the command ends or is interrupted.
