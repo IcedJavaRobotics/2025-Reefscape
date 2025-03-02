@@ -41,28 +41,34 @@ public class ShoulderSubsystem extends SubsystemBase {
     return shoulderMotor.getPosition().getValueAsDouble();
   }
 
-  public void zeroEncoder(){
+  public void zeroEncoder() {
     shoulderMotor.setPosition(0);
-   }
-
-  public void shoulderMove(int multiplier){
-  // if(shoulderMotor.getPosition().getValueAsDouble() >= 10) {
-  //   shoulderMotorOFF();
-  //   return;
-  // }
-
-  // // intakeMotor.set(-IntakeConstants.SPEED);
-
-  // shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
-  shoulderMotor.set(0.6 * multiplier);
   }
+
+  public void shoulderMove(int multiplier) {
+    // if(shoulderMotor.getPosition().getValueAsDouble() >= 10) {
+    // shoulderMotorOFF();
+    // return;
+    // }
+
+    // // intakeMotor.set(-IntakeConstants.SPEED);
+
+    // shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(),
+    // 10));
+    shoulderMotor.set(0.6 * multiplier);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Shoulder torque", getTorque());
   }
 
-  private double getTorque(){
+  public void set(double speed) {
+    shoulderMotor.set(speed);
+  }
+
+  private double getTorque() {
     return shoulderMotor.getTorqueCurrent().getValueAsDouble() * shoulderMotor.getMotorKT().getValueAsDouble();
   }
 

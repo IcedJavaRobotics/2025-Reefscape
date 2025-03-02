@@ -24,39 +24,47 @@ public class CandleSubsystem extends SubsystemBase {
   /** Creates a new CandleSubsystem. */
   public CandleSubsystem() {
 
-    CANdle candle = new CANdle(CANDLE_ID); 
+    CANdle candle = new CANdle(CANDLE_ID);
     CANdleConfiguration config = new CANdleConfiguration();
     config.stripType = LEDStripType.RGB;
-    //set led type
+    // set led type
     candle.configAllSettings(config);
     this.candle = candle;
   }
-public void setCandleRed(){
-  candle.setLEDs(255, 0, 0);
-}
 
-  public void setCandleGreen(){
+  public void setCandleRed() {
+    candle.setLEDs(255, 0, 0);
+  }
+
+  public void setCandleGreen() {
     candle.setLEDs(0, 255, 0);
   }
 
-  public void setCandleBlue(){
+  public void setCandleBlue() {
     candle.setLEDs(0, 0, 255);
   }
-  public void setCandleJavaBlue(){
+
+  public void setCandleJavaBlue() {
     candle.setLEDs(0, 247, 255);
   }
-  public void setCandleFire(){
+
+  public void setCandleFire() {
     FireAnimation fireAnim = new FireAnimation();
     candle.animate(fireAnim);
   }
-public void setCandleRainbow(){
-  RainbowAnimation rainbowAnim = new RainbowAnimation(1, 0.5, 64);
-  candle.animate(rainbowAnim);
-}
-/**
- * <p> If the aliance color is blue turn the Candle blue. If the aliance color is red turn the Candle red. If there is no alliance color recieved turn the Candle green.
- */
-public void autoCandle() {
+
+  public void setCandleRainbow() {
+    RainbowAnimation rainbowAnim = new RainbowAnimation(1, 0.5, 64);
+    candle.animate(rainbowAnim);
+  }
+
+  /**
+   * <p>
+   * If the aliance color is blue turn the Candle blue. If the aliance color is
+   * red turn the Candle red. If there is no alliance color recieved turn the
+   * Candle green.
+   */
+  public void autoCandle() {
     Optional<Alliance> color = DriverStation.getAlliance();
     if (color.isPresent()) {
       if (color.get() == Alliance.Red) {
@@ -66,14 +74,14 @@ public void autoCandle() {
 
       if (color.get() == Alliance.Blue) {
         setCandleBlue();
-        
+
       }
-    }
-    else {
+    } else {
       setCandleGreen();
     }
 
   }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

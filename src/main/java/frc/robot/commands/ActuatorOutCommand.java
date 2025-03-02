@@ -12,6 +12,7 @@ import frc.robot.subsystems.ActuatorSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ActuatorOutCommand extends InstantCommand {
   ActuatorSubsystem actuatorSubsystem;
+
   public ActuatorOutCommand(ActuatorSubsystem actuatorSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(actuatorSubsystem);

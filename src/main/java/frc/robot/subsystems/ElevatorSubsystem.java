@@ -36,6 +36,10 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorMotor.setPosition(0);
     }
 
+    public void set(double speed) {
+        elevatorMotor.set(speed);
+    }
+
     public double getElevatorEncoder() {
         return elevatorMotor.getPosition().getValueAsDouble();
     }

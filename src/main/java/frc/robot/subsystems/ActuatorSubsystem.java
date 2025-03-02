@@ -15,10 +15,11 @@ public class ActuatorSubsystem extends SubsystemBase {
   /** Creates a new ActuatorSubsystem. */
   public ActuatorSubsystem() {
     climberActuator = new Servo(0);
-    //setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
+    // setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
 
-    climberActuator.setBoundsMicroseconds((int) (1000+Constants.length),(int)  (1000+ Constants.length*.8),(int)  (1000+Constants.length*.5),(int)  (1000+Constants.length*.2), 1000);
-  }//(1500, 1400, 1250, 1200, 1000);
+    climberActuator.setBoundsMicroseconds((int) (1000 + Constants.length), (int) (1000 + Constants.length * .8),
+        (int) (1000 + Constants.length * .5), (int) (1000 + Constants.length * .2), 1000);
+  }// (1500, 1400, 1250, 1200, 1000);
 
   public void ActuatorOUT() {
     climberActuator.setSpeed(1);

@@ -11,6 +11,7 @@ import frc.robot.subsystems.ShoulderSubsystem;
 public class ShoulderCommand extends Command {
   ShoulderSubsystem shoulderSubsystem;
   int multiplier = 1;
+
   /** Creates a new ShoulderCommand. */
   public ShoulderCommand(ShoulderSubsystem shoulderSubsystem, int multiplier) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -35,7 +36,7 @@ public class ShoulderCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     shoulderSubsystem.shoulderMotorOFF();
-    
+
   }
 
   // Returns true when the command should end.

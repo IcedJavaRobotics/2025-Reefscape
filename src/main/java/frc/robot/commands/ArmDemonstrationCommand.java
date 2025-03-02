@@ -5,43 +5,50 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.TestSubsystem;
-import frc.robot.subsystems.WristSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.ShoulderSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class TestMotorCommand extends Command {
+public class ArmDemonstrationCommand extends Command {
+  private ElevatorSubsystem elevatorSubsystem;
+  private ShoulderSubsystem shoulderSubsystem;
 
-  TestSubsystem testSubsystem;
+  private double speed = 0.3;
 
-  /** Creates a new WristCommand. */
-  public TestMotorCommand(TestSubsystem testSubsystem) {
+  /** Creates a new ArmDemonstrationCommand. */
+  public ArmDemonstrationCommand(ShoulderSubsystem shoulderSubsystem, ElevatorSubsystem elevatorSubsystem,
+      double direction) {
+    this.elevatorSubsystem = elevatorSubsystem;
+    this.shoulderSubsystem = shoulderSubsystem;
+    this.speed = speed * direction;
+    addRequirements(elevatorSubsystem, shoulderSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(testSubsystem);
-    this.testSubsystem = testSubsystem;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    testSubsystem.set(0.05);
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    shoulderSubsystem.set(speed);
+    elevatorSubsystem.set(getElevatorSpeed(speed));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    testSubsystem.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
     return false;
+  }
+
+  private double getElevatorSpeed(double speed) {
+    return -40.5 * Math.sin(3.141 / 180 * speed);
   }
 }

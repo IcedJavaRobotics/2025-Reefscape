@@ -43,38 +43,42 @@ public class IntakeSubsystem extends SubsystemBase {
     return recordedTime;
   }
 
-  
   public void intakeGamePiece() {
-    // SmartDashboard.putBoolean("intakeWorking", (CANrange.getDistance().getValueAsDouble() > Constants.DISTANCE_FROM_PIECE / 39.3701));
-    // if (CANrange.getDistance().getValueAsDouble() > (Constants.DISTANCE_FROM_PIECE/39.3701)*2) {// might be broken hasn't
-    //                                                                                           // been tested
-    //   intakeMotorON();
+    // SmartDashboard.putBoolean("intakeWorking",
+    // (CANrange.getDistance().getValueAsDouble() > Constants.DISTANCE_FROM_PIECE /
+    // 39.3701));
+    // if (CANrange.getDistance().getValueAsDouble() >
+    // (Constants.DISTANCE_FROM_PIECE/39.3701)*2) {// might be broken hasn't
+    // // been tested
+    // intakeMotorON();
     // } else {
-    //   if (recordedTime > Timer.getTimestamp() - Constants.INTAKE_PULSE_INTERVAL) {
-    //     intakeMotorOFF();
-    //   } else {
-    //     if (recordedTime > Timer.getTimestamp() - (Constants.INTAKE_PULSE_INTERVAL + Constants.INTAKE_PULSE_LENGTH)) {
-    //       intakeMotorON();
-    //     } else {
-    //       getTime();
-    //       intakeMotorOFF();
-    //     }
-
-    //   }
+    // if (recordedTime > Timer.getTimestamp() - Constants.INTAKE_PULSE_INTERVAL) {
+    // intakeMotorOFF();
+    // } else {
+    // if (recordedTime > Timer.getTimestamp() - (Constants.INTAKE_PULSE_INTERVAL +
+    // Constants.INTAKE_PULSE_LENGTH)) {
+    // intakeMotorON();
+    // } else {
+    // getTime();
+    // intakeMotorOFF();
     // }
 
-    SmartDashboard.putBoolean("intakeWorking", (CANrange.getDistance().getValueAsDouble() > Constants.DISTANCE_FROM_PIECE / 39.3701));
-     if (CANrange.getDistance().getValueAsDouble() > (Constants.DISTANCE_FROM_PIECE/39.3701)*2){
-     intakeMotorFWD();
-    }
-     else{
+    // }
+    // }
+
+    SmartDashboard.putBoolean("intakeWorking",
+        (CANrange.getDistance().getValueAsDouble() > Constants.DISTANCE_FROM_PIECE / 39.3701));
+    if (CANrange.getDistance().getValueAsDouble() > (Constants.DISTANCE_FROM_PIECE / 39.3701) * 2) {
+      intakeMotorFWD();
+    } else {
       intakeMotorOFF();
-     }
+    }
   }
 
-  public void ejectGamePiece(){
+  public void ejectGamePiece() {
     intakeMotorBKWD();
   }
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber("range", CANrange.getDistance().getValueAsDouble());

@@ -13,6 +13,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 public class ZeroGyroCommand extends InstantCommand {
 
   SwerveSubsystem swerveSubsystem;
+
   public ZeroGyroCommand(SwerveSubsystem swerveSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.swerveSubsystem = swerveSubsystem;

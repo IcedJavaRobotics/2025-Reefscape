@@ -14,29 +14,26 @@ import static frc.robot.Constants.WristConstants.*;
 
 public class TestSubsystem extends SubsystemBase {
 
-  //true is going clockwise false is counterclockwise
+  // true is going clockwise false is counterclockwise
   TalonFX testMotor;
-  
+
   /** Creates a new WristSubsystem. */
   public TestSubsystem() {
     testMotor = new TalonFX(65);
     testMotor.setPosition(0);
   }
 
-  public void set(double speed){
+  public void set(double speed) {
     testMotor.set(speed);
   }
 
-  public void stop(){
+  public void stop() {
     testMotor.set(0);
   }
 
-
- public double getEncoder(){
-  return testMotor.getPosition().getValueAsDouble();
- }
-
- 
+  public double getEncoder() {
+    return testMotor.getPosition().getValueAsDouble();
+  }
 
   @Override
   public void periodic() {
