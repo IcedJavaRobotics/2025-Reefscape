@@ -28,7 +28,7 @@ public class ShoulderCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shoulderSubsystem.shoulderMove(multiplier);
+    shoulderSubsystem.shoulderSet(0.3, multiplier);
     System.out.println("SHOULDER COMMAND");
   }
 

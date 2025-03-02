@@ -58,7 +58,7 @@ public final class Constants {
   public static final double INTAKE_PULSE_LENGTH = 0; // This value is in seconds
 
   public static class ElevatorConstants {
-    public static final double Elevator_MOTOR_SPEED = 0.1;
+    public static final double Elevator_MOTOR_SPEED = 0.5;
   }
 
   public static final class LimelightConstants {

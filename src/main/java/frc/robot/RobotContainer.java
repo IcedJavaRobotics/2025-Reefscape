@@ -70,7 +70,7 @@ public class RobotContainer {
     private final ActuatorSubsystem actuatorSubsystem = new ActuatorSubsystem();
     private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
 
-    private final SelectorSubsystem selectorSubsystem = new SelectorSubsystem();
+    private final SelectorSubsystem selectorSubsystem = new SelectorSubsystem(shoulderSubsystem, elevatorSubsystem);
 
     XboxController driverController = new XboxController(DriverConstants.MAIN_DRIVER_PORT);
     XboxController auxController = new XboxController(DriverConstants.AUX_DRIVER_PORT);

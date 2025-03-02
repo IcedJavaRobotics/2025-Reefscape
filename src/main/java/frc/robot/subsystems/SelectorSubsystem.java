@@ -5,23 +5,46 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.moveToCommands.MoveLeftL1Command;
+import frc.robot.commands.moveToCommands.MoveLeftL2Command;
+import frc.robot.commands.moveToCommands.MoveLeftL3Command;
+import frc.robot.commands.moveToCommands.MoveLeftL4Command;
+import frc.robot.commands.moveToCommands.MoveLowerAlgaeCommand;
+import frc.robot.commands.moveToCommands.MoveRightL1Command;
+import frc.robot.commands.moveToCommands.MoveRightL2Command;
+import frc.robot.commands.moveToCommands.MoveRightL3Command;
+import frc.robot.commands.moveToCommands.MoveRightL4Command;
+import frc.robot.commands.moveToCommands.MoveUpperAlgaeCommand;
 
 public class SelectorSubsystem extends SubsystemBase {
+
+    ShoulderSubsystem shoulderSubsystem;
+    ElevatorSubsystem elevatorSubsystem;
+
     /** Creates a new SelectorSubsystem. */
-    public SelectorSubsystem() {
+    public SelectorSubsystem(ShoulderSubsystem shoulderSubsystem, ElevatorSubsystem elevatorSubsystem) {
         smartDashboardDisplay();
+        this.shoulderSubsystem = new ShoulderSubsystem();
+        this.elevatorSubsystem = new ElevatorSubsystem();
     }
 
     boolean auxLock = false; // false is unlocked, true is locked
-    int[][] selectorArray = { { -1, 2, 5, -1 }, { 0, 3, 6, 8 }, { 1, 4
-
-            , 7, 9 } };
+    boolean driverLock = false; // false is unlocked, true is locked
+    int[][] selectorArray = { { -1, 2, 5, -1 }, { 0, 3, 6, 8 }, { 1, 3, 7, 9 } };
 
     int[] cursor = { 1, 0 };
 
     boolean[] smartArray = { false, false, false, false, false, false, false, false, false, false };
+
+    public void toggleDriverLock() {
+        driverLock = !driverLock;
+    }
+
+    public void DriverLockOff() {
+        driverLock = false;
+    }
 
     public void toggleAuxLock() {
         auxLock = !auxLock;
@@ -32,11 +55,9 @@ public class SelectorSubsystem extends SubsystemBase {
     }
 
     public void cursorUp() {
-        System.out.println("Cursor Up");
         if (auxLock) {
             return;
         }
-        System.out.println("Not Locked");
 
         cursor[1]--;
         if (cursor[1] == -1) {
@@ -45,7 +66,7 @@ public class SelectorSubsystem extends SubsystemBase {
         if (cursor[1] == 0 && cursor[0] == 0) {
             cursor[1] += 2;
         }
-        smartDashboardDisplay();
+
     }
 
     public void cursorDown() {
@@ -59,7 +80,6 @@ public class SelectorSubsystem extends SubsystemBase {
         if (cursor[1] == 3 && cursor[0] == 0) {
             cursor[1] -= 2;
         }
-        smartDashboardDisplay();
     }
 
     public void cursorRight() {
@@ -72,7 +92,6 @@ public class SelectorSubsystem extends SubsystemBase {
         } else if (cursor[0] == 3) {
             cursor[0] -= 3;
         }
-        smartDashboardDisplay();
     }
 
     public void cursorLeft() {
@@ -85,7 +104,6 @@ public class SelectorSubsystem extends SubsystemBase {
         } else if (cursor[0] == -1) {
             cursor[0] += 3;
         }
-        smartDashboardDisplay();
     }
 
     /*
@@ -107,46 +125,75 @@ public class SelectorSubsystem extends SubsystemBase {
         switch (selectorArray[cursor[0]][cursor[1]]) {
             case 0:
                 displaySetter();
-                // Left L4
+                if (auxLock && driverLock) {
+                    CommandScheduler.getInstance()
+                            .schedule(new MoveLeftL4Command(this.shoulderSubsystem, this.elevatorSubsystem));
+                }
                 break;
             case 1:
                 displaySetter();
-                // Right L4
+                if (auxLock && driverLock) {
+                    CommandScheduler.getInstance()
+                            .schedule(new MoveRightL4Command(this.shoulderSubsystem, this.elevatorSubsystem));
+                }
                 break;
             case 2:
                 displaySetter();
-                // Upper algae
+                if (auxLock && driverLock) {
+                    CommandScheduler.getInstance()
+                            .schedule(new MoveUpperAlgaeCommand(this.shoulderSubsystem, this.elevatorSubsystem));
+                }
                 break;
             case 3:
                 displaySetter();
-                // Left L3
+                if (auxLock && driverLock) {
+                    CommandScheduler.getInstance()
+                            .schedule(new MoveLeftL3Command(this.shoulderSubsystem, this.elevatorSubsystem));
+                }
                 break;
             case 4:
                 displaySetter();
-                // Right L3
+                if (auxLock && driverLock) {
+                    CommandScheduler.getInstance()
+                            .schedule(new MoveRightL3Command(this.shoulderSubsystem, this.elevatorSubsystem));
+                }
                 break;
             case 5:
                 displaySetter();
-                // Lower Algae
+                if (auxLock && driverLock) {
+                    CommandScheduler.getInstance()
+                            .schedule(new MoveLowerAlgaeCommand(this.shoulderSubsystem, this.elevatorSubsystem));
+                }
                 break;
             case 6:
                 displaySetter();
-                // Left L2
+                if (auxLock && driverLock) {
+                    CommandScheduler.getInstance()
+                            .schedule(new MoveLeftL2Command(this.shoulderSubsystem, this.elevatorSubsystem));
+                }
                 break;
             case 7:
                 displaySetter();
-                // Right L2
+                if (auxLock && driverLock) {
+                    CommandScheduler.getInstance()
+                            .schedule(new MoveRightL2Command(this.shoulderSubsystem, this.elevatorSubsystem));
+                }
                 break;
             case 8:
                 displaySetter();
-                // Left L1
+                if (auxLock && driverLock) {
+                    CommandScheduler.getInstance()
+                            .schedule(new MoveLeftL1Command(this.shoulderSubsystem, this.elevatorSubsystem));
+                }
                 break;
             case 9:
                 displaySetter();
-                // Right L1
+                if (auxLock && driverLock) {
+                    CommandScheduler.getInstance()
+                            .schedule(new MoveRightL1Command(this.shoulderSubsystem, this.elevatorSubsystem));
+                }
                 break;
         }
-        System.out.println(smartArray[3]);
         SmartDashboard.putBoolean("Left L4", smartArray[0]);
         SmartDashboard.putBoolean("Right L4", smartArray[1]);
         SmartDashboard.putBoolean("Upper Algae", smartArray[2]);
@@ -158,24 +205,6 @@ public class SelectorSubsystem extends SubsystemBase {
         SmartDashboard.putBoolean("Left L1", smartArray[8]);
         SmartDashboard.putBoolean("Right L1", smartArray[9]);
     }
-
-    /** Grabs the hatch. */
-    // public Command cursorDownCommand() {
-    // // implicitly require `this`
-    // return this.runOnce(() -> cursorDown());
-    // }
-    // public Command cursorUpCommand() {
-    // // implicitly require `this`
-    // return this.runOnce(() -> cursorUp());
-    // }
-    // public Command cursorRightCommand() {
-    // // implicitly require `this`
-    // return this.runOnce(() -> cursorRight());
-    // }
-    // public Command cursorLeftCommand() {
-    // // implicitly require `this`
-    // return this.runOnce(() -> cursorLeft());
-    // }
 
     @Override
     public void periodic() {
