@@ -22,6 +22,7 @@ public class IntakeCommand extends Command {
   @Override
   public void initialize() {
     intakeSubsystem.getTime();
+    // 27 : 1 ratio
   }
 
   // Called every time the scheduler runs while the command is scheduled.

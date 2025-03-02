@@ -26,8 +26,8 @@ public class SelectorSubsystem extends SubsystemBase {
     /** Creates a new SelectorSubsystem. */
     public SelectorSubsystem(ShoulderSubsystem shoulderSubsystem, ElevatorSubsystem elevatorSubsystem) {
         smartDashboardDisplay();
-        this.shoulderSubsystem = new ShoulderSubsystem();
-        this.elevatorSubsystem = new ElevatorSubsystem();
+        this.shoulderSubsystem = shoulderSubsystem;
+        this.elevatorSubsystem = elevatorSubsystem;
     }
 
     boolean auxLock = false; // false is unlocked, true is locked

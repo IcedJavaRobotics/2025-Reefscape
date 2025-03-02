@@ -6,9 +6,11 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.IntakeConstants;
 
 public class ElevatorSubsystem extends SubsystemBase {
 
@@ -23,10 +25,13 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorPosition myVAR = elevatorPosition.START;
 
     TalonFX elevatorMotor;
+
+    public DigitalInput elevatorLimitSwitch;
+
     public PIDController elevatorPidController = new PIDController(0.02, 0, 0.001);
 
     public ElevatorSubsystem() {
-
+        this.elevatorLimitSwitch = new DigitalInput(0);
         this.elevatorMotor = new TalonFX(51);
         elevatorPidController.setTolerance(0.6, 0.005);
         zeroElevatorEncoder();
@@ -134,6 +139,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putNumber("elev-encoder-val", elevatorMotor.getPosition().getValueAsDouble());
         SmartDashboard.putString("elevatorPosition", myVAR.toString());
+        SmartDashboard.putBoolean("Limit Switch Elebator", elevatorLimitSwitch.get());
         // This method will be called once per scheduler run
     }
 }
