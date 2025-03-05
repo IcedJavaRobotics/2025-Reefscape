@@ -21,13 +21,19 @@ public class ShoulderSubsystem extends SubsystemBase {
   TalonFX shoulderMotor;
   public PIDController shoulderPidController = new PIDController(0.02, 0, 0.001);
 
+  ElevatorSubsystem elevatorSubsystem;
+
+  // 1000:1 GEAR RATIO
+
   /**
    * Creates a new ShoulderSubsystem.
    */
-  public ShoulderSubsystem() {
+  public ShoulderSubsystem(ElevatorSubsystem elevatorSubsystem) {
+
     shoulderMotor = new TalonFX(50, "rio");
     shoulderPidController.setTolerance(0.6, 0.005);
     zeroShoulderEncoder();
+    this.elevatorSubsystem = elevatorSubsystem;
   }
 
   public void shoulderMotorFRW() {

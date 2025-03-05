@@ -21,6 +21,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public IntakeSubsystem() {
     // this.intakeMotor = new TalonFX(61);
+    // 27 : 1 GEAR RATIO
     this.intakeMotor = new TalonFX(61, "rio");
     this.CANrange = new CANrange(62, "rio");
 

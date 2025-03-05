@@ -38,18 +38,30 @@ public class SelectorSubsystem extends SubsystemBase {
 
     boolean[] smartArray = { false, false, false, false, false, false, false, false, false, false };
 
-    public void toggleDriverLock() {
-        driverLock = !driverLock;
+    /**
+     * @p True is locked
+     */
+    public void driverLockOn() {
+        driverLock = true;
     }
 
+    /**
+     * @p False is unlocked
+     */
     public void DriverLockOff() {
         driverLock = false;
     }
 
+    /**
+     * @p True is locked, false is unlocked
+     */
     public void toggleAuxLock() {
         auxLock = !auxLock;
     }
 
+    /**
+     * @p False is unlocked
+     */
     public void auxLockOff() {
         auxLock = false;
     }

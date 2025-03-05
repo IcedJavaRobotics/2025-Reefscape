@@ -22,6 +22,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         START, L1, L2, L3, L4, CORAL_STATION, GROUND, UPPER_ALGAE, LOWER_ALGAE
     }
 
+    // 60:1 GEAR RATIO
     elevatorPosition myVAR = elevatorPosition.START;
 
     TalonFX elevatorMotor;
@@ -30,7 +31,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public PIDController elevatorPidController = new PIDController(0.02, 0, 0.001);
 
-    public ElevatorSubsystem() {
+    ShoulderSubsystem shoulderSubsystem;
+
+    public ElevatorSubsystem(ShoulderSubsystem shoulderSubsystem) {
+        this.shoulderSubsystem = shoulderSubsystem;
         this.elevatorLimitSwitch = new DigitalInput(0);
         this.elevatorMotor = new TalonFX(51);
         elevatorPidController.setTolerance(0.6, 0.005);
@@ -47,6 +51,24 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public double getElevatorEncoder() {
         return elevatorMotor.getPosition().getValueAsDouble();
+    }
+
+    /**
+     * @return true if past extension
+     */
+    public boolean extensionChecker() {
+        double maxExtension;
+        double shoulderEncoder = shoulderSubsystem.getShoulderEncoder() * 360 / 1000;
+        double elevatorEncoder = getElevatorEncoder() * 60;
+        // multiply by length
+
+        maxExtension = Math.cos(shoulderEncoder) * 40;
+
+        if (maxExtension < elevatorEncoder) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void moveElevatorL1() {
@@ -127,8 +149,12 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void elevatorIN() {
-
-        elevatorMotor.set(-ElevatorConstants.Elevator_MOTOR_SPEED);
+        if (!elevatorLimitSwitch.get()) {
+            zeroElevatorEncoder();
+            elevatorOFF();
+        } else {
+            elevatorMotor.set(-ElevatorConstants.Elevator_MOTOR_SPEED);
+        }
     }
 
     public void elevatorOFF() {
