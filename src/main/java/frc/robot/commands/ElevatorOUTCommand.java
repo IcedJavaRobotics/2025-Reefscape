@@ -27,6 +27,7 @@ public class ElevatorOUTCommand extends Command {
   @Override
   public void execute() {
     elevatorSubsystem.elevatorOUT();
+
   }
 
   // Called once the command ends or is interrupted.

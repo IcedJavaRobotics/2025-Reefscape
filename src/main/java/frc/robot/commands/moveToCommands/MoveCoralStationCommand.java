@@ -14,7 +14,7 @@ public class MoveCoralStationCommand extends Command {
     ElevatorSubsystem elevatorSubsystem;
 
     /**
-     * Creates a new MoveL1Command.
+     * Creates a new MoveCoralStationCommand.
      */
     public MoveCoralStationCommand(ShoulderSubsystem shoulderSubsystem, ElevatorSubsystem elevatorSubsystem) {
         // Use addRequirements() here to declare subsystem dependencies.

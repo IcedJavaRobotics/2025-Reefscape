@@ -58,11 +58,14 @@ public class ElevatorSubsystem extends SubsystemBase {
      */
     public boolean extensionChecker() {
         double maxExtension;
-        double shoulderEncoder = shoulderSubsystem.getShoulderEncoder() * 360 / 1000;
-        double elevatorEncoder = getElevatorEncoder() * 60;
+        double shoulderEncoder = ((shoulderSubsystem.getShoulderEncoder() + 141) * 360) / 1000;
+
+        double elevatorEncoder = ((getElevatorEncoder() / 6.375) + 36);
         // multiply by length
 
-        maxExtension = Math.cos(shoulderEncoder) * 40;
+        maxExtension = 40 / Math.cos(shoulderEncoder);
+
+        SmartDashboard.putNumber("distance-from-bumper", elevatorEncoder - maxExtension);
 
         if (maxExtension < elevatorEncoder) {
             return true;
@@ -144,11 +147,16 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void elevatorOUT() {
-
         elevatorMotor.set(ElevatorConstants.Elevator_MOTOR_SPEED);
+        // if (!extensionChecker()) {
+        // elevatorMotor.set(ElevatorConstants.Elevator_MOTOR_SPEED);
+        // } else {
+        // elevatorOFF();
+        // }
     }
 
     public void elevatorIN() {
+        extensionChecker();
         if (!elevatorLimitSwitch.get()) {
             zeroElevatorEncoder();
             elevatorOFF();
@@ -166,6 +174,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("elev-encoder-val", elevatorMotor.getPosition().getValueAsDouble());
         SmartDashboard.putString("elevatorPosition", myVAR.toString());
         SmartDashboard.putBoolean("Limit Switch Elebator", elevatorLimitSwitch.get());
+        SmartDashboard.putNumber("inner-encoder", ((shoulderSubsystem.getShoulderEncoder() + 141) * 360) / 1000);
         // This method will be called once per scheduler run
     }
 }

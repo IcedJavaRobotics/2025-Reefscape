@@ -14,7 +14,7 @@ public class MoveGroundCommand extends Command {
     ElevatorSubsystem elevatorSubsystem;
 
     /**
-     * Creates a new MoveL1Command.
+     * Creates a new MoveGroundCommand.
      */
     public MoveGroundCommand(ShoulderSubsystem shoulderSubsystem, ElevatorSubsystem elevatorSubsystem) {
         // Use addRequirements() here to declare subsystem dependencies.

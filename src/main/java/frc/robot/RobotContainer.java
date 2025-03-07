@@ -63,7 +63,7 @@ public class RobotContainer {
         private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
         private final CandleSubsystem candleSubsystem = new CandleSubsystem();
 
-        private final ShoulderSubsystem shoulderSubsystem = new ShoulderSubsystem(elevatorSubsystem);
+        private final ShoulderSubsystem shoulderSubsystem = new ShoulderSubsystem();
         private final WristSubsystem wristSubsystem = new WristSubsystem();
         private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
         private final TestSubsystem testSubsystem = new TestSubsystem();
