@@ -22,6 +22,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         START, L1, L2, L3, L4, CORAL_STATION, GROUND, UPPER_ALGAE, LOWER_ALGAE
     }
 
+    // 60:1 GEAR RATIO
     elevatorPosition myVAR = elevatorPosition.START;
 
     TalonFX elevatorMotor;
@@ -30,7 +31,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public PIDController elevatorPidController = new PIDController(0.02, 0, 0.001);
 
-    public ElevatorSubsystem() {
+    ShoulderSubsystem shoulderSubsystem;
+
+    public ElevatorSubsystem(ShoulderSubsystem shoulderSubsystem) {
+        this.shoulderSubsystem = shoulderSubsystem;
         this.elevatorLimitSwitch = new DigitalInput(0);
         this.elevatorMotor = new TalonFX(51);
         elevatorPidController.setTolerance(0.6, 0.005);
@@ -47,6 +51,27 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public double getElevatorEncoder() {
         return elevatorMotor.getPosition().getValueAsDouble();
+    }
+
+    /**
+     * @return true if past extension
+     */
+    public boolean extensionChecker() {
+        double maxExtension;
+        double shoulderEncoder = ((shoulderSubsystem.getShoulderEncoder() + 141) * 360) / 1000;
+
+        double elevatorEncoder = ((getElevatorEncoder() / 6.375) + 36);
+        // multiply by length
+
+        maxExtension = 40 / Math.cos(shoulderEncoder);
+
+        SmartDashboard.putNumber("distance-from-bumper", elevatorEncoder - maxExtension);
+
+        if (maxExtension < elevatorEncoder) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void moveElevatorL1() {
@@ -122,13 +147,22 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void elevatorOUT() {
-
         elevatorMotor.set(ElevatorConstants.Elevator_MOTOR_SPEED);
+        // if (!extensionChecker()) {
+        // elevatorMotor.set(ElevatorConstants.Elevator_MOTOR_SPEED);
+        // } else {
+        // elevatorOFF();
+        // }
     }
 
     public void elevatorIN() {
-
-        elevatorMotor.set(-ElevatorConstants.Elevator_MOTOR_SPEED);
+        extensionChecker();
+        if (!elevatorLimitSwitch.get()) {
+            zeroElevatorEncoder();
+            elevatorOFF();
+        } else {
+            elevatorMotor.set(-ElevatorConstants.Elevator_MOTOR_SPEED);
+        }
     }
 
     public void elevatorOFF() {
@@ -140,6 +174,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("elev-encoder-val", elevatorMotor.getPosition().getValueAsDouble());
         SmartDashboard.putString("elevatorPosition", myVAR.toString());
         SmartDashboard.putBoolean("Limit Switch Elebator", elevatorLimitSwitch.get());
+        SmartDashboard.putNumber("inner-encoder", ((shoulderSubsystem.getShoulderEncoder() + 141) * 360) / 1000);
         // This method will be called once per scheduler run
     }
 }

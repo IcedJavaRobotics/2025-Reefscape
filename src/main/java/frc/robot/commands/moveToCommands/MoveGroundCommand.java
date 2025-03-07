@@ -14,13 +14,13 @@ public class MoveGroundCommand extends Command {
     ElevatorSubsystem elevatorSubsystem;
 
     /**
-     * Creates a new MoveL1Command.
+     * Creates a new MoveGroundCommand.
      */
     public MoveGroundCommand(ShoulderSubsystem shoulderSubsystem, ElevatorSubsystem elevatorSubsystem) {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(shoulderSubsystem, elevatorSubsystem);
-        this.shoulderSubsystem = new ShoulderSubsystem();
-        this.elevatorSubsystem = new ElevatorSubsystem();
+        this.shoulderSubsystem = shoulderSubsystem;
+        this.elevatorSubsystem = elevatorSubsystem;
     }
 
     public void initialize() {
@@ -30,7 +30,11 @@ public class MoveGroundCommand extends Command {
     @Override
     public void execute() {
         shoulderSubsystem.moveShoulderGround();
-        elevatorSubsystem.moveElevatorGround();
+        if (elevatorSubsystem.extensionChecker()) {
+            elevatorSubsystem.elevatorIN();
+        } else {
+            elevatorSubsystem.moveElevatorGround();
+        }
     }
 
     // Called once the command ends or is interrupted.

@@ -14,13 +14,13 @@ public class MoveCoralStationCommand extends Command {
     ElevatorSubsystem elevatorSubsystem;
 
     /**
-     * Creates a new MoveL1Command.
+     * Creates a new MoveCoralStationCommand.
      */
     public MoveCoralStationCommand(ShoulderSubsystem shoulderSubsystem, ElevatorSubsystem elevatorSubsystem) {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(shoulderSubsystem, elevatorSubsystem);
-        this.shoulderSubsystem = new ShoulderSubsystem();
-        this.elevatorSubsystem = new ElevatorSubsystem();
+        this.shoulderSubsystem = shoulderSubsystem;
+        this.elevatorSubsystem = elevatorSubsystem;
     }
 
     public void initialize() {
@@ -30,7 +30,11 @@ public class MoveCoralStationCommand extends Command {
     @Override
     public void execute() {
         shoulderSubsystem.moveShoulderCoralStation();
-        elevatorSubsystem.moveElevatorCoralStation();
+        if (elevatorSubsystem.extensionChecker()) {
+            elevatorSubsystem.elevatorIN();
+        } else {
+            elevatorSubsystem.moveElevatorCoralStation();
+        }
     }
 
     // Called once the command ends or is interrupted.

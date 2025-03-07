@@ -19,8 +19,8 @@ public class MoveUpperAlgaeCommand extends Command {
     public MoveUpperAlgaeCommand(ShoulderSubsystem shoulderSubsystem, ElevatorSubsystem elevatorSubsystem) {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(shoulderSubsystem, elevatorSubsystem);
-        this.shoulderSubsystem = new ShoulderSubsystem();
-        this.elevatorSubsystem = new ElevatorSubsystem();
+        this.shoulderSubsystem = shoulderSubsystem;
+        this.elevatorSubsystem = elevatorSubsystem;
     }
 
     public void initialize() {
@@ -30,7 +30,11 @@ public class MoveUpperAlgaeCommand extends Command {
     @Override
     public void execute() {
         shoulderSubsystem.moveShoulderUpperAlgae();
-        elevatorSubsystem.moveElevatorUpperAlgae();
+        if (elevatorSubsystem.extensionChecker()) {
+            elevatorSubsystem.elevatorIN();
+        } else {
+            elevatorSubsystem.moveElevatorUpperAlgae();
+        }
     }
 
     // Called once the command ends or is interrupted.

@@ -19,8 +19,8 @@ public class MoveLeftL4Command extends Command {
     public MoveLeftL4Command(ShoulderSubsystem shoulderSubsystem, ElevatorSubsystem elevatorSubsystem) {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(shoulderSubsystem, elevatorSubsystem);
-        this.shoulderSubsystem = new ShoulderSubsystem();
-        this.elevatorSubsystem = new ElevatorSubsystem();
+        this.shoulderSubsystem = shoulderSubsystem;
+        this.elevatorSubsystem = elevatorSubsystem;
     }
 
     public void initialize() {
@@ -30,7 +30,11 @@ public class MoveLeftL4Command extends Command {
     @Override
     public void execute() {
         shoulderSubsystem.moveShoulderL4();
-        elevatorSubsystem.moveElevatorL4();
+        if (elevatorSubsystem.extensionChecker()) {
+            elevatorSubsystem.elevatorIN();
+        } else {
+            elevatorSubsystem.moveElevatorL4();
+        }
     }
 
     // Called once the command ends or is interrupted.

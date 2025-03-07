@@ -69,7 +69,7 @@ public class RobotContainer {
         private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
         private final TestSubsystem testSubsystem = new TestSubsystem();
         private final ActuatorSubsystem actuatorSubsystem = new ActuatorSubsystem();
-        private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
+        private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem(shoulderSubsystem);
 
         private final SelectorSubsystem selectorSubsystem = new SelectorSubsystem(shoulderSubsystem, elevatorSubsystem);
 

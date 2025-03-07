@@ -17,7 +17,7 @@ public class ShoulderCommand extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
     this.multiplier = multiplier;
     addRequirements(shoulderSubsystem);
-    this.shoulderSubsystem = new ShoulderSubsystem();
+    this.shoulderSubsystem = shoulderSubsystem;
   }
 
   // Called when the command is initially scheduled.
