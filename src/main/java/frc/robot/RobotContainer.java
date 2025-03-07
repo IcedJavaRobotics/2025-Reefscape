@@ -17,6 +17,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.WristCommand;
 import frc.robot.commands.WristTestCommand;
 import frc.robot.commands.ZeroGyroCommand;
+import frc.robot.commands.autoAlignment.AutoIntakeCommand;
 import frc.robot.commands.cursorControls.CursorDownCommand;
 import frc.robot.commands.cursorControls.CursorLeftCommand;
 import frc.robot.commands.cursorControls.CursorRightCommand;
@@ -184,6 +185,9 @@ public class RobotContainer {
 
                 new POVButton(driverController, 0)
                                 .whileTrue(new ArmDemonstrationCommand(shoulderSubsystem, elevatorSubsystem, 1));
+
+                new JoystickButton(driverController, XboxController.Button.kRightStick.value)
+                                .whileTrue(new AutoIntakeCommand(intakeSubsystem));
 
                 new POVButton(driverController, 90)
                                 .whileTrue(new WristTestCommand(wristSubsystem, 1));
