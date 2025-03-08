@@ -22,6 +22,7 @@ import frc.robot.commands.cursorControls.CursorDownCommand;
 import frc.robot.commands.cursorControls.CursorLeftCommand;
 import frc.robot.commands.cursorControls.CursorRightCommand;
 import frc.robot.commands.cursorControls.CursorUpCommand;
+import frc.robot.commands.moveToCommands.MoveGroundCommand;
 import frc.robot.subsystems.ActuatorSubsystem;
 import frc.robot.subsystems.CandleSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -203,9 +204,6 @@ public class RobotContainer {
                 // new JoystickButton(xboxController, XboxController.Button.kX.value)
                 // .whileTrue(new WristCommand(wristSubsystem));
 
-                new JoystickButton(driverController, XboxController.Button.kA.value)
-                                .whileTrue(new IntakeCommand(intakeSubsystem));
-
                 new JoystickButton(driverController, XboxController.Button.kY.value)
                                 .whileTrue(new IntakeOutCommand(intakeSubsystem));
 
@@ -235,6 +233,17 @@ public class RobotContainer {
                 new JoystickButton(driverController, XboxController.Button.kRightBumper.value)
                                 .whileTrue(new ElevatorOUTCommand(elevatorSubsystem));
 
+                // AUX CONTROLS
+
+                new Trigger(() -> getRightAuxTriggerValue())
+                                .onTrue(new IntakeCommand(intakeSubsystem));
+
+                new JoystickButton(auxController, XboxController.Button.kRightBumper.value)
+                                .whileTrue(new ToggleAuxLockCommand(selectorSubsystem));
+
+                new JoystickButton(auxController, XboxController.Button.kA.value)
+                                .whileTrue(new MoveGroundCommand(shoulderSubsystem, elevatorSubsystem));
+
                 new POVButton(auxController, 180) /* D-Pad pressed DOWN */
                                 .whileTrue(new CursorDownCommand(selectorSubsystem));
 
@@ -247,17 +256,26 @@ public class RobotContainer {
                 new POVButton(auxController, 270) /* D-Pad pressed Left */
                                 .whileTrue(new CursorLeftCommand(selectorSubsystem));
 
-                new JoystickButton(auxController, XboxController.Button.kRightBumper.value)
-                                .whileTrue(new ToggleAuxLockCommand(selectorSubsystem));
                 // Schedule `exampleMethodCommand` when the Xbox controller's B button is
                 // pressed,
                 // cancelling on release.
                 // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
         }
 
-        private boolean getRightTriggerValue() {
+        private boolean getRightDriverTriggerValue() {
                 if (driverController != null) {
                         if (driverController.getRightTriggerAxis() >= 0.5) {
+                                return true;
+                        }
+                        return false;
+                } else {
+                        return false;
+                }
+        }
+
+        private boolean getRightAuxTriggerValue() {
+                if (auxController != null) {
+                        if (auxController.getRightTriggerAxis() >= 0.5) {
                                 return true;
                         }
                         return false;
