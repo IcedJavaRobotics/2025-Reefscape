@@ -3,6 +3,7 @@
     "type": "pigeon2",
     "id": 6,
     "canbus": "iceberg-canivore"
+
   },
   "invertedIMU": false,
   "modules": [

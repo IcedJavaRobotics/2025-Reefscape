@@ -11,8 +11,9 @@ import frc.robot.subsystems.CandleSubsystem;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class CandleCommand extends Command {
   CandleSubsystem candleSubsystem;
+
   /** Creates a new CandleCommand. */
-  public CandleCommand( CandleSubsystem subsystem ) {
+  public CandleCommand(CandleSubsystem subsystem) {
     addRequirements(subsystem);
     candleSubsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -22,17 +23,19 @@ public class CandleCommand extends Command {
   @Override
   public void initialize() {
 
-candleSubsystem.setCandleJavaBlue();
+    candleSubsystem.setCandleJavaBlue();
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the co mmand should end.
   @Override

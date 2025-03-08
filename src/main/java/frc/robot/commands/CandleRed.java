@@ -14,12 +14,13 @@ import frc.robot.subsystems.CandleSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class CandleRed extends InstantCommand {
-    CandleSubsystem candleSubsystem;
-    /** Creates a new CandleCommand. */
-    public CandleRed( CandleSubsystem subsystem ) {
-      addRequirements(subsystem);
-      candleSubsystem = subsystem;
-      // Use addRequirements() here to declare subsystem dependencies.
+  CandleSubsystem candleSubsystem;
+
+  /** Creates a new CandleCommand. */
+  public CandleRed(CandleSubsystem subsystem) {
+    addRequirements(subsystem);
+    candleSubsystem = subsystem;
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

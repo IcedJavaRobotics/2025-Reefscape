@@ -1,12 +1,23 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2025.2.1"
+    id "com.diffplug.spotless" version "6.22.0"
+}
+
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
+
+// Set this to the latest version of StuyLib.
+// You can check here: https://github.com/StuyPulse/StuyLib/releases.
+final String STUYLIB_VERSION = 'v2025.1.1'
 
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
 
@@ -70,8 +81,12 @@ dependencies {
     nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
     simulationRelease wpi.sim.enableRelease()
 
+    testImplementation 'junit:junit:4.13.1'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+
+    implementation "com.github.StuyPulse:StuyLib:${STUYLIB_VERSION}";
 }
 
 test {
@@ -82,6 +97,37 @@ test {
 // Simulation configuration (e.g. environment variables).
 wpi.sim.addGui().defaultEnabled = true
 wpi.sim.addDriverstation()
+
+
+// Simulation configuration (e.g. environment variables).
+//wpi.sim.addGui().defaultEnabled = true
+//wpi.sim.addDriverstation()
+
+spotless {
+    enforceCheck = false
+    java {
+        targetExclude("src/main/java/com/stuypulse/robot/commands/autons/*.java")
+        licenseHeaderFile "LICENSE"
+
+        googleJavaFormat().aosp()
+        
+        trimTrailingWhitespace()
+        endWithNewline()
+
+        importOrder(
+            'frc.robot.stuylib', 
+            'com.stuypulse.constants', 
+            'com.stuypulse.subsystems', 
+            'com.stuypulse.commands', 
+            'com.stuypulse.commands.auton', 
+            'com.stuypulse.util', 
+            'com.stuypulse', 
+            'edu.wpi', 
+            'com.revrobotics'
+        )
+        removeUnusedImports()
+    }
+}
 
 // Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
 // in order to make them all available at runtime. Also adding the manifest so WPILib
