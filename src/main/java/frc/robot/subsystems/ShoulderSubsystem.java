@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.ShoulderConstants.SHOULDER_MOTOR_SPEED;
@@ -18,6 +19,8 @@ public class ShoulderSubsystem extends SubsystemBase {
 
   shoulderPosition myVAR = shoulderPosition.START;
 
+  DutyCycleEncoder absoluteEncoder;
+
   TalonFX shoulderMotor;
   public PIDController shoulderPidController = new PIDController(0.02, 0, 0.001);
 
@@ -28,6 +31,7 @@ public class ShoulderSubsystem extends SubsystemBase {
    */
   public ShoulderSubsystem() {
 
+    absoluteEncoder = new DutyCycleEncoder(1);
     shoulderMotor = new TalonFX(50, "rio");
     shoulderPidController.setTolerance(0.6, 0.005);
     zeroShoulderEncoder();
@@ -175,6 +179,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("shoulder-encoder-val", shoulderMotor.getPosition().getValueAsDouble());
     SmartDashboard.putString("shoulderPosition", myVAR.toString());
     SmartDashboard.putNumber("shoulder torque", getTorque());
+    SmartDashboard.putNumber("shold-abs-enc", absoluteEncoder.get());
     // This method will be called once per scheduler run
   }
 

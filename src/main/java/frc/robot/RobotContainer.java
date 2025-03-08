@@ -98,7 +98,7 @@ public class RobotContainer {
         PIDController headingController = new PIDController(0.02, 0, 0);
 
         private double getRightX() {
-                if (getRightTriggerValue()) {
+                if (getRightDriverTriggerValue()) {
                         double id = limelightSubsystem.getTid();
                         // shoulderSubsystem.coralStationPID();
 
@@ -235,7 +235,7 @@ public class RobotContainer {
 
                 // AUX CONTROLS
 
-                new Trigger(() -> getRightAuxTriggerValue())
+                new Trigger(() -> getRightDriverTriggerValue())
                                 .onTrue(new IntakeCommand(intakeSubsystem));
 
                 new JoystickButton(auxController, XboxController.Button.kRightBumper.value)
