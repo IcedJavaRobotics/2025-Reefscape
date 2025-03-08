@@ -33,6 +33,7 @@ import frc.robot.commands.ShoulderCommand;
 import frc.robot.commands.ToggleAuxLockCommand;
 //import frc.robot.commands.TestMotorCommand;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SelectorSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
 import frc.robot.subsystems.TestSubsystem;
@@ -70,6 +71,7 @@ public class RobotContainer {
         private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
         private final TestSubsystem testSubsystem = new TestSubsystem();
         private final ActuatorSubsystem actuatorSubsystem = new ActuatorSubsystem();
+        private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
         private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem(shoulderSubsystem);
 
         private final SelectorSubsystem selectorSubsystem = new SelectorSubsystem(shoulderSubsystem, elevatorSubsystem);
@@ -96,9 +98,39 @@ public class RobotContainer {
 
         private double getRightX() {
                 if (getRightTriggerValue()) {
+                        double id = limelightSubsystem.getTid();
                         // shoulderSubsystem.coralStationPID();
-                        return headingController
-                                        .calculate(drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), 30);
+
+                        if (id == 10 || id == 21) {
+                                return headingController
+                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
+                                                                .getDegrees(), 0);
+                        }
+                        if (id == 9 || id == 22) {
+                                return headingController
+                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
+                                                                .getDegrees(), 60);
+                        }
+                        if (id == 8 || id == 17) {
+                                return headingController
+                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
+                                                                .getDegrees(), 120);
+                        }
+                        if (id == 7 || id == 18) {
+                                return headingController
+                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
+                                                                .getDegrees(), 180);
+                        }
+                        if (id == 6 || id == 19) {
+                                return headingController
+                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
+                                                                .getDegrees(), 240);
+                        }
+                        if (id == 11 || id == 20) {
+                                return headingController
+                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
+                                                                .getDegrees(), 300);
+                        }
                 }
                 return -driverController.getRightX();
         }
