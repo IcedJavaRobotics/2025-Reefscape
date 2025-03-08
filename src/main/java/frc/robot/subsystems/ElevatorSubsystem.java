@@ -147,11 +147,12 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void elevatorOUT() {
-        if (getElevatorLimitFromShoulderEncoderValue(shoulderSubsystem.getShoulderEncoder()) > this
+        elevatorMotor.set(ElevatorConstants.Elevator_MOTOR_SPEED);
+        if (getElevatorLimit(shoulderSubsystem.getShoulderEncoder()) > this
                 .getElevatorEncoder()) {
-            elevatorMotor.set(ElevatorConstants.Elevator_MOTOR_SPEED);
-        } else {
 
+        } else {
+            // elevatorMotor.set(0);
         }
 
         // if (!extensionChecker()) {
@@ -167,7 +168,7 @@ public class ElevatorSubsystem extends SubsystemBase {
      *          THE MATH FOR US.
      * @return
      */
-    public double getElevatorLimitFromShoulderEncoderValue(double x) {
+    public double getElevatorLimit(double x) {
         double elevatorLimit;
         elevatorLimit = (0.0000622462 * (Math.pow(x, 3))) + (0.02255 * Math.pow(x, 2)) + (2.91 * x) + (169);
         return elevatorLimit;

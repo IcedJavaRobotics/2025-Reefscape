@@ -53,6 +53,8 @@ public final class Constants {
   public static final double MAX_SPEED = Units.feetToMeters(4.5);
 
   public static final double INTAKE_MOTOR_SPEED = 1;
+  public static final double INTAKE_OUT_MOTOR_SPEED = 0.7;
+  public static final double INTAKE_OUT_MOTOR_SLOW_SPEED = 0.3;
   public static final double DISTANCE_FROM_PIECE = 1; // This value is in inches
   public static final double INTAKE_PULSE_INTERVAL = 2.5; // This value is in seconds
   public static final double INTAKE_PULSE_LENGTH = 0; // This value is in seconds

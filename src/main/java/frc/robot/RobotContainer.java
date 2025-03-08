@@ -15,7 +15,9 @@ import frc.robot.commands.ElevatorOUTCommand;
 import frc.robot.commands.ExampleCommand;
 
 import frc.robot.commands.WristCommand;
+import frc.robot.commands.WristHorizontalCommand;
 import frc.robot.commands.WristTestCommand;
+import frc.robot.commands.WristVerticalCommand;
 import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.commands.autoAlignment.AutoIntakeCommand;
 import frc.robot.commands.cursorControls.CursorDownCommand;
@@ -30,6 +32,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeOutCommand;
+import frc.robot.commands.IntakeOutSlowCommand;
 import frc.robot.commands.ShoulderCommand;
 import frc.robot.commands.ToggleAuxLockCommand;
 //import frc.robot.commands.TestMotorCommand;
@@ -39,6 +42,7 @@ import frc.robot.subsystems.SelectorSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
 import frc.robot.subsystems.TestSubsystem;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -214,7 +218,7 @@ public class RobotContainer {
                                 .whileTrue(new ArmDemonstrationCommand(shoulderSubsystem, elevatorSubsystem, -1));
 
                 new POVButton(driverController, 0)
-                                .whileTrue(new ArmDemonstrationCommand(shoulderSubsystem, elevatorSubsystem, 1));
+                                .whileTrue(new IntakeOutSlowCommand(intakeSubsystem));
 
                 new JoystickButton(driverController, XboxController.Button.kRightStick.value)
                                 .whileTrue(new AutoIntakeCommand(intakeSubsystem));
@@ -223,6 +227,11 @@ public class RobotContainer {
                                 .whileTrue(new WristTestCommand(wristSubsystem, 1));
                 new POVButton(driverController, 270)
                                 .whileTrue(new WristTestCommand(wristSubsystem, -1));
+
+                new JoystickButton(driverController, XboxController.Button.kX.value)
+                                .whileTrue(new WristVerticalCommand(wristSubsystem));
+                new JoystickButton(driverController, XboxController.Button.kA.value)
+                                .whileTrue(new WristHorizontalCommand(wristSubsystem));
 
                 new JoystickButton(driverController, XboxController.Button.kStart.value)
                                 .whileTrue(new ShoulderCommand(shoulderSubsystem, 1));
@@ -236,7 +245,7 @@ public class RobotContainer {
                 // AUX CONTROLS
 
                 new Trigger(() -> getRightDriverTriggerValue())
-                                .onTrue(new IntakeCommand(intakeSubsystem));
+                                .whileTrue(new IntakeCommand(intakeSubsystem));
 
                 new JoystickButton(auxController, XboxController.Button.kRightBumper.value)
                                 .whileTrue(new ToggleAuxLockCommand(selectorSubsystem));
