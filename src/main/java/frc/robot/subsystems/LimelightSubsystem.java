@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -19,7 +20,7 @@ public class LimelightSubsystem extends SubsystemBase {
     // Creates a new LimelightSubsystem.
     public LimelightSubsystem() {
 
-        HttpCamera httpCamera = new HttpCamera("CoprocessorCamera", "http://limelight.local:5801/");
+        HttpCamera httpCamera = new HttpCamera("CoprocessorCamera", "http://limelight.local:5773/");
         CameraServer.getVideo(httpCamera);
         Shuffleboard.getTab("LiveWindow").add(httpCamera);
 
@@ -28,18 +29,34 @@ public class LimelightSubsystem extends SubsystemBase {
 
     }
 
+    /**
+     * @return The ID of the apriltag it can see
+     */
     public double getTid() {
         return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDouble(0);
     }
 
+    /**
+     * @return the distance from the center of the limelight view to the apriltag
+     *         horizontally
+     */
     public double getTx() {
         return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     }
 
+    /**
+     * @return the distance from the center of the limelight view to the apriltag
+     *         vertically
+     */
     public double getTy() {
         return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
     }
 
+    /**
+     * 
+     * @return the size of the apriltag seen as a square, which roughly translates
+     *         to distance away from the apriltag
+     */
     public double getTa() {
         return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
     }
@@ -55,7 +72,7 @@ public class LimelightSubsystem extends SubsystemBase {
     /**
      * whether or not the limelight sees a apriltag
      * 
-     * @return true if it sees an apriltag, false if the obvious happens
+     * @return true if it sees an apriltag, false if it didnt detect a tag
      */
     public Boolean tagDetected() {
 
