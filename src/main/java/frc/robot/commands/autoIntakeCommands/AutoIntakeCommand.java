@@ -45,6 +45,9 @@ public class AutoIntakeCommand extends Command {
     if(shoulderSubsystem.getShoulderEncoder() >= 0){
       elevatorSubsystem.set(elevatorPID.calculate(elevatorSubsystem.getElevatorEncoder(), 50));
     }
+    if((shoulderSubsystem.getShoulderEncoder() >= 0) && (elevatorSubsystem.getElevatorEncoder() >= 48)){
+      intakeSubsystem.intakeGamePiece();
+    }
   }
 
   // Called once the command ends or is interrupted.

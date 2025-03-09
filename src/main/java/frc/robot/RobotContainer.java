@@ -111,7 +111,7 @@ public class RobotContainer {
                 }
                 return false;
         }
-        
+
         private double getRightX() {
                 if (getRightDriverTriggerValue()) {
                         double id = limelightSubsystem.getTid();
@@ -256,7 +256,7 @@ public class RobotContainer {
                 // AUX CONTROLS
 
                 new Trigger(() -> getRightDriverTriggerValue())
-                                .whileTrue(new IntakeCommand(intakeSubsystem));
+                                .whileTrue(new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
 
                 new JoystickButton(auxController, XboxController.Button.kRightBumper.value)
                                 .whileTrue(new ToggleAuxLockCommand(selectorSubsystem));
