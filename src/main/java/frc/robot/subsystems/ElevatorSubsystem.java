@@ -75,7 +75,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void moveElevatorL1() {
-        if (elevatorMotor.getPosition().getValueAsDouble() >= 10) {
+        if (elevatorMotor.getPosition().getValueAsDouble() >= 0) {
             elevatorOFF();
             myVAR = elevatorPosition.L1;
             return;
@@ -84,7 +84,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void moveElevatorL2() {
-        if (elevatorMotor.getPosition().getValueAsDouble() >= 10) {
+        if (elevatorMotor.getPosition().getValueAsDouble() >= 43.71) {
             elevatorOFF();
             myVAR = elevatorPosition.L2;
             return;
@@ -93,7 +93,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void moveElevatorL3() {
-        if (elevatorMotor.getPosition().getValueAsDouble() >= 10) {
+        if (elevatorMotor.getPosition().getValueAsDouble() >= 102.275) {
             elevatorOFF();
             myVAR = elevatorPosition.L3;
             return;
@@ -120,7 +120,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void moveElevatorGround() {
-        if (elevatorMotor.getPosition().getValueAsDouble() >= 10) {
+        if (elevatorMotor.getPosition().getValueAsDouble() >= 20.115) {
             elevatorOFF();
             myVAR = elevatorPosition.GROUND;
             return;
@@ -172,6 +172,12 @@ public class ElevatorSubsystem extends SubsystemBase {
         double elevatorLimit;
         elevatorLimit = (0.0000622462 * (Math.pow(x, 3))) + (0.02255 * Math.pow(x, 2)) + (2.91 * x) + (169);
         return elevatorLimit;
+    }
+
+    public void elevatorLimiter() {
+        if (getElevatorEncoder() > 225) {
+            elevatorIN();
+        }
     }
 
     public void elevatorIN() {
