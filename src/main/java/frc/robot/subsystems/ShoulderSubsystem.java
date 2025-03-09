@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.ShoulderConstants.SHOULDER_MOTOR_SPEED;
 
+import java.util.function.BooleanSupplier;
+
 public class ShoulderSubsystem extends SubsystemBase {
 
   public enum shoulderPosition {
@@ -38,21 +40,27 @@ public class ShoulderSubsystem extends SubsystemBase {
 
   }
 
-  double correctedAbsoluteEncoder;
+  //double correctedAbsoluteEncoder;
 
-  public void absoluteEncoderCorrector() {
-    if (absoluteEncoder.get() <= 0.1 && absoluteEncoder.get() >= 0.0) {
-      if (getShoulderEncoder() <= XXX && getShoulderEncoder() >= XXX) {
-        correctedAbsoluteEncoder = absoluteEncoder.get() + 1;
-      } else {
-        correctedAbsoluteEncoder = absoluteEncoder.get();
-      }
+  // public void absoluteEncoderCorrector() {
+  //   if (absoluteEncoder.get() <= 0.1 && absoluteEncoder.get() >= 0.0) {
+  //     if (getShoulderEncoder() <= XXX && getShoulderEncoder() >= XXX) {
+  //       correctedAbsoluteEncoder = absoluteEncoder.get() + 1;
+  //     } else {
+  //       correctedAbsoluteEncoder = absoluteEncoder.get();
+  //     }
 
-    }
-  }
+  //   }
+  // }
 
   public void shoulderMotorFRW() {
     shoulderMotor.set(SHOULDER_MOTOR_SPEED);
+  }
+
+  public void reset(BooleanSupplier elevatorInEnoughSupplier){
+    if(elevatorInEnoughSupplier.getAsBoolean()){
+      this.set(shoulderPidController.calculate(this.getShoulderEncoder(), 0));
+    }
   }
 
   public void shoulderMotorBCK() {

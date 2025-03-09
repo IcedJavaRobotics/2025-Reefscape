@@ -100,10 +100,18 @@ public class RobotContainer {
                 drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
                 
                 elevatorSubsystem.setDefaultCommand(new RunCommand(() -> elevatorSubsystem.reset())); //elevator always resets to 0
+                shoulderSubsystem.setDefaultCommand(new RunCommand(() -> shoulderSubsystem.reset(() -> elevatorInEnough())));
         }
 
         PIDController headingController = new PIDController(0.02, 0, 0);
 
+        private boolean elevatorInEnough(){
+                if(elevatorSubsystem.getElevatorEncoder() <= 50){
+                        return true;
+                }
+                return false;
+        }
+        
         private double getRightX() {
                 if (getRightDriverTriggerValue()) {
                         double id = limelightSubsystem.getTid();
