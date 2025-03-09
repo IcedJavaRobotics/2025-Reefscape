@@ -44,11 +44,14 @@ import frc.robot.subsystems.TestSubsystem;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SwerveSubsystem;
 import swervelib.SwerveInputStream;
 
 import java.util.function.Supplier;
+
+import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -82,6 +85,9 @@ public class RobotContainer {
 
         private final SelectorSubsystem selectorSubsystem = new SelectorSubsystem(shoulderSubsystem, elevatorSubsystem);
 
+        private final SendableChooser<Command> autoChooser; 
+
+
         XboxController driverController = new XboxController(DriverConstants.MAIN_DRIVER_PORT);
         XboxController auxController = new XboxController(DriverConstants.AUX_DRIVER_PORT);
 
@@ -101,6 +107,11 @@ public class RobotContainer {
                 
                 elevatorSubsystem.setDefaultCommand(new RunCommand(() -> elevatorSubsystem.reset())); //elevator always resets to 0
                 shoulderSubsystem.setDefaultCommand(new RunCommand(() -> shoulderSubsystem.reset(() -> elevatorInEnough())));
+
+                
+                autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be `Commands.none()`
+                SmartDashboard.putData("AutoMode", autoChooser);
+
         }
 
         PIDController headingController = new PIDController(0.02, 0, 0);
@@ -321,7 +332,6 @@ public class RobotContainer {
          * @return the command to run in autonomous
          */
         public Command getAutonomousCommand() {
-                // An example command will be run in autonomous
-                return null;// Autos.exampleAuto(m_exampleSubsystem);
+                return autoChooser.getSelected();
         }
 }
