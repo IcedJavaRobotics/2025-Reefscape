@@ -31,8 +31,8 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.set(Constants.INTAKE_MOTOR_SPEED);
   }
 
-  public void intakeMotorBKWD() {
-    intakeMotor.set(-Constants.INTAKE_MOTOR_SPEED);
+  public void intakeMotorBKWD(double speed) {
+    intakeMotor.set(-speed);
   }
 
   public void intakeMotorOFF() {
@@ -77,7 +77,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void ejectGamePiece() {
-    intakeMotorBKWD();
+    intakeMotorBKWD(Constants.INTAKE_OUT_MOTOR_SPEED);
+  }
+
+  public void ejectGamePieceSlow() {
+    intakeMotorBKWD(Constants.INTAKE_OUT_MOTOR_SLOW_SPEED);
   }
 
   @Override
