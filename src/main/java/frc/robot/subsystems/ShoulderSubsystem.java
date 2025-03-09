@@ -38,6 +38,19 @@ public class ShoulderSubsystem extends SubsystemBase {
 
   }
 
+  double correctedAbsoluteEncoder;
+
+  public void absoluteEncoderCorrector() {
+    if (absoluteEncoder.get() <= 0.1 && absoluteEncoder.get() >= 0.0) {
+      if (getShoulderEncoder() <= XXX && getShoulderEncoder() >= XXX) {
+        correctedAbsoluteEncoder = absoluteEncoder.get() + 1;
+      } else {
+        correctedAbsoluteEncoder = absoluteEncoder.get();
+      }
+
+    }
+  }
+
   public void shoulderMotorFRW() {
     shoulderMotor.set(SHOULDER_MOTOR_SPEED);
   }
