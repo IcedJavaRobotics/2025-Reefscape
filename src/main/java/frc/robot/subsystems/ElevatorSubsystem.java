@@ -49,6 +49,18 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorMotor.set(speed);
     }
 
+    public void reset(){
+        if(elevatorLimitSwitch.get()){
+            if(this.getElevatorEncoder() >= 3){
+                this.set(elevatorPidController.calculate(this.getElevatorEncoder(), 0));
+            } else{
+                this.set(0.1);
+            }
+        } else{
+            this.zeroElevatorEncoder();
+            this.set(0);
+        }
+    }
     public double getElevatorEncoder() {
         return elevatorMotor.getPosition().getValueAsDouble();
     }

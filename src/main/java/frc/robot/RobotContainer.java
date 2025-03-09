@@ -19,7 +19,7 @@ import frc.robot.commands.WristHorizontalCommand;
 import frc.robot.commands.WristTestCommand;
 import frc.robot.commands.WristVerticalCommand;
 import frc.robot.commands.ZeroGyroCommand;
-import frc.robot.commands.autoAlignment.AutoIntakeCommand;
+import frc.robot.commands.autoIntakeCommands.AutoIntakeCommand;
 import frc.robot.commands.cursorControls.CursorDownCommand;
 import frc.robot.commands.cursorControls.CursorLeftCommand;
 import frc.robot.commands.cursorControls.CursorRightCommand;
@@ -52,6 +52,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -97,6 +98,8 @@ public class RobotContainer {
                 configureBindings();
                 candleSubsystem.setCandleJavaBlue();
                 drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
+                
+                elevatorSubsystem.setDefaultCommand(new RunCommand(() -> elevatorSubsystem.reset())); //elevator always resets to 0
         }
 
         PIDController headingController = new PIDController(0.02, 0, 0);
@@ -221,7 +224,7 @@ public class RobotContainer {
                                 .whileTrue(new IntakeOutSlowCommand(intakeSubsystem));
 
                 new JoystickButton(driverController, XboxController.Button.kRightStick.value)
-                                .whileTrue(new AutoIntakeCommand(intakeSubsystem));
+                                .whileTrue(new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
 
                 new POVButton(driverController, 90)
                                 .whileTrue(new WristTestCommand(wristSubsystem, 1));
