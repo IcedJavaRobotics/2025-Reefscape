@@ -25,7 +25,7 @@ public final class Constants {
     public static final int AUX_DRIVER_PORT = 1;
 
     // public static final String DEADBAND = "0.5";
-    public static final double DEADBAND = 0.05;
+    public static final double DEADBAND = 0.02;
   }
 
   public static class CandleConstants {

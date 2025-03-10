@@ -19,7 +19,7 @@ import frc.robot.commands.WristHorizontalCommand;
 import frc.robot.commands.WristTestCommand;
 import frc.robot.commands.WristVerticalCommand;
 import frc.robot.commands.ZeroGyroCommand;
-import frc.robot.commands.autoAlignment.AutoIntakeCommand;
+import frc.robot.commands.autoIntakeCommands.AutoIntakeCommand;
 import frc.robot.commands.cursorControls.CursorDownCommand;
 import frc.robot.commands.cursorControls.CursorLeftCommand;
 import frc.robot.commands.cursorControls.CursorRightCommand;
@@ -44,14 +44,18 @@ import frc.robot.subsystems.TestSubsystem;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.SwerveSubsystem;
 import swervelib.SwerveInputStream;
 
 import java.util.function.Supplier;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -81,6 +85,9 @@ public class RobotContainer {
 
         private final SelectorSubsystem selectorSubsystem = new SelectorSubsystem(shoulderSubsystem, elevatorSubsystem);
 
+        private final SendableChooser<Command> autoChooser; 
+
+
         XboxController driverController = new XboxController(DriverConstants.MAIN_DRIVER_PORT);
         XboxController auxController = new XboxController(DriverConstants.AUX_DRIVER_PORT);
 
@@ -97,9 +104,24 @@ public class RobotContainer {
                 configureBindings();
                 candleSubsystem.setCandleJavaBlue();
                 drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
+                
+                elevatorSubsystem.setDefaultCommand(new RunCommand(() -> elevatorSubsystem.reset())); //elevator always resets to 0
+                shoulderSubsystem.setDefaultCommand(new RunCommand(() -> shoulderSubsystem.reset(() -> elevatorInEnough())));
+
+                
+                autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be `Commands.none()`
+                SmartDashboard.putData("AutoMode", autoChooser);
+
         }
 
         PIDController headingController = new PIDController(0.02, 0, 0);
+
+        private boolean elevatorInEnough(){
+                if(elevatorSubsystem.getElevatorEncoder() <= 50){
+                        return true;
+                }
+                return false;
+        }
 
         private double getRightX() {
                 if (getRightDriverTriggerValue()) {
@@ -221,7 +243,7 @@ public class RobotContainer {
                                 .whileTrue(new IntakeOutSlowCommand(intakeSubsystem));
 
                 new JoystickButton(driverController, XboxController.Button.kRightStick.value)
-                                .whileTrue(new AutoIntakeCommand(intakeSubsystem));
+                                .whileTrue(new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
 
                 new POVButton(driverController, 90)
                                 .whileTrue(new WristTestCommand(wristSubsystem, 1));
@@ -245,7 +267,7 @@ public class RobotContainer {
                 // AUX CONTROLS
 
                 new Trigger(() -> getRightDriverTriggerValue())
-                                .whileTrue(new IntakeCommand(intakeSubsystem));
+                                .whileTrue(new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
 
                 new JoystickButton(auxController, XboxController.Button.kRightBumper.value)
                                 .whileTrue(new ToggleAuxLockCommand(selectorSubsystem));
@@ -310,7 +332,6 @@ public class RobotContainer {
          * @return the command to run in autonomous
          */
         public Command getAutonomousCommand() {
-                // An example command will be run in autonomous
-                return null;// Autos.exampleAuto(m_exampleSubsystem);
+                return autoChooser.getSelected();
         }
 }
