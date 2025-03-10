@@ -14,7 +14,7 @@ import static frc.robot.Constants.ShoulderConstants.SHOULDER_MOTOR_SPEED;
 public class ShoulderSubsystem extends SubsystemBase {
 
   public enum shoulderPosition {
-    START, L1, L2, L3, L4, CORAL_STATION, GROUND, UPPER_ALGAE, LOWER_ALGAE
+    START, L1, L2, L2_SCORE, L3, L3_SCORE, L4, CORAL_STATION, GROUND, UPPER_ALGAE, LOWER_ALGAE
   }
 
   shoulderPosition myVAR = shoulderPosition.START;
@@ -36,19 +36,6 @@ public class ShoulderSubsystem extends SubsystemBase {
     shoulderPidController.setTolerance(0.6, 0.005);
     zeroShoulderEncoder();
 
-  }
-
-  double correctedAbsoluteEncoder;
-
-  public void absoluteEncoderCorrector() {
-    if (absoluteEncoder.get() <= 0.1 && absoluteEncoder.get() >= 0.0) {
-      if (getShoulderEncoder() <= XXX && getShoulderEncoder() >= XXX) {
-        correctedAbsoluteEncoder = absoluteEncoder.get() + 1;
-      } else {
-        correctedAbsoluteEncoder = absoluteEncoder.get();
-      }
-
-    }
   }
 
   public void shoulderMotorFRW() {
@@ -88,7 +75,7 @@ public class ShoulderSubsystem extends SubsystemBase {
      * This moves the shoulder to the position of L1 on the Reef and updates the
      * string shoulderPosition
      */
-    if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
+    if (shoulderMotor.getPosition().getValueAsDouble() >= -78.788) {
       shoulderMotorOFF();
       myVAR = shoulderPosition.L1;
       return;
@@ -101,9 +88,22 @@ public class ShoulderSubsystem extends SubsystemBase {
      * This moves the shoulder to the position of L2 on the Reef and updates the
      * string shoulderPosition
      */
-    if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
+    if (shoulderMotor.getPosition().getValueAsDouble() >= -32.677) {
       shoulderMotorOFF();
       myVAR = shoulderPosition.L2;
+      return;
+    }
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+  }
+
+  public void moveShoulderL2Score() {
+    /*
+     * This moves the shoulder to the position of L2 on the Reef and updates the
+     * string shoulderPosition
+     */
+    if (shoulderMotor.getPosition().getValueAsDouble() >= -61.86) {
+      shoulderMotorOFF();
+      myVAR = shoulderPosition.L2_SCORE;
       return;
     }
     shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
@@ -114,9 +114,22 @@ public class ShoulderSubsystem extends SubsystemBase {
      * This moves the shoulder to the position of L3 on the Reef and updates the
      * string shoulderPosition
      */
-    if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
+    if (shoulderMotor.getPosition().getValueAsDouble() >= 6.926) {
       shoulderMotorOFF();
       myVAR = shoulderPosition.L3;
+      return;
+    }
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+  }
+
+  public void moveShoulderL3Score() {
+    /*
+     * This moves the shoulder to the position of L3 on the Reef and updates the
+     * string shoulderPosition
+     */
+    if (shoulderMotor.getPosition().getValueAsDouble() >= -14.86) {
+      shoulderMotorOFF();
+      myVAR = shoulderPosition.L3_SCORE;
       return;
     }
     shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
@@ -153,7 +166,7 @@ public class ShoulderSubsystem extends SubsystemBase {
      * This moves the shoulder to the lowest possible position and updates the
      * string shoulderPosition
      */
-    if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
+    if (shoulderMotor.getPosition().getValueAsDouble() >= -174.5) {
       shoulderMotorOFF();
       myVAR = shoulderPosition.GROUND;
       return;
