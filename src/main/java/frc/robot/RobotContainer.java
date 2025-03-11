@@ -92,6 +92,7 @@ public class RobotContainer {
 
         XboxController driverController = new XboxController(DriverConstants.MAIN_DRIVER_PORT);
         XboxController auxController = new XboxController(DriverConstants.AUX_DRIVER_PORT);
+        private final Joystick driverStation = new Joystick(DriverConstants.DRIVER_STATION_PORT);
 
         private final SwerveSubsystem drivebase = new SwerveSubsystem();
         // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -215,98 +216,72 @@ public class RobotContainer {
                 // new Trigger(() -> getRightTriggerValue())
                 // .onTrue(new TestCommand());
 
-                new JoystickButton(driverController, XboxController.Button.kB.value)
-                                .whileTrue(new CandleRed(candleSubsystem));
-
-                // new JoystickButton(xboxController, XboxController.Button.kY.value)
-                // .whileTrue(new TestMotorCommand(testSubsystem));
-
-                // new JoystickButton(xboxController, XboxController.Button.kRightBumper.value)
-                // .whileTrue(new IntakeCommand(intakeSubsystem));
-
-                new JoystickButton(driverController, XboxController.Button.kB.value)
-                                .whileTrue(new ZeroGyroCommand(drivebase));
-
-                // new JoystickButton(xboxController, XboxController.Button.kA.value)
-                // .whileTrue(new ActuatorOutCommand(actuatorSubsystem));
-
-                // new JoystickButton(xboxController, XboxController.Button.kX.value)
-                // .whileTrue(new ActuatorInCommand(actuatorSubsystem));
-
-                // new JoystickButton(xboxController, XboxController.Button.kX.value)
-                // .whileTrue(new WristCommand(wristSubsystem));
-
-                new JoystickButton(driverController, XboxController.Button.kY.value)
-                                .whileTrue(new IntakeOutCommand(intakeSubsystem));
-
-                new JoystickButton(driverController, XboxController.Button.kBack.value)
-                                .whileTrue(new ShoulderCommand(shoulderSubsystem, -1));
-
-                new POVButton(driverController, 180)
-                                .whileTrue(new ArmDemonstrationCommand(shoulderSubsystem, elevatorSubsystem, -1));
-
-                new POVButton(driverController, 0)
-                                .whileTrue(new IntakeOutSlowCommand(intakeSubsystem));
-
-                new JoystickButton(driverController, XboxController.Button.kRightStick.value)
+                // Primary Commands
+                new Trigger(() -> getRightDriverTriggerValue())
                                 .whileTrue(new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem,
                                                 elevatorSubsystem));
 
+                
+                // Driver movement
+                new JoystickButton(driverController, XboxController.Button.kB.value)
+                                .whileTrue(new ZeroGyroCommand(drivebase));
+                // Wrist Movement Manual
                 new POVButton(driverController, 90)
                                 .whileTrue(new WristTestCommand(wristSubsystem, 1));
                 new POVButton(driverController, 270)
                                 .whileTrue(new WristTestCommand(wristSubsystem, -1));
-
+                // Wrist Movement PID
                 new JoystickButton(driverController, XboxController.Button.kX.value)
                                 .whileTrue(new WristVerticalCommand(wristSubsystem));
                 new JoystickButton(driverController, XboxController.Button.kA.value)
                                 .whileTrue(new WristHorizontalCommand(wristSubsystem));
 
+                // Shoulder Movement
                 new JoystickButton(driverController, XboxController.Button.kStart.value)
                                 .whileTrue(new ShoulderCommand(shoulderSubsystem, 1));
+                new JoystickButton(driverController, XboxController.Button.kBack.value)
+                                .whileTrue(new ShoulderCommand(shoulderSubsystem, -1));
 
+                // Elevator Movement
                 new JoystickButton(driverController, XboxController.Button.kLeftBumper.value)
                                 .whileTrue(new ElevatorINCommand(elevatorSubsystem));
-
                 new JoystickButton(driverController, XboxController.Button.kRightBumper.value)
                                 .whileTrue(new ElevatorOUTCommand(elevatorSubsystem));
 
-                // AUX CONTROLS
+                // Intake Control
+                new JoystickButton(driverController, XboxController.Button.kY.value)
+                                .whileTrue(new IntakeOutCommand(intakeSubsystem));
+                new POVButton(driverController, 0)
+                                .whileTrue(new IntakeOutSlowCommand(intakeSubsystem));
 
-                // new Trigger(() -> getRightDriverTriggerValue())
-                // .whileTrue(new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem,
-                // elevatorSubsystem));
+                // ---------AUX CONTROLS --------------------------------------------------------------
 
-                new Trigger(() -> getRightDriverTriggerValue())
-                                .whileTrue(new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem,
-                                                elevatorSubsystem));
 
+                // Grid navigation
                 new JoystickButton(auxController, XboxController.Button.kRightBumper.value)
                                 .whileTrue(new ToggleAuxLockCommand(selectorSubsystem));
 
+                new POVButton(auxController, 180) /* D-Pad pressed DOWN */
+                                .whileTrue(new CursorDownCommand(selectorSubsystem));
+                new POVButton(auxController, 0) /* D-Pad pressed UP */
+                                .whileTrue(new CursorUpCommand(selectorSubsystem));
+                new POVButton(auxController, 90) /* D-Pad pressed Right */
+                                .whileTrue(new CursorRightCommand(selectorSubsystem));
+                new POVButton(auxController, 270) /* D-Pad pressed Left */
+                                .whileTrue(new CursorLeftCommand(selectorSubsystem));
+
+                // Movement presets
                 new JoystickButton(auxController, XboxController.Button.kA.value)
                                 .whileTrue(new MoveGroundCommand(shoulderSubsystem, elevatorSubsystem));
-
-                new JoystickButton(auxController, XboxController.Button.kB.value)
-                                .whileTrue(new MoveRightL2Command(shoulderSubsystem, elevatorSubsystem));
-
                 new JoystickButton(auxController, XboxController.Button.kY.value)
                                 .whileTrue(new MoveRightL1Command(shoulderSubsystem, elevatorSubsystem));
-
+                new JoystickButton(auxController, XboxController.Button.kB.value)
+                                .whileTrue(new MoveRightL2Command(shoulderSubsystem, elevatorSubsystem));
                 new JoystickButton(auxController, XboxController.Button.kX.value)
                                 .whileTrue(new MoveRightL3Command(shoulderSubsystem, elevatorSubsystem));
 
-                new POVButton(auxController, 180) /* D-Pad pressed DOWN */
-                                .whileTrue(new CursorDownCommand(selectorSubsystem));
-
-                new POVButton(auxController, 0) /* D-Pad pressed UP */
-                                .whileTrue(new CursorUpCommand(selectorSubsystem));
-
-                new POVButton(auxController, 90) /* D-Pad pressed Right */
-                                .whileTrue(new CursorRightCommand(selectorSubsystem));
-
-                new POVButton(auxController, 270) /* D-Pad pressed Left */
-                                .whileTrue(new CursorLeftCommand(selectorSubsystem));
+                // Climber Controls
+                
 
                 // Schedule `exampleMethodCommand` when the Xbox controller's B button is
                 // pressed,
