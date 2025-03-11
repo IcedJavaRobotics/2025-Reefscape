@@ -308,6 +308,16 @@ public class RobotContainer {
                 new JoystickButton(driverStation, 5)
                                 .whileTrue(new ActuatorOutCommand(actuatorSubsystem));
 
+                /*  OTHER CONTROLS::
+                        DRIVER:
+                                -- LEFT JOYSTICK: TRANSLATION
+                                -- RIGHT JOYSTICK: ROTATION
+                        AUX:
+                                -- RIGHT JOYSTICK: ROBOT FACES LEFT CORAL STATION, AND VICE VERSA
+
+                */
+                
+
         }
 
         private boolean auxRightstickLeft() {
