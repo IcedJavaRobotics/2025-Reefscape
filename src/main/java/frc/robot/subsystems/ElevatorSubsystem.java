@@ -79,39 +79,39 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void moveElevatorL1() {
-        if (elevatorMotor.getPosition().getValueAsDouble() >= 0) {
-            elevatorOFF();
-            myVAR = elevatorPosition.L1;
-            return;
-        }
+        // if (elevatorMotor.getPosition().getValueAsDouble() >= 0) {
+        //     elevatorOFF();
+        //     myVAR = elevatorPosition.L1;
+        //     return;
+        // }
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 0));
     }
 
     public void moveElevatorL2() {
-        if (elevatorMotor.getPosition().getValueAsDouble() >= 43.71) {
-            elevatorOFF();
-            myVAR = elevatorPosition.L2;
-            return;
-        }
+        // if (elevatorMotor.getPosition().getValueAsDouble() >= 43.71) {
+        //     elevatorOFF();
+        //     myVAR = elevatorPosition.L2;
+        //     return;
+        // }
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 43.71));
     }
 
     public void moveElevatorL3() {
-        if (elevatorMotor.getPosition().getValueAsDouble() >= 102.275) {
-            elevatorOFF();
-            myVAR = elevatorPosition.L3;
-            return;
-        }
+        // if (elevatorMotor.getPosition().getValueAsDouble() >= 102.275) {
+        //     elevatorOFF();
+        //     myVAR = elevatorPosition.L3;
+        //     return;
+        // }
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 102.275));
     }
 
     public void moveElevatorL4() {
-        if (elevatorMotor.getPosition().getValueAsDouble() >= 10) {
-            elevatorOFF();
-            myVAR = elevatorPosition.L4;
-            return;
-        }
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 10));
+        // if (elevatorMotor.getPosition().getValueAsDouble() >= 10) {
+        //     elevatorOFF();
+        //     myVAR = elevatorPosition.L4;
+        //     return;
+        // }
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 150));
     }
 
     public void moveElevatorCoralStation() {
