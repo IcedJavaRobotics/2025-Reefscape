@@ -22,12 +22,15 @@ public class SelectorSubsystem extends SubsystemBase {
 
     ShoulderSubsystem shoulderSubsystem;
     ElevatorSubsystem elevatorSubsystem;
+    WristSubsystem wristSubsystem;
 
     /** Creates a new SelectorSubsystem. */
-    public SelectorSubsystem(ShoulderSubsystem shoulderSubsystem, ElevatorSubsystem elevatorSubsystem) {
+    public SelectorSubsystem(ShoulderSubsystem shoulderSubsystem, ElevatorSubsystem elevatorSubsystem,
+            WristSubsystem wristSubsystem) {
         smartDashboardDisplay();
         this.shoulderSubsystem = shoulderSubsystem;
         this.elevatorSubsystem = elevatorSubsystem;
+        this.wristSubsystem = wristSubsystem;
     }
 
     boolean auxLock = false; // false is unlocked, true is locked
@@ -139,70 +142,80 @@ public class SelectorSubsystem extends SubsystemBase {
                 displaySetter();
                 if (auxLock && driverLock) {
                     CommandScheduler.getInstance()
-                            .schedule(new MoveLeftL4Command(this.shoulderSubsystem, this.elevatorSubsystem));
+                            .schedule(new MoveLeftL4Command(this.shoulderSubsystem, this.elevatorSubsystem,
+                                    this.wristSubsystem));
                 }
                 break;
             case 1:
                 displaySetter();
                 if (auxLock && driverLock) {
                     CommandScheduler.getInstance()
-                            .schedule(new MoveRightL4Command(this.shoulderSubsystem, this.elevatorSubsystem));
+                            .schedule(new MoveRightL4Command(this.shoulderSubsystem, this.elevatorSubsystem,
+                                    this.wristSubsystem));
                 }
                 break;
             case 2:
                 displaySetter();
                 if (auxLock && driverLock) {
                     CommandScheduler.getInstance()
-                            .schedule(new MoveUpperAlgaeCommand(this.shoulderSubsystem, this.elevatorSubsystem));
+                            .schedule(new MoveUpperAlgaeCommand(this.shoulderSubsystem, this.elevatorSubsystem,
+                                    this.wristSubsystem));
                 }
                 break;
             case 3:
                 displaySetter();
                 if (auxLock && driverLock) {
                     CommandScheduler.getInstance()
-                            .schedule(new MoveLeftL3Command(this.shoulderSubsystem, this.elevatorSubsystem));
+                            .schedule(new MoveLeftL3Command(this.shoulderSubsystem, this.elevatorSubsystem,
+                                    this.wristSubsystem));
                 }
                 break;
             case 4:
                 displaySetter();
                 if (auxLock && driverLock) {
                     CommandScheduler.getInstance()
-                            .schedule(new MoveRightL3Command(this.shoulderSubsystem, this.elevatorSubsystem));
+                            .schedule(new MoveRightL3Command(this.shoulderSubsystem, this.elevatorSubsystem,
+                                    this.wristSubsystem));
                 }
                 break;
             case 5:
                 displaySetter();
                 if (auxLock && driverLock) {
                     CommandScheduler.getInstance()
-                            .schedule(new MoveLowerAlgaeCommand(this.shoulderSubsystem, this.elevatorSubsystem));
+                            .schedule(new MoveLowerAlgaeCommand(this.shoulderSubsystem, this.elevatorSubsystem,
+                                    this.wristSubsystem));
                 }
                 break;
             case 6:
                 displaySetter();
                 if (auxLock && driverLock) {
                     CommandScheduler.getInstance()
-                            .schedule(new MoveLeftL2Command(this.shoulderSubsystem, this.elevatorSubsystem));
+                            .schedule(new MoveLeftL2Command(this.shoulderSubsystem, this.elevatorSubsystem,
+                                    this.wristSubsystem));
                 }
                 break;
             case 7:
                 displaySetter();
                 if (auxLock && driverLock) {
                     CommandScheduler.getInstance()
-                            .schedule(new MoveRightL2Command(this.shoulderSubsystem, this.elevatorSubsystem));
+                            .schedule(new MoveRightL2Command(this.shoulderSubsystem, this.elevatorSubsystem,
+                                    this.wristSubsystem));
                 }
                 break;
             case 8:
                 displaySetter();
                 if (auxLock && driverLock) {
                     CommandScheduler.getInstance()
-                            .schedule(new MoveLeftL1Command(this.shoulderSubsystem, this.elevatorSubsystem));
+                            .schedule(new MoveLeftL1Command(this.shoulderSubsystem, this.elevatorSubsystem,
+                                    this.wristSubsystem));
                 }
                 break;
             case 9:
                 displaySetter();
                 if (auxLock && driverLock) {
                     CommandScheduler.getInstance()
-                            .schedule(new MoveRightL1Command(this.shoulderSubsystem, this.elevatorSubsystem));
+                            .schedule(new MoveRightL1Command(this.shoulderSubsystem, this.elevatorSubsystem,
+                                    this.wristSubsystem));
                 }
                 break;
         }

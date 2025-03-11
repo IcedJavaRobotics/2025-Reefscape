@@ -87,7 +87,8 @@ public class RobotContainer {
         private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
         private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem(shoulderSubsystem);
 
-        private final SelectorSubsystem selectorSubsystem = new SelectorSubsystem(shoulderSubsystem, elevatorSubsystem);
+        private final SelectorSubsystem selectorSubsystem = new SelectorSubsystem(shoulderSubsystem, elevatorSubsystem,
+                        wristSubsystem);
 
         // private final SendableChooser<Command> autoChooser;
 
@@ -131,20 +132,23 @@ public class RobotContainer {
                 return false;
         }
 
-        private double getDeadzone(){
-                if(auxController.getRightX() >= 0.5 || auxController.getRightX() <= -0.5){
+        private double getDeadzone() {
+                if (auxController.getRightX() >= 0.5 || auxController.getRightX() <= -0.5) {
                         return 0;
-                } else if(getLeftDriverTriggerValue()){
+                } else if (getLeftDriverTriggerValue()) {
                         return 0;
                 }
                 return DriverConstants.DEADBAND;
         }
+
         private double getRightX() {
-                if(auxController.getRightX() >= 0.5){
-                        return headingController.calculate(drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), 120);
-                } else if(auxController.getRightX() <= -0.5){
-                        return headingController.calculate(drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), 220);
-                } else if (getLeftDriverTriggerValue()) { //aux movement gets priority over the auto align
+                if (auxController.getRightX() >= 0.5) {
+                        return headingController.calculate(
+                                        drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), 120);
+                } else if (auxController.getRightX() <= -0.5) {
+                        return headingController.calculate(
+                                        drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), 220);
+                } else if (getLeftDriverTriggerValue()) { // aux movement gets priority over the auto align
                         double id = limelightSubsystem.getTid();
                         // shoulderSubsystem.coralStationPID();
 
@@ -233,11 +237,10 @@ public class RobotContainer {
                 new Trigger(() -> getRightDriverTriggerValue()) // CORAL STATION COMMAND
                                 .whileTrue(new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem,
                                                 elevatorSubsystem));
-                
+
                 new Trigger(() -> getLeftDriverTriggerValue()) // Place Coral On Reef
                                 .whileTrue(new AutoPlaceCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
 
-                
                 // Driver movement
                 new JoystickButton(driverController, XboxController.Button.kB.value)
                                 .whileTrue(new ZeroGyroCommand(drivebase));
@@ -270,12 +273,12 @@ public class RobotContainer {
                 new POVButton(driverController, 0)
                                 .whileTrue(new IntakeOutSlowCommand(intakeSubsystem));
 
-                // ---------AUX CONTROLS --------------------------------------------------------------
-
+                // ---------AUX CONTROLS
+                // --------------------------------------------------------------
 
                 // Grid navigation
                 new Trigger(() -> getRightAuxTriggerValue()) // FOR SELECTOR SUBSYSTEM
-                .whileTrue(new ToggleAuxLockCommand(selectorSubsystem));
+                                .whileTrue(new ToggleAuxLockCommand(selectorSubsystem));
 
                 new POVButton(auxController, 180) /* D-Pad pressed DOWN */
                                 .whileTrue(new CursorDownCommand(selectorSubsystem));
@@ -290,45 +293,46 @@ public class RobotContainer {
                 new JoystickButton(auxController, XboxController.Button.kA.value)
                                 .whileTrue(new MoveGroundCommand(shoulderSubsystem, elevatorSubsystem));
                 new JoystickButton(auxController, XboxController.Button.kB.value)
-                                .whileTrue(new MoveRightL1Command(shoulderSubsystem, elevatorSubsystem));
+                                .whileTrue(new MoveRightL1Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
                 new JoystickButton(auxController, XboxController.Button.kY.value)
-                                .whileTrue(new MoveRightL2Command(shoulderSubsystem, elevatorSubsystem));
+                                .whileTrue(new MoveRightL2Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
                 new JoystickButton(auxController, XboxController.Button.kX.value)
-                                .whileTrue(new MoveRightL3Command(shoulderSubsystem, elevatorSubsystem));
+                                .whileTrue(new MoveRightL3Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
 
                 // Wrist PIDs
                 new JoystickButton(auxController, XboxController.Button.kLeftBumper.value)
                                 .whileTrue(new WristVerticalCommand(wristSubsystem));
                 new JoystickButton(auxController, XboxController.Button.kRightBumper.value)
                                 .whileTrue(new WristHorizontalCommand(wristSubsystem));
-                
+
                 // Climber Controls
                 new JoystickButton(driverStation, 4)
                                 .whileTrue(new ActuatorInCommand(actuatorSubsystem));
                 new JoystickButton(driverStation, 10)
                                 .whileTrue(new ActuatorOutCommand(actuatorSubsystem));
 
-                /*  OTHER CONTROLS::
-                        DRIVER:
-                                -- LEFT JOYSTICK: TRANSLATION
-                                -- RIGHT JOYSTICK: ROTATION
-                        AUX:
-                                -- RIGHT JOYSTICK: ROBOT FACES LEFT CORAL STATION, AND VICE VERSA
-
-                */
-                
+                /*
+                 * OTHER CONTROLS::
+                 * DRIVER:
+                 * -- LEFT JOYSTICK: TRANSLATION
+                 * -- RIGHT JOYSTICK: ROTATION
+                 * AUX:
+                 * -- RIGHT JOYSTICK: ROBOT FACES LEFT CORAL STATION, AND VICE VERSA
+                 * 
+                 */
 
         }
 
         private boolean auxRightstickLeft() {
                 if (auxController != null) {
-                        if (auxController.getRightX() <= -0.5){
+                        if (auxController.getRightX() <= -0.5) {
                                 return true;
                         }
                         return false;
                 }
                 return false;
         }
+
         private boolean getRightDriverTriggerValue() {
                 if (driverController != null) {
                         if (driverController.getRightTriggerAxis() >= 0.5) {
@@ -339,6 +343,7 @@ public class RobotContainer {
                         return false;
                 }
         }
+
         private boolean getLeftDriverTriggerValue() {
                 if (driverController != null) {
                         if (driverController.getLeftTriggerAxis() >= 0.5) {
