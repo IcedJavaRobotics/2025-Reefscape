@@ -31,7 +31,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public SwerveSubsystem() {
     try {
-      swerveDrive = new SwerveParser(directory).createSwerveDrive(Constants.MAX_SPEED,
+      swerveDrive = new SwerveParser(directory).createSwerveDrive(Constants.DriverConstants.MAX_SPEED,
           new Pose2d(new Translation2d(Units.feetToMeters(1),
               Units.feetToMeters(4)),
               Rotation2d.fromDegrees(0)));

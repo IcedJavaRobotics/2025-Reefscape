@@ -26,7 +26,7 @@ public final class Constants {
     public static final int DRIVER_STATION_PORT = 2;
     // public static final String DEADBAND = "0.5";
     public static final double DEADBAND = 0.02;
-
+    public static final double MAX_SPEED = Units.feetToMeters(4.5);
   }
 
   public static class CandleConstants {
@@ -45,20 +45,17 @@ public final class Constants {
 
   public static class IntakeConstants {
     public static final double INTAKE_MOTOR_SPEED = 1;
+    public static final double INTAKE_OUT_MOTOR_SPEED = 0.7;
+    public static final double INTAKE_OUT_MOTOR_SLOW_SPEED = 0.3;
     public static final double DISTANCE_FROM_PIECE = 1; // This value is in inches
     public static final double INTAKE_PULSE_INTERVAL = 2.5; // This value is in seconds
-    public static final double INTAKE_PULSE_LENGTH = 1; // This value is in seconds
+    public static final double INTAKE_PULSE_LENGTH = 0; // This value is in seconds
   }
 
+ public static class ActuatorConstants {
   public static final int length = 100; // Servo Length
-  public static final double MAX_SPEED = Units.feetToMeters(4.5);
+ }
 
-  public static final double INTAKE_MOTOR_SPEED = 1;
-  public static final double INTAKE_OUT_MOTOR_SPEED = 0.7;
-  public static final double INTAKE_OUT_MOTOR_SLOW_SPEED = 0.3;
-  public static final double DISTANCE_FROM_PIECE = 1; // This value is in inches
-  public static final double INTAKE_PULSE_INTERVAL = 2.5; // This value is in seconds
-  public static final double INTAKE_PULSE_LENGTH = 0; // This value is in seconds
 
   public static class ElevatorConstants {
     public static final double Elevator_MOTOR_SPEED = 0.2;

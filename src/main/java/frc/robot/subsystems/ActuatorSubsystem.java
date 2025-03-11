@@ -5,7 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.Constants.ActuatorConstants;
 import edu.wpi.first.wpilibj.Servo;
 
 public class ActuatorSubsystem extends SubsystemBase {
@@ -17,8 +17,8 @@ public class ActuatorSubsystem extends SubsystemBase {
     climberActuator = new Servo(0);
     // setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
 
-    climberActuator.setBoundsMicroseconds((int) (1000 + Constants.length), (int) (1000 + Constants.length * .8),
-        (int) (1000 + Constants.length * .5), (int) (1000 + Constants.length * .2), 1000);
+    climberActuator.setBoundsMicroseconds((int) (1000 + ActuatorConstants.length), (int) (1000 + ActuatorConstants.length * .8),
+        (int) (1000 + ActuatorConstants.length * .5), (int) (1000 + ActuatorConstants.length * .2), 1000);
   }// (1500, 1400, 1250, 1200, 1000);
 
   public void ActuatorOUT() {
