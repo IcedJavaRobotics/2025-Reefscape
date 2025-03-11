@@ -81,7 +81,7 @@ public class SelectorSubsystem extends SubsystemBase {
         if (cursor[1] == 0 && cursor[0] == 0) {
             cursor[1] += 2;
         }
-
+        smartDashboardDisplay();
     }
 
     public void cursorDown() {
@@ -95,6 +95,7 @@ public class SelectorSubsystem extends SubsystemBase {
         if (cursor[1] == 3 && cursor[0] == 0) {
             cursor[1] -= 2;
         }
+        smartDashboardDisplay();
     }
 
     public void cursorRight() {
@@ -107,6 +108,7 @@ public class SelectorSubsystem extends SubsystemBase {
         } else if (cursor[0] == 3) {
             cursor[0] -= 3;
         }
+        smartDashboardDisplay();
     }
 
     public void cursorLeft() {
@@ -119,6 +121,7 @@ public class SelectorSubsystem extends SubsystemBase {
         } else if (cursor[0] == -1) {
             cursor[0] += 3;
         }
+        smartDashboardDisplay();
     }
 
     /*
@@ -135,7 +138,6 @@ public class SelectorSubsystem extends SubsystemBase {
         }
     }
 
-    // TODO: Commands need implemented
     public void smartDashboardDisplay() {
         switch (selectorArray[cursor[0]][cursor[1]]) {
             case 0:
