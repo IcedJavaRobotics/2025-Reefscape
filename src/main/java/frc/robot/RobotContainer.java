@@ -130,8 +130,20 @@ public class RobotContainer {
                 return false;
         }
 
+        private double getDeadzone(){
+                if(auxController.getRightX() >= 0.5 || auxController.getRightX() <= -0.5){
+                        return 0;
+                } else if(getLeftDriverTriggerValue()){
+                        return 0;
+                }
+                return DriverConstants.DEADBAND;
+        }
         private double getRightX() {
-                if (getRightDriverTriggerValue()) {
+                if(auxController.getRightX() >= 0.5){
+                        return headingController.calculate(drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), 120);
+                } else if(auxController.getRightX() <= -0.5){
+                        return headingController.calculate(drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), 220);
+                } else if (getLeftDriverTriggerValue()) { //aux movement gets priority over the auto align
                         double id = limelightSubsystem.getTid();
                         // shoulderSubsystem.coralStationPID();
 
@@ -181,7 +193,7 @@ public class RobotContainer {
                         () -> driverController.getLeftY() * 1,
                         () -> driverController.getLeftX() * 1)
                         .withControllerRotationAxis(() -> getRightX())
-                        .deadband(DriverConstants.DEADBAND)
+                        .deadband(getDeadzone())
                         .scaleTranslation(0.9)// Can be changed to alter speed
                         .allianceRelativeControl(true);
 
@@ -281,7 +293,7 @@ public class RobotContainer {
                                 .whileTrue(new MoveRightL3Command(shoulderSubsystem, elevatorSubsystem));
 
                 // Climber Controls
-                
+
 
                 // Schedule `exampleMethodCommand` when the Xbox controller's B button is
                 // pressed,
@@ -289,9 +301,28 @@ public class RobotContainer {
                 // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
         }
 
+        private boolean auxRightstickLeft() {
+                if (auxController != null) {
+                        if (auxController.getRightX() <= -0.5){
+                                return true;
+                        }
+                        return false;
+                }
+                return false;
+        }
         private boolean getRightDriverTriggerValue() {
                 if (driverController != null) {
                         if (driverController.getRightTriggerAxis() >= 0.5) {
+                                return true;
+                        }
+                        return false;
+                } else {
+                        return false;
+                }
+        }
+        private boolean getLeftDriverTriggerValue() {
+                if (driverController != null) {
+                        if (driverController.getLeftTriggerAxis() >= 0.5) {
                                 return true;
                         }
                         return false;
@@ -320,6 +351,14 @@ public class RobotContainer {
                 } else {
                         return false;
                 }
+        }
+
+        /**
+         * 
+         * @return True if manual, false if automatic
+         */
+        private boolean getManualSwitch() {
+                return driverStation.getRawButtonPressed(7);
         }
 
         /**
