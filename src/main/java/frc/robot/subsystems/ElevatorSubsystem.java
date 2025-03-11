@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
-import frc.robot.Constants.IntakeConstants;
+import static frc.robot.Constants.ElevatorConstants.*;
 
 public class ElevatorSubsystem extends SubsystemBase {
 
@@ -35,8 +35,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public ElevatorSubsystem(ShoulderSubsystem shoulderSubsystem) {
         this.shoulderSubsystem = shoulderSubsystem;
-        this.elevatorLimitSwitch = new DigitalInput(0);
-        this.elevatorMotor = new TalonFX(51);
+        this.elevatorLimitSwitch = new DigitalInput(ELEVATOR_LIMITSWITCH_CHANNEL);
+        this.elevatorMotor = new TalonFX(ELEVATOR_MOTOR_ID);
         elevatorPidController.setTolerance(0.6, 0.005);
         zeroElevatorEncoder();
     }
@@ -50,7 +50,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void reset() {
-        this.set(elevatorPidController.calculate(this.getElevatorEncoder(), 5));
+        this.set(elevatorPidController.calculate(this.getElevatorEncoder(), SAFE_RESET_SETPOINT));
     }
 
     public double getElevatorEncoder() {
@@ -80,32 +80,32 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void moveElevatorL1() {
         myVAR = elevatorPosition.L1;
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 0));
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), L1_SETPOINT));
     }
 
     public void moveElevatorL2() {
         myVAR = elevatorPosition.L2;
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 43.71));
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), L2_SETPOINT));
     }
 
     public void moveElevatorL3() {
         myVAR = elevatorPosition.L3;
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 102.275));
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), L3_SETPOINT));
     }
 
     public void moveElevatorL4() {
         myVAR = elevatorPosition.L4;
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 150));
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), L4_SETPOINT));
     }
 
     public void moveElevatorCoralStation() {
         myVAR = elevatorPosition.CORAL_STATION;
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 30.272));
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), CORAL_STATION_SETPOINT));
     }
 
     public void moveElevatorGround() {
         myVAR = elevatorPosition.GROUND;
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 20.115));
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), GROUND_SETPOINT));
     }
 
     public void moveElevatorUpperAlgae() {
@@ -119,7 +119,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void elevatorOUT() {
-        elevatorMotor.set(ElevatorConstants.Elevator_MOTOR_SPEED);
+        elevatorMotor.set(ELEVATOR_MOTOR_SPEED);
         if (getElevatorLimit(shoulderSubsystem.getShoulderEncoder()) > this
                 .getElevatorEncoder()) {
 
@@ -158,7 +158,7 @@ public class ElevatorSubsystem extends SubsystemBase {
             zeroElevatorEncoder();
             elevatorOFF();
         } else {
-            elevatorMotor.set(-ElevatorConstants.Elevator_MOTOR_SPEED);
+            elevatorMotor.set(ELEVATOR_MOTOR_SPEED);
         }
     }
 

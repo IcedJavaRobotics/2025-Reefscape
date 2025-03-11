@@ -41,7 +41,18 @@ public final class Constants {
   }
 
   public static class ShoulderConstants {
+    public static final int SHOULDER_MOTOR_ID = 50;
+    public static final int ABSOLUTE_ENCODER_CHANNEL = 1;
+
     public static final double SHOULDER_MOTOR_SPEED = 0.2;
+
+    public static final double L1_SETPOINT = -78.788;
+    public static final double L2_SETPOINT = -32.677;
+    public static final double L3_SETPOINT = 6.926;
+    public static final double CORAL_STATION_SETPOINT = 2;
+    public static final double GROUND_SETPOINT = -70; //TODO
+    public static final double UPPER_ALGAE_SETPOINT = 10; //TODO
+    public static final double LOWER_ALGAE_SETPOINT = 10; //TODO
   }
 
   public static class IntakeConstants {
@@ -59,7 +70,20 @@ public final class Constants {
 
 
   public static class ElevatorConstants {
-    public static final double Elevator_MOTOR_SPEED = 0.2;
+    public static final int ELEVATOR_MOTOR_ID = 51;
+    public static final int ELEVATOR_LIMITSWITCH_CHANNEL = 0;
+
+    public static final double ELEVATOR_MOTOR_SPEED = 0.2;
+
+    public static final double SAFE_RESET_SETPOINT = 5;
+    public static final double L1_SETPOINT = 0;
+    public static final double L2_SETPOINT = 43.71;
+    public static final double L3_SETPOINT = 102.275;
+    public static final double L4_SETPOINT = 150;
+    public static final double CORAL_STATION_SETPOINT = 30.272;
+    public static final double GROUND_SETPOINT = 20.115; //TODO
+    public static final double UPPER_ALGAE_SETPOINT = 10; //TODO
+    public static final double LOWER_ALGAE_SETPOINT = 10; //TODO
   }
 
   public static final class LimelightConstants {

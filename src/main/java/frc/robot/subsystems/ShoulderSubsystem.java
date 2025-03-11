@@ -9,7 +9,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import static frc.robot.Constants.ShoulderConstants.SHOULDER_MOTOR_SPEED;
+import static frc.robot.Constants.ShoulderConstants.*;
 
 import java.util.function.BooleanSupplier;
 
@@ -33,8 +33,8 @@ public class ShoulderSubsystem extends SubsystemBase {
    */
   public ShoulderSubsystem() {
 
-    absoluteEncoder = new DutyCycleEncoder(1);
-    shoulderMotor = new TalonFX(50, "rio");
+    absoluteEncoder = new DutyCycleEncoder(ABSOLUTE_ENCODER_CHANNEL);
+    shoulderMotor = new TalonFX(SHOULDER_MOTOR_ID, "rio");
     shoulderPidController.setTolerance(0.6, 0.005);
     zeroShoulderEncoder();
 
@@ -101,7 +101,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     myVAR = shoulderPosition.L1;
     // return;
     // }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), -78.788));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), L1_SETPOINT));
   }
 
   public void moveShoulderL2() {
@@ -114,7 +114,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     myVAR = shoulderPosition.L2;
     // return;
     // }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), -32.677));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), L2_SETPOINT));
   }
 
   public void moveShoulderL2Score() {
@@ -140,7 +140,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     myVAR = shoulderPosition.L3;
     // return;
     // }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 6.926));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), L3_SETPOINT));
   }
 
   public void moveShoulderL3Score() {
@@ -166,7 +166,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     myVAR = shoulderPosition.L4;
     // return;
     // }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 15));
   }
 
   public void moveShoulderCoralStation() {
@@ -179,7 +179,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     myVAR = shoulderPosition.CORAL_STATION;
     // return;
     // }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 2));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), CORAL_STATION_SETPOINT));
   }
 
   public void moveShoulderGround() {
@@ -192,7 +192,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     myVAR = shoulderPosition.GROUND;
     // return;
     // }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), GROUND_SETPOINT));
   }
 
   public void moveShoulderUpperAlgae() {
@@ -205,7 +205,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     myVAR = shoulderPosition.UPPER_ALGAE;
     // return;
     // }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), UPPER_ALGAE_SETPOINT));
   }
 
   public void moveShoulderLowerAlgae() {
@@ -218,7 +218,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     myVAR = shoulderPosition.LOWER_ALGAE;
     // return;
     // }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), LOWER_ALGAE_SETPOINT));
   }
 
   @Override
