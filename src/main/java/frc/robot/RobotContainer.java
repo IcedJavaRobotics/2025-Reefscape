@@ -274,8 +274,8 @@ public class RobotContainer {
 
 
                 // Grid navigation
-                new JoystickButton(auxController, XboxController.Button.kRightBumper.value)
-                                .whileTrue(new ToggleAuxLockCommand(selectorSubsystem));
+                new Trigger(() -> getRightAuxTriggerValue()) // FOR SELECTOR SUBSYSTEM
+                .whileTrue(new ToggleAuxLockCommand(selectorSubsystem));
 
                 new POVButton(auxController, 180) /* D-Pad pressed DOWN */
                                 .whileTrue(new CursorDownCommand(selectorSubsystem));
@@ -296,6 +296,12 @@ public class RobotContainer {
                 new JoystickButton(auxController, XboxController.Button.kX.value)
                                 .whileTrue(new MoveRightL3Command(shoulderSubsystem, elevatorSubsystem));
 
+                // Wrist PIDs
+                new JoystickButton(auxController, XboxController.Button.kLeftBumper.value)
+                                .whileTrue(new WristVerticalCommand(wristSubsystem));
+                new JoystickButton(auxController, XboxController.Button.kRightBumper.value)
+                                .whileTrue(new WristHorizontalCommand(wristSubsystem));
+                
                 // Climber Controls
                 new JoystickButton(driverStation, 4)
                                 .whileTrue(new ActuatorInCommand(actuatorSubsystem));
