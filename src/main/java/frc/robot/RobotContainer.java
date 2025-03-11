@@ -297,7 +297,10 @@ public class RobotContainer {
                                 .whileTrue(new MoveRightL3Command(shoulderSubsystem, elevatorSubsystem));
 
                 // Climber Controls
-
+                new JoystickButton(driverStation, 4)
+                                .whileTrue(new ActuatorInCommand(actuatorSubsystem));
+                new JoystickButton(driverStation, 5)
+                                .whileTrue(new ActuatorOutCommand(actuatorSubsystem));
 
                 // Schedule `exampleMethodCommand` when the Xbox controller's B button is
                 // pressed,
