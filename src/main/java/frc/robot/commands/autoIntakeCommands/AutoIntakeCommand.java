@@ -11,7 +11,8 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
 
 /**
- * This command is for lining up to intake from the coral station (angle lineup in robotContainer swerve object)
+ * This command is for lining up to intake from the coral station (angle lineup
+ * in robotContainer swerve object)
  * 
  */
 public class AutoIntakeCommand extends Command {
@@ -23,8 +24,8 @@ public class AutoIntakeCommand extends Command {
   private PIDController shoulderPID = new PIDController(0, 0, 0);
   private PIDController elevatorPID = new PIDController(0, 0, 0);
 
-
-  public AutoIntakeCommand(IntakeSubsystem intakeSubsystem, ShoulderSubsystem shoulderSubsystem, ElevatorSubsystem elevatorSubsystem) {
+  public AutoIntakeCommand(IntakeSubsystem intakeSubsystem, ShoulderSubsystem shoulderSubsystem,
+      ElevatorSubsystem elevatorSubsystem) {
     this.intakeSubsystem = intakeSubsystem;
     this.shoulderSubsystem = shoulderSubsystem;
     this.elevatorSubsystem = elevatorSubsystem;
@@ -35,17 +36,27 @@ public class AutoIntakeCommand extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    elevatorSubsystem.elevatorIN();
-    shoulderSubsystem.set(shoulderPID.calculate(shoulderSubsystem.getShoulderEncoder(), 7));
-    if(shoulderSubsystem.getShoulderEncoder() >= 0){
-      elevatorSubsystem.set(elevatorPID.calculate(elevatorSubsystem.getElevatorEncoder(), 50));
-    }
-    if((shoulderSubsystem.getShoulderEncoder() >= 0) && (elevatorSubsystem.getElevatorEncoder() >= 48)){
+    // elevatorSubsystem.elevatorIN();
+    // shoulderSubsystem.set(shoulderPID.calculate(shoulderSubsystem.getShoulderEncoder(),
+    // 7));
+    // if (shoulderSubsystem.getShoulderEncoder() >= 0) {
+    // elevatorSubsystem.set(elevatorPID.calculate(elevatorSubsystem.getElevatorEncoder(),
+    // 50));
+    // }
+    // if ((shoulderSubsystem.getShoulderEncoder() >= 0) &&
+    // (elevatorSubsystem.getElevatorEncoder() >= 48)) {
+    // intakeSubsystem.intakeGamePiece();
+    // }
+
+    shoulderSubsystem.moveShoulderCoralStation();
+    elevatorSubsystem.moveElevatorCoralStation();
+    if (shoulderSubsystem.getShoulderEncoder() >= -1) {
       intakeSubsystem.intakeGamePiece();
     }
   }
@@ -53,6 +64,9 @@ public class AutoIntakeCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    shoulderSubsystem.shoulderMotorOFF();
+    elevatorSubsystem.elevatorOFF();
+    intakeSubsystem.intakeMotorOFF();
   }
 
   // Returns true when the command should end.

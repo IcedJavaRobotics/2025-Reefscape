@@ -101,7 +101,7 @@ public class ShoulderSubsystem extends SubsystemBase {
       myVAR = shoulderPosition.L1;
       return;
     }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), -78.788));
   }
 
   public void moveShoulderL2() {
@@ -114,7 +114,7 @@ public class ShoulderSubsystem extends SubsystemBase {
       myVAR = shoulderPosition.L2;
       return;
     }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), -32.677));
   }
 
   public void moveShoulderL2Score() {
@@ -127,7 +127,7 @@ public class ShoulderSubsystem extends SubsystemBase {
       myVAR = shoulderPosition.L2_SCORE;
       return;
     }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), -61.86));
   }
 
   public void moveShoulderL3() {
@@ -140,7 +140,7 @@ public class ShoulderSubsystem extends SubsystemBase {
       myVAR = shoulderPosition.L3;
       return;
     }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 6.926));
   }
 
   public void moveShoulderL3Score() {
@@ -153,7 +153,7 @@ public class ShoulderSubsystem extends SubsystemBase {
       myVAR = shoulderPosition.L3_SCORE;
       return;
     }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), -14.86));
   }
 
   public void moveShoulderL4() {
@@ -174,12 +174,12 @@ public class ShoulderSubsystem extends SubsystemBase {
      * This moves the shoulder to the position of the Coral Station to intake a
      * peice and updates the string shoulderPosition
      */
-    if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
+    if (shoulderMotor.getPosition().getValueAsDouble() >= 2) {
       shoulderMotorOFF();
       myVAR = shoulderPosition.CORAL_STATION;
       return;
     }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 2));
   }
 
   public void moveShoulderGround() {

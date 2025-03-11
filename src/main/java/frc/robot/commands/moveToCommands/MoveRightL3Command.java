@@ -30,16 +30,19 @@ public class MoveRightL3Command extends Command {
     @Override
     public void execute() {
         shoulderSubsystem.moveShoulderL3();
-        if (elevatorSubsystem.extensionChecker()) {
-            elevatorSubsystem.elevatorIN();
-        } else {
-            elevatorSubsystem.moveElevatorL3();
-        }
+        elevatorSubsystem.moveElevatorL3();
+        // if (elevatorSubsystem.extensionChecker()) {
+        // elevatorSubsystem.elevatorIN();
+        // } else {
+
+        // }
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        shoulderSubsystem.shoulderMotorOFF();
+        elevatorSubsystem.elevatorOFF();
     }
 
     // Returns true when the command should end.

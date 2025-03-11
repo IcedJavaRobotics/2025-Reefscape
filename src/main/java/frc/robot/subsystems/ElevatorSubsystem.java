@@ -49,18 +49,19 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorMotor.set(speed);
     }
 
-    public void reset(){
-        if(elevatorLimitSwitch.get()){
-            if(this.getElevatorEncoder() >= 3){
+    public void reset() {
+        if (elevatorLimitSwitch.get()) {
+            if (this.getElevatorEncoder() >= 3) {
                 this.set(elevatorPidController.calculate(this.getElevatorEncoder(), 0));
-            } else{
+            } else {
                 this.set(0.1);
             }
-        } else{
+        } else {
             this.zeroElevatorEncoder();
             this.set(0);
         }
     }
+
     public double getElevatorEncoder() {
         return elevatorMotor.getPosition().getValueAsDouble();
     }
@@ -92,7 +93,7 @@ public class ElevatorSubsystem extends SubsystemBase {
             myVAR = elevatorPosition.L1;
             return;
         }
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 10));
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 0));
     }
 
     public void moveElevatorL2() {
@@ -101,7 +102,7 @@ public class ElevatorSubsystem extends SubsystemBase {
             myVAR = elevatorPosition.L2;
             return;
         }
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 10));
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 43.71));
     }
 
     public void moveElevatorL3() {
@@ -110,7 +111,7 @@ public class ElevatorSubsystem extends SubsystemBase {
             myVAR = elevatorPosition.L3;
             return;
         }
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 10));
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 102.275));
     }
 
     public void moveElevatorL4() {
@@ -123,12 +124,12 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void moveElevatorCoralStation() {
-        if (elevatorMotor.getPosition().getValueAsDouble() >= 10) {
-            elevatorOFF();
-            myVAR = elevatorPosition.CORAL_STATION;
-            return;
-        }
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 10));
+        // if (elevatorMotor.getPosition().getValueAsDouble() >= 30.272) {
+        // elevatorOFF();
+        // myVAR = elevatorPosition.CORAL_STATION;
+        // return;
+        // }
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 30.272));
     }
 
     public void moveElevatorGround() {

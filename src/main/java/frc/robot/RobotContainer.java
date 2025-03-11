@@ -25,6 +25,9 @@ import frc.robot.commands.cursorControls.CursorLeftCommand;
 import frc.robot.commands.cursorControls.CursorRightCommand;
 import frc.robot.commands.cursorControls.CursorUpCommand;
 import frc.robot.commands.moveToCommands.MoveGroundCommand;
+import frc.robot.commands.moveToCommands.MoveRightL1Command;
+import frc.robot.commands.moveToCommands.MoveRightL2Command;
+import frc.robot.commands.moveToCommands.MoveRightL3Command;
 import frc.robot.subsystems.ActuatorSubsystem;
 import frc.robot.subsystems.CandleSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -85,8 +88,7 @@ public class RobotContainer {
 
         private final SelectorSubsystem selectorSubsystem = new SelectorSubsystem(shoulderSubsystem, elevatorSubsystem);
 
-        private final SendableChooser<Command> autoChooser; 
-
+        // private final SendableChooser<Command> autoChooser;
 
         XboxController driverController = new XboxController(DriverConstants.MAIN_DRIVER_PORT);
         XboxController auxController = new XboxController(DriverConstants.AUX_DRIVER_PORT);
@@ -104,20 +106,24 @@ public class RobotContainer {
                 configureBindings();
                 candleSubsystem.setCandleJavaBlue();
                 drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
-                
-                elevatorSubsystem.setDefaultCommand(new RunCommand(() -> elevatorSubsystem.reset())); //elevator always resets to 0
-                shoulderSubsystem.setDefaultCommand(new RunCommand(() -> shoulderSubsystem.reset(() -> elevatorInEnough())));
 
-                
-                autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be `Commands.none()`
-                SmartDashboard.putData("AutoMode", autoChooser);
+                // elevatorSubsystem.setDefaultCommand(new RunCommand(() ->
+                // elevatorSubsystem.reset(), elevatorSubsystem));
+                // resets to 0
+                // shoulderSubsystem.setDefaultCommand(
+                // new RunCommand(() -> shoulderSubsystem.reset(() -> elevatorInEnough()),
+                // shoulderSubsystem));
+
+                // autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be
+                // `Commands.none()`
+                // SmartDashboard.putData("AutoMode", autoChooser);
 
         }
 
         PIDController headingController = new PIDController(0.02, 0, 0);
 
-        private boolean elevatorInEnough(){
-                if(elevatorSubsystem.getElevatorEncoder() <= 50){
+        private boolean elevatorInEnough() {
+                if (elevatorSubsystem.getElevatorEncoder() <= 50) {
                         return true;
                 }
                 return false;
@@ -243,7 +249,8 @@ public class RobotContainer {
                                 .whileTrue(new IntakeOutSlowCommand(intakeSubsystem));
 
                 new JoystickButton(driverController, XboxController.Button.kRightStick.value)
-                                .whileTrue(new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
+                                .whileTrue(new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem,
+                                                elevatorSubsystem));
 
                 new POVButton(driverController, 90)
                                 .whileTrue(new WristTestCommand(wristSubsystem, 1));
@@ -266,14 +273,28 @@ public class RobotContainer {
 
                 // AUX CONTROLS
 
+                // new Trigger(() -> getRightDriverTriggerValue())
+                // .whileTrue(new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem,
+                // elevatorSubsystem));
+
                 new Trigger(() -> getRightDriverTriggerValue())
-                                .whileTrue(new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
+                                .whileTrue(new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem,
+                                                elevatorSubsystem));
 
                 new JoystickButton(auxController, XboxController.Button.kRightBumper.value)
                                 .whileTrue(new ToggleAuxLockCommand(selectorSubsystem));
 
                 new JoystickButton(auxController, XboxController.Button.kA.value)
                                 .whileTrue(new MoveGroundCommand(shoulderSubsystem, elevatorSubsystem));
+
+                new JoystickButton(auxController, XboxController.Button.kB.value)
+                                .whileTrue(new MoveRightL2Command(shoulderSubsystem, elevatorSubsystem));
+
+                new JoystickButton(auxController, XboxController.Button.kY.value)
+                                .whileTrue(new MoveRightL1Command(shoulderSubsystem, elevatorSubsystem));
+
+                new JoystickButton(auxController, XboxController.Button.kX.value)
+                                .whileTrue(new MoveRightL3Command(shoulderSubsystem, elevatorSubsystem));
 
                 new POVButton(auxController, 180) /* D-Pad pressed DOWN */
                                 .whileTrue(new CursorDownCommand(selectorSubsystem));
@@ -332,6 +353,7 @@ public class RobotContainer {
          * @return the command to run in autonomous
          */
         public Command getAutonomousCommand() {
-                return autoChooser.getSelected();
+                // return autoChooser.getSelected();
+                return null;
         }
 }
