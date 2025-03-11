@@ -158,7 +158,7 @@ public class ElevatorSubsystem extends SubsystemBase {
             zeroElevatorEncoder();
             elevatorOFF();
         } else {
-            elevatorMotor.set(ELEVATOR_MOTOR_SPEED);
+            elevatorMotor.set(-ELEVATOR_MOTOR_SPEED);
         }
     }
 

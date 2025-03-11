@@ -289,9 +289,9 @@ public class RobotContainer {
                 // Movement presets
                 new JoystickButton(auxController, XboxController.Button.kA.value)
                                 .whileTrue(new MoveGroundCommand(shoulderSubsystem, elevatorSubsystem));
-                new JoystickButton(auxController, XboxController.Button.kY.value)
-                                .whileTrue(new MoveRightL1Command(shoulderSubsystem, elevatorSubsystem));
                 new JoystickButton(auxController, XboxController.Button.kB.value)
+                                .whileTrue(new MoveRightL1Command(shoulderSubsystem, elevatorSubsystem));
+                new JoystickButton(auxController, XboxController.Button.kY.value)
                                 .whileTrue(new MoveRightL2Command(shoulderSubsystem, elevatorSubsystem));
                 new JoystickButton(auxController, XboxController.Button.kX.value)
                                 .whileTrue(new MoveRightL3Command(shoulderSubsystem, elevatorSubsystem));
@@ -305,7 +305,7 @@ public class RobotContainer {
                 // Climber Controls
                 new JoystickButton(driverStation, 4)
                                 .whileTrue(new ActuatorInCommand(actuatorSubsystem));
-                new JoystickButton(driverStation, 5)
+                new JoystickButton(driverStation, 10)
                                 .whileTrue(new ActuatorOutCommand(actuatorSubsystem));
 
                 /*  OTHER CONTROLS::
