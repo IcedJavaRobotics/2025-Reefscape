@@ -27,6 +27,7 @@ public final class Constants {
     // public static final String DEADBAND = "0.5";
     public static final double DEADBAND = 0.02;
     public static final double MAX_SPEED = Units.feetToMeters(4.5);
+    public static final int[] driverstationButtons = {14, 20, 30, 40}; //0 = top left, and then read it like a book
   }
 
   public static class CandleConstants {
