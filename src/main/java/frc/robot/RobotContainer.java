@@ -20,6 +20,7 @@ import frc.robot.commands.WristTestCommand;
 import frc.robot.commands.WristVerticalCommand;
 import frc.robot.commands.ZeroGyroCommand;
 import frc.robot.commands.autoIntakeCommands.AutoIntakeCommand;
+import frc.robot.commands.autoIntakeCommands.AutoPlaceCommand;
 import frc.robot.commands.cursorControls.CursorDownCommand;
 import frc.robot.commands.cursorControls.CursorLeftCommand;
 import frc.robot.commands.cursorControls.CursorRightCommand;
@@ -229,9 +230,12 @@ public class RobotContainer {
                 // .onTrue(new TestCommand());
 
                 // Primary Commands
-                new Trigger(() -> getRightDriverTriggerValue())
+                new Trigger(() -> getRightDriverTriggerValue()) // CORAL STATION COMMAND
                                 .whileTrue(new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem,
                                                 elevatorSubsystem));
+                
+                new Trigger(() -> getLeftDriverTriggerValue()) // Place Coral On Reef
+                                .whileTrue(new AutoPlaceCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
 
                 
                 // Driver movement
