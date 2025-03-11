@@ -30,16 +30,18 @@ public class MoveGroundCommand extends Command {
     @Override
     public void execute() {
         shoulderSubsystem.moveShoulderGround();
-        if (elevatorSubsystem.extensionChecker()) {
-            elevatorSubsystem.elevatorIN();
-        } else {
-            elevatorSubsystem.moveElevatorGround();
-        }
+        // if (elevatorSubsystem.extensionChecker()) {
+        // elevatorSubsystem.elevatorIN();
+        // } else {
+        elevatorSubsystem.moveElevatorGround();
+        // }
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        elevatorSubsystem.elevatorOFF();
+        shoulderSubsystem.shoulderMotorOFF();
     }
 
     // Returns true when the command should end.

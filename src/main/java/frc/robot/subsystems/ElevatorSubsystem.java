@@ -79,74 +79,42 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void moveElevatorL1() {
-        // if (elevatorMotor.getPosition().getValueAsDouble() >= 0) {
-        //     elevatorOFF();
-        //     myVAR = elevatorPosition.L1;
-        //     return;
-        // }
+        myVAR = elevatorPosition.L1;
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 0));
     }
 
     public void moveElevatorL2() {
-        // if (elevatorMotor.getPosition().getValueAsDouble() >= 43.71) {
-        //     elevatorOFF();
-        //     myVAR = elevatorPosition.L2;
-        //     return;
-        // }
+        myVAR = elevatorPosition.L2;
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 43.71));
     }
 
     public void moveElevatorL3() {
-        // if (elevatorMotor.getPosition().getValueAsDouble() >= 102.275) {
-        //     elevatorOFF();
-        //     myVAR = elevatorPosition.L3;
-        //     return;
-        // }
+        myVAR = elevatorPosition.L3;
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 102.275));
     }
 
     public void moveElevatorL4() {
-        // if (elevatorMotor.getPosition().getValueAsDouble() >= 10) {
-        //     elevatorOFF();
-        //     myVAR = elevatorPosition.L4;
-        //     return;
-        // }
+        myVAR = elevatorPosition.L4;
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 150));
     }
 
     public void moveElevatorCoralStation() {
-        // if (elevatorMotor.getPosition().getValueAsDouble() >= 30.272) {
-        // elevatorOFF();
-        // myVAR = elevatorPosition.CORAL_STATION;
-        // return;
-        // }
+        myVAR = elevatorPosition.CORAL_STATION;
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 30.272));
     }
 
     public void moveElevatorGround() {
-        if (elevatorMotor.getPosition().getValueAsDouble() >= 20.115) {
-            elevatorOFF();
-            myVAR = elevatorPosition.GROUND;
-            return;
-        }
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 10));
+        myVAR = elevatorPosition.GROUND;
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 20.115));
     }
 
     public void moveElevatorUpperAlgae() {
-        if (elevatorMotor.getPosition().getValueAsDouble() >= 10) {
-            elevatorOFF();
-            myVAR = elevatorPosition.UPPER_ALGAE;
-            return;
-        }
+        myVAR = elevatorPosition.UPPER_ALGAE;
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 10));
     }
 
     public void moveElevatorLowerAlgae() {
-        if (elevatorMotor.getPosition().getValueAsDouble() >= 10) {
-            elevatorOFF();
             myVAR = elevatorPosition.LOWER_ALGAE;
-            return;
-        }
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 10));
     }
 

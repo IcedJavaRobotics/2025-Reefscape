@@ -30,16 +30,18 @@ public class MoveLowerAlgaeCommand extends Command {
     @Override
     public void execute() {
         shoulderSubsystem.moveShoulderLowerAlgae();
-        if (elevatorSubsystem.extensionChecker()) {
-            elevatorSubsystem.elevatorIN();
-        } else {
-            elevatorSubsystem.moveElevatorLowerAlgae();
-        }
+        // if (elevatorSubsystem.extensionChecker()) {
+        // elevatorSubsystem.elevatorIN();
+        // } else {
+        elevatorSubsystem.moveElevatorLowerAlgae();
+        // }
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        elevatorSubsystem.elevatorOFF();
+        shoulderSubsystem.shoulderMotorOFF();
     }
 
     // Returns true when the command should end.

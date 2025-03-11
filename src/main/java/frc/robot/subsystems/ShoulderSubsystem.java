@@ -97,9 +97,9 @@ public class ShoulderSubsystem extends SubsystemBase {
      * string shoulderPosition
      */
     // if (shoulderMotor.getPosition().getValueAsDouble() >= -78.788) {
-    //   shoulderMotorOFF();
-    //   myVAR = shoulderPosition.L1;
-    //   return;
+    // shoulderMotorOFF();
+    myVAR = shoulderPosition.L1;
+    // return;
     // }
     shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), -78.788));
   }
@@ -110,9 +110,9 @@ public class ShoulderSubsystem extends SubsystemBase {
      * string shoulderPosition
      */
     // if (shoulderMotor.getPosition().getValueAsDouble() >= -32.677) {
-    //   shoulderMotorOFF();
-    //   myVAR = shoulderPosition.L2;
-    //   return;
+    // shoulderMotorOFF();
+    myVAR = shoulderPosition.L2;
+    // return;
     // }
     shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), -32.677));
   }
@@ -122,11 +122,11 @@ public class ShoulderSubsystem extends SubsystemBase {
      * This moves the shoulder to the position of L2 on the Reef and updates the
      * string shoulderPosition
      */
-    if (shoulderMotor.getPosition().getValueAsDouble() >= -61.86) {
-      shoulderMotorOFF();
-      myVAR = shoulderPosition.L2_SCORE;
-      return;
-    }
+    // if (shoulderMotor.getPosition().getValueAsDouble() >= -61.86) {
+    // shoulderMotorOFF();
+    myVAR = shoulderPosition.L2_SCORE;
+    // return;
+    // }
     shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), -61.86));
   }
 
@@ -136,9 +136,9 @@ public class ShoulderSubsystem extends SubsystemBase {
      * string shoulderPosition
      */
     // if (shoulderMotor.getPosition().getValueAsDouble() >= 6.926) {
-    //   shoulderMotorOFF();
-    //   myVAR = shoulderPosition.L3;
-    //   return;
+    // shoulderMotorOFF();
+    myVAR = shoulderPosition.L3;
+    // return;
     // }
     shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 6.926));
   }
@@ -148,11 +148,11 @@ public class ShoulderSubsystem extends SubsystemBase {
      * This moves the shoulder to the position of L3 on the Reef and updates the
      * string shoulderPosition
      */
-    if (shoulderMotor.getPosition().getValueAsDouble() >= -14.86) {
-      shoulderMotorOFF();
-      myVAR = shoulderPosition.L3_SCORE;
-      return;
-    }
+    // if (shoulderMotor.getPosition().getValueAsDouble() >= -14.86) {
+    // shoulderMotorOFF();
+    myVAR = shoulderPosition.L3_SCORE;
+    // return;
+    // }
     shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), -14.86));
   }
 
@@ -161,11 +161,11 @@ public class ShoulderSubsystem extends SubsystemBase {
      * This moves the shoulder to the position of L4 on the Reef and updates the
      * string shoulderPosition
      */
-    if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
-      shoulderMotorOFF();
-      myVAR = shoulderPosition.L4;
-      return;
-    }
+    // if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
+    // shoulderMotorOFF();
+    myVAR = shoulderPosition.L4;
+    // return;
+    // }
     shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
   }
 
@@ -174,11 +174,11 @@ public class ShoulderSubsystem extends SubsystemBase {
      * This moves the shoulder to the position of the Coral Station to intake a
      * peice and updates the string shoulderPosition
      */
-    if (shoulderMotor.getPosition().getValueAsDouble() >= 2) {
-      shoulderMotorOFF();
-      myVAR = shoulderPosition.CORAL_STATION;
-      return;
-    }
+    // if (shoulderMotor.getPosition().getValueAsDouble() >= 2) {
+    // shoulderMotorOFF();
+    myVAR = shoulderPosition.CORAL_STATION;
+    // return;
+    // }
     shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 2));
   }
 
@@ -187,11 +187,11 @@ public class ShoulderSubsystem extends SubsystemBase {
      * This moves the shoulder to the lowest possible position and updates the
      * string shoulderPosition
      */
-    if (shoulderMotor.getPosition().getValueAsDouble() >= -174.5) {
-      shoulderMotorOFF();
-      myVAR = shoulderPosition.GROUND;
-      return;
-    }
+    // if (shoulderMotor.getPosition().getValueAsDouble() >= -174.5) {
+    // shoulderMotorOFF();
+    myVAR = shoulderPosition.GROUND;
+    // return;
+    // }
     shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
   }
 
@@ -200,11 +200,11 @@ public class ShoulderSubsystem extends SubsystemBase {
      * This moves the shoulder to the position of upper algae on the Reef and
      * updates the string shoulderPosition
      */
-    if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
-      shoulderMotorOFF();
-      myVAR = shoulderPosition.UPPER_ALGAE;
-      return;
-    }
+    // if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
+    // shoulderMotorOFF();
+    myVAR = shoulderPosition.UPPER_ALGAE;
+    // return;
+    // }
     shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
   }
 
@@ -213,11 +213,11 @@ public class ShoulderSubsystem extends SubsystemBase {
      * This moves the shoulder to the position of the lower algae on the Reef and
      * updates the string shoulderPosition
      */
-    if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
-      shoulderMotorOFF();
-      myVAR = shoulderPosition.LOWER_ALGAE;
-      return;
-    }
+    // if (shoulderMotor.getPosition().getValueAsDouble() >= 10) {
+    // shoulderMotorOFF();
+    myVAR = shoulderPosition.LOWER_ALGAE;
+    // return;
+    // }
     shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 10));
   }
 

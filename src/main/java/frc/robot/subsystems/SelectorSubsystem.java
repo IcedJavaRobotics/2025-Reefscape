@@ -220,6 +220,8 @@ public class SelectorSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        SmartDashboard.putBoolean("AuxLock", auxLock);
+        SmartDashboard.putBoolean("DriverLock", driverLock);
         // This method will be called once per scheduler run
     }
 }

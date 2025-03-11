@@ -30,16 +30,18 @@ public class MoveCoralStationCommand extends Command {
     @Override
     public void execute() {
         shoulderSubsystem.moveShoulderCoralStation();
-        if (elevatorSubsystem.extensionChecker()) {
-            elevatorSubsystem.elevatorIN();
-        } else {
-            elevatorSubsystem.moveElevatorCoralStation();
-        }
+        // if (elevatorSubsystem.extensionChecker()) {
+        // elevatorSubsystem.elevatorIN();
+        // } else {
+        elevatorSubsystem.moveElevatorCoralStation();
+        // }
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        elevatorSubsystem.elevatorOFF();
+        shoulderSubsystem.shoulderMotorOFF();
     }
 
     // Returns true when the command should end.
