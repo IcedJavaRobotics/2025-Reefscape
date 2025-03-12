@@ -35,7 +35,7 @@ public class SelectorSubsystem extends SubsystemBase {
 
     boolean auxLock = false; // false is unlocked, true is locked
     boolean driverLock = false; // false is unlocked, true is locked
-    int[][] selectorArray = { { -1, 2, 5, -1 }, { 0, 3, 6, 8 }, { 1, 3, 7, 9 } };
+    int[][] selectorArray = { { -1, 2, 5, -1 }, { 0, 3, 6, 8 }, { 1, 4, 7, 9 } };
 
     int[] cursor = { 1, 0 };
 
