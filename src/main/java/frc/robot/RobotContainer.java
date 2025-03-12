@@ -141,51 +141,6 @@ public class RobotContainer {
                 return DriverConstants.DEADBAND;
         }
 
-        private double getRightX() {
-                if (auxController.getRightX() >= 0.5) {
-                        return headingController.calculate(
-                                        drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), 120);
-                } else if (auxController.getRightX() <= -0.5) {
-                        return headingController.calculate(
-                                        drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), 220);
-                } else if (getLeftDriverTriggerValue()) { // aux movement gets priority over the auto align
-                        double id = limelightSubsystem.getTid();
-                        // shoulderSubsystem.coralStationPID();
-
-                        if (id == 10 || id == 21) {
-                                return headingController
-                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                                                                .getDegrees(), 0);
-                        }
-                        if (id == 9 || id == 22) {
-                                return headingController
-                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                                                                .getDegrees(), 60);
-                        }
-                        if (id == 8 || id == 17) {
-                                return headingController
-                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                                                                .getDegrees(), 120);
-                        }
-                        if (id == 7 || id == 18) {
-                                return headingController
-                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                                                                .getDegrees(), 180);
-                        }
-                        if (id == 6 || id == 19) {
-                                return headingController
-                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                                                                .getDegrees(), 240);
-                        }
-                        if (id == 11 || id == 20) {
-                                return headingController
-                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                                                                .getDegrees(), 300);
-                        }
-                }
-                return -driverController.getRightX();
-        }
-
         private double getLeftX() {
                 return -driverController.getLeftX();
         }
@@ -383,6 +338,51 @@ public class RobotContainer {
          */
         private boolean getManualSwitch() {
                 return driverStation.getRawButtonPressed(7);
+        }
+
+        private double getRightX() {
+                if (auxController.getRightX() >= 0.5) {
+                        return headingController.calculate(
+                                        drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), 120);
+                } else if (auxController.getRightX() <= -0.5) {
+                        return headingController.calculate(
+                                        drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), -150);
+                } else if (getLeftDriverTriggerValue()) { // aux movement gets priority over the auto align
+                        double id = limelightSubsystem.getTid();
+                        // shoulderSubsystem.coralStationPID();
+
+                        if (id == 10 || id == 21) {
+                                return headingController
+                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
+                                                                .getDegrees(), 0);
+                        }
+                        if (id == 9 || id == 22) {
+                                return headingController
+                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
+                                                                .getDegrees(), 60);
+                        }
+                        if (id == 8 || id == 17) {
+                                return headingController
+                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
+                                                                .getDegrees(), 120);
+                        }
+                        if (id == 7 || id == 18) {
+                                return headingController
+                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
+                                                                .getDegrees(), 180);
+                        }
+                        if (id == 6 || id == 19) {
+                                return headingController
+                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
+                                                                .getDegrees(), 240);
+                        }
+                        if (id == 11 || id == 20) {
+                                return headingController
+                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
+                                                                .getDegrees(), 300);
+                        }
+                }
+                return -driverController.getRightX();
         }
 
         /**
