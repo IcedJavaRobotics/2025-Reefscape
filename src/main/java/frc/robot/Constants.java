@@ -73,6 +73,7 @@ public final class Constants {
     public static final int ELEVATOR_LIMITSWITCH_CHANNEL = 0;
 
     public static final double ELEVATOR_MOTOR_SPEED = 0.2;
+    public static final double ELEVATOR_LIMIT = 230;
 
     public static final double SAFE_RESET_SETPOINT = 5;
     public static final double L1_SETPOINT = 0;

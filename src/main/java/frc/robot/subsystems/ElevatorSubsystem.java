@@ -119,13 +119,18 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void elevatorOUT() {
-        elevatorMotor.set(ELEVATOR_MOTOR_SPEED);
-        if (getElevatorLimit(shoulderSubsystem.getShoulderEncoder()) > this
-                .getElevatorEncoder()) {
-
-        } else {
-            // elevatorMotor.set(0);
+        if (getElevatorEncoder() >= ELEVATOR_LIMIT){
+            elevatorMotor.set(0);
+            return;
         }
+        elevatorMotor.set(ELEVATOR_MOTOR_SPEED);
+
+        // if (getElevatorLimit(shoulderSubsystem.getShoulderEncoder()) > this
+        //         .getElevatorEncoder()) {
+
+        // } else {
+        //     // elevatorMotor.set(0);
+        // }
 
         // if (!extensionChecker()) {
         // elevatorMotor.set(ElevatorConstants.Elevator_MOTOR_SPEED);
