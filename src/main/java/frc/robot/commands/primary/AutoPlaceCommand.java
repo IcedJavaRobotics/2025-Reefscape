@@ -6,6 +6,7 @@ package frc.robot.commands.primary;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ShoulderConstants;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
@@ -41,7 +42,11 @@ public class AutoPlaceCommand extends Command {
   @Override
   public void initialize() {
     initialShoulder = shoulderSubsystem.getShoulderEncoder();
-    desiredShoulder = initialShoulder -= 20;
+    if((initialShoulder <= ShoulderConstants.L2_SETPOINT + 2) && (initialShoulder >= ShoulderConstants.L2_SETPOINT - 2)) {
+      desiredShoulder = initialShoulder - 40;
+    } else{
+      desiredShoulder = initialShoulder - 20;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
