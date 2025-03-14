@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
+import frc.robot.subsystems.WristSubsystem;
 
 /**
  * This command is for lining up to intake from the coral station (angle lineup
@@ -20,6 +21,7 @@ public class AutoIntakeCommand extends Command {
   private IntakeSubsystem intakeSubsystem;
   private ShoulderSubsystem shoulderSubsystem;
   private ElevatorSubsystem elevatorSubsystem;
+  private WristSubsystem wristSubsystem;
 
   private PIDController shoulderPID = new PIDController(0, 0, 0);
   private PIDController elevatorPID = new PIDController(0, 0, 0);
@@ -56,6 +58,7 @@ public class AutoIntakeCommand extends Command {
 
     shoulderSubsystem.moveShoulderCoralStation();
     elevatorSubsystem.moveElevatorCoralStation();
+    wristSubsystem.verticalPID();
     if (shoulderSubsystem.getShoulderEncoder() >= -1) {
       intakeSubsystem.intakeGamePiece();
     }
@@ -67,6 +70,7 @@ public class AutoIntakeCommand extends Command {
     shoulderSubsystem.shoulderMotorOFF();
     elevatorSubsystem.elevatorOFF();
     intakeSubsystem.intakeMotorOFF();
+    wristSubsystem.set(0);
   }
 
   // Returns true when the command should end.

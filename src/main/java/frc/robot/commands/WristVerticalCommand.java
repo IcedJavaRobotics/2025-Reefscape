@@ -12,8 +12,6 @@ import frc.robot.subsystems.WristSubsystem;
 public class WristVerticalCommand extends Command {
   WristSubsystem wristSubsystem;
 
-  PIDController wristPID = new PIDController(0.03, 0, 0);
-
   /** Creates a new WristCommand. */
   public WristVerticalCommand(WristSubsystem wristSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -30,7 +28,7 @@ public class WristVerticalCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    wristSubsystem.set(wristPID.calculate(wristSubsystem.getEncoder(), 25));
+    wristSubsystem.verticalPID();
     // wristSubsystem.wristRotate();
   }
 
@@ -38,13 +36,11 @@ public class WristVerticalCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     wristSubsystem.wristMotorOFF();
-    wristSubsystem.toggleDirection();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
     return false;
   }
 }
