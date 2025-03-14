@@ -2,17 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.cursorControls;
+package frc.robot.commands.cursor;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SelectorSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class CursorUpCommand extends Command {
+public class CursorLeftCommand extends Command {
     SelectorSubsystem selectorSubsystem;
 
     /** Creates a new CursorUpCommand. */
-    public CursorUpCommand(SelectorSubsystem selectorSubsystem) {
+    public CursorLeftCommand(SelectorSubsystem selectorSubsystem) {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(selectorSubsystem);
         this.selectorSubsystem = selectorSubsystem;
@@ -21,8 +21,8 @@ public class CursorUpCommand extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        selectorSubsystem.cursorUp();
-        System.out.println("CURSOR UP");
+        selectorSubsystem.cursorLeft();
+        System.out.println("CURSOR LEFT");
     }
 
     // Called every time the scheduler runs while the command is scheduled.

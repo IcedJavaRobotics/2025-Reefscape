@@ -5,40 +5,36 @@
 package frc.robot;
 
 import frc.robot.Constants.DriverConstants;
-import frc.robot.commands.ActuatorInCommand;
-import frc.robot.commands.ActuatorOutCommand;
-import frc.robot.commands.ArmDemonstrationCommand;
-import frc.robot.commands.Autos;
-import frc.robot.commands.CandleRed;
-import frc.robot.commands.ElevatorINCommand;
-import frc.robot.commands.ElevatorOUTCommand;
-import frc.robot.commands.ExampleCommand;
-
-import frc.robot.commands.WristCommand;
-import frc.robot.commands.WristHorizontalCommand;
-import frc.robot.commands.WristTestCommand;
-import frc.robot.commands.WristVerticalCommand;
-import frc.robot.commands.ZeroGyroCommand;
-import frc.robot.commands.autoIntakeCommands.AutoIntakeCommand;
-import frc.robot.commands.autoIntakeCommands.AutoPlaceCommand;
-import frc.robot.commands.cursorControls.CursorDownCommand;
-import frc.robot.commands.cursorControls.CursorLeftCommand;
-import frc.robot.commands.cursorControls.CursorRightCommand;
-import frc.robot.commands.cursorControls.CursorUpCommand;
+import frc.robot.commands.actuator.ActuatorInCommand;
+import frc.robot.commands.actuator.ActuatorOutCommand;
+import frc.robot.commands.candle.CandleRed;
+import frc.robot.commands.cursor.CursorDownCommand;
+import frc.robot.commands.cursor.CursorLeftCommand;
+import frc.robot.commands.cursor.CursorRightCommand;
+import frc.robot.commands.cursor.CursorUpCommand;
+import frc.robot.commands.cursor.ToggleAuxLockCommand;
+import frc.robot.commands.elevator.ElevatorINCommand;
+import frc.robot.commands.elevator.ElevatorOUTCommand;
+import frc.robot.commands.intake.IntakeCommand;
+import frc.robot.commands.intake.IntakeOutCommand;
+import frc.robot.commands.intake.IntakeOutSlowCommand;
+import frc.robot.commands.misc.ArmDemonstrationCommand;
+import frc.robot.commands.misc.ZeroGyroCommand;
 import frc.robot.commands.moveToCommands.MoveGroundCommand;
 import frc.robot.commands.moveToCommands.MoveRightL1Command;
 import frc.robot.commands.moveToCommands.MoveRightL2Command;
 import frc.robot.commands.moveToCommands.MoveRightL3Command;
+import frc.robot.commands.primary.AutoIntakeCommand;
+import frc.robot.commands.primary.AutoPlaceCommand;
+import frc.robot.commands.shoulder.ShoulderCommand;
+import frc.robot.commands.wrist.WristCommand;
+import frc.robot.commands.wrist.WristHorizontalCommand;
+import frc.robot.commands.wrist.WristTestCommand;
+import frc.robot.commands.wrist.WristVerticalCommand;
 import frc.robot.subsystems.ActuatorSubsystem;
 import frc.robot.subsystems.CandleSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.WristSubsystem;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.IntakeOutCommand;
-import frc.robot.commands.IntakeOutSlowCommand;
-import frc.robot.commands.ShoulderCommand;
-import frc.robot.commands.ToggleAuxLockCommand;
 //import frc.robot.commands.TestMotorCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
@@ -76,7 +72,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
         // The robot's subsystems and commands are defined here...
-        private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
         private final CandleSubsystem candleSubsystem = new CandleSubsystem();
 
         private final ShoulderSubsystem shoulderSubsystem = new ShoulderSubsystem();
@@ -97,9 +92,6 @@ public class RobotContainer {
         private final Joystick driverStation = new Joystick(DriverConstants.DRIVER_STATION_PORT);
 
         private final SwerveSubsystem drivebase = new SwerveSubsystem();
-        // Replace with CommandPS4Controller or CommandJoystick if needed
-        // private final CommandXboxController m_driverController =
-        // new CommandXboxController(DriveConstants.kDriverControllerPort);
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.

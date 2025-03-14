@@ -5,7 +5,7 @@ package frc.robot.commands.moveToCommands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.WristCommand;
+import frc.robot.commands.wrist.WristCommand;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
 import frc.robot.subsystems.WristSubsystem;

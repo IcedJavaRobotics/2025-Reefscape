@@ -2,30 +2,27 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.actuator;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.subsystems.CandleSubsystem;
+import frc.robot.subsystems.ActuatorSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class CandleRed extends InstantCommand {
-  CandleSubsystem candleSubsystem;
+public class ActuatorInCommand extends InstantCommand {
+  ActuatorSubsystem actuatorSubsystem;
 
-  /** Creates a new CandleCommand. */
-  public CandleRed(CandleSubsystem subsystem) {
-    addRequirements(subsystem);
-    candleSubsystem = subsystem;
+  public ActuatorInCommand(ActuatorSubsystem actuatorSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(actuatorSubsystem);
+    this.actuatorSubsystem = actuatorSubsystem;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    candleSubsystem.setCandleFire();
+    System.out.println("IM TRYING TO DO THE ACTUATOR IN COMMAND RAAAHHHH!!!!!!");
+    actuatorSubsystem.ActuatorIN();
   }
 }
