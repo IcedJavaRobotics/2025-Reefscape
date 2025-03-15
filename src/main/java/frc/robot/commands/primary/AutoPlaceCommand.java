@@ -43,7 +43,7 @@ public class AutoPlaceCommand extends Command {
   public void initialize() {
     initialShoulder = shoulderSubsystem.getShoulderEncoder();
     if((initialShoulder <= ShoulderConstants.L2_SETPOINT + 2) && (initialShoulder >= ShoulderConstants.L2_SETPOINT - 2)) {
-      desiredShoulder = initialShoulder - 40;
+      desiredShoulder = initialShoulder - 30;
     } else{
       desiredShoulder = initialShoulder - 20;
     }

@@ -42,6 +42,10 @@ import frc.robot.subsystems.SelectorSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
 import frc.robot.subsystems.TestSubsystem;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -52,6 +56,9 @@ import swervelib.SwerveInputStream;
 import java.util.function.Supplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -85,7 +92,7 @@ public class RobotContainer {
         private final SelectorSubsystem selectorSubsystem = new SelectorSubsystem(shoulderSubsystem, elevatorSubsystem,
                         wristSubsystem);
 
-        // private final SendableChooser<Command> autoChooser;
+        private final SendableChooser<Command> autoChooser;
 
         XboxController driverController = new XboxController(DriverConstants.MAIN_DRIVER_PORT);
         XboxController auxController = new XboxController(DriverConstants.AUX_DRIVER_PORT);
@@ -108,12 +115,14 @@ public class RobotContainer {
                 // shoulderSubsystem.setDefaultCommand(
                 // new RunCommand(() -> shoulderSubsystem.reset(() -> elevatorInEnough()),
                 // shoulderSubsystem));
+                    
 
-                // autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be
+                autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be
                 // `Commands.none()`
                 // SmartDashboard.putData("AutoMode", autoChooser);
 
         }
+
 
         PIDController headingController = new PIDController(0.02, 0, 0);
 
@@ -183,7 +192,7 @@ public class RobotContainer {
                 // Primary Commands
                 new Trigger(() -> getRightDriverTriggerValue()) // CORAL STATION COMMAND
                                 .whileTrue(new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem,
-                                                elevatorSubsystem));
+                                                elevatorSubsystem, wristSubsystem));
 
                 new Trigger(() -> getLeftDriverTriggerValue()) // Place Coral On Reef
                                 .whileTrue(new AutoPlaceCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
@@ -219,6 +228,8 @@ public class RobotContainer {
                                 .whileTrue(new IntakeOutCommand(intakeSubsystem));
                 new POVButton(driverController, 0)
                                 .whileTrue(new IntakeOutSlowCommand(intakeSubsystem));
+                new POVButton(driverController, 180)
+                                .whileTrue(new IntakeCommand(intakeSubsystem));
 
                 // ---------AUX CONTROLS
                 // --------------------------------------------------------------
@@ -253,9 +264,9 @@ public class RobotContainer {
                                 .whileTrue(new WristHorizontalCommand(wristSubsystem));
 
                 // Climber Controls
-                new JoystickButton(driverStation, 4)
+                new JoystickButton(auxController, XboxController.Button.kStart.value)
                                 .whileTrue(new ActuatorInCommand(actuatorSubsystem));
-                new JoystickButton(driverStation, 10)
+                new JoystickButton(auxController, XboxController.Button.kBack.value)
                                 .whileTrue(new ActuatorOutCommand(actuatorSubsystem));
 
                 /*
@@ -383,7 +394,7 @@ public class RobotContainer {
          * @return the command to run in autonomous
          */
         public Command getAutonomousCommand() {
-                // return autoChooser.getSelected();
-                return null;
+                return autoChooser.getSelected();
+                //return null;
         }
 }

@@ -17,7 +17,7 @@ public class WristSubsystem extends SubsystemBase {
   boolean wristDirection = true;
   // true is going clockwise false is counterclockwise
   TalonFX wristMotor;
-  PIDController wristPID = new PIDController(0.03, 0, 0);
+  PIDController wristPID = new PIDController(0.03, 0.0005, 0);
 
   /** Creates a new WristSubsystem. */
   public WristSubsystem() {
@@ -51,10 +51,10 @@ public class WristSubsystem extends SubsystemBase {
   }
 
   public void verticalPID(){
-    wristPID.calculate(this.getEncoder(), 25);
+    this.set(wristPID.calculate(this.getEncoder(), 25));
   }
   public void horizontalPID(){
-    wristPID.calculate(this.getEncoder(), 0);
+    this.set(wristPID.calculate(this.getEncoder(), 0));
   }
 
   public void emergencyZero(){

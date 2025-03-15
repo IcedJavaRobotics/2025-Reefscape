@@ -27,10 +27,11 @@ public class AutoIntakeCommand extends Command {
   private PIDController elevatorPID = new PIDController(0, 0, 0);
 
   public AutoIntakeCommand(IntakeSubsystem intakeSubsystem, ShoulderSubsystem shoulderSubsystem,
-      ElevatorSubsystem elevatorSubsystem) {
+      ElevatorSubsystem elevatorSubsystem, WristSubsystem wristSubsystem) {
     this.intakeSubsystem = intakeSubsystem;
     this.shoulderSubsystem = shoulderSubsystem;
     this.elevatorSubsystem = elevatorSubsystem;
+    this.wristSubsystem = wristSubsystem;
 
     addRequirements(intakeSubsystem, shoulderSubsystem, elevatorSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
