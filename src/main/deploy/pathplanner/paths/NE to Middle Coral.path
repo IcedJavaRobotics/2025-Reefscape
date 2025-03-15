@@ -61,7 +61,7 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": "NE Reef",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": -118.92599999999999

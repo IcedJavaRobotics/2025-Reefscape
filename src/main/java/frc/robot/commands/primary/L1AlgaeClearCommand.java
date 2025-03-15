@@ -16,7 +16,7 @@ import frc.robot.subsystems.WristSubsystem;
  * in robotContainer swerve object)
  * 
  */
-public class AutoIntakeCommand extends Command {
+public class L1AlgaeClearCommand extends Command {
   /** Creates a new AutoIntake. */
   private IntakeSubsystem intakeSubsystem;
   private ShoulderSubsystem shoulderSubsystem;
@@ -26,7 +26,7 @@ public class AutoIntakeCommand extends Command {
   private PIDController shoulderPID = new PIDController(0, 0, 0);
   private PIDController elevatorPID = new PIDController(0, 0, 0);
 
-  public AutoIntakeCommand(IntakeSubsystem intakeSubsystem, ShoulderSubsystem shoulderSubsystem,
+  public L1AlgaeClearCommand(IntakeSubsystem intakeSubsystem, ShoulderSubsystem shoulderSubsystem,
       ElevatorSubsystem elevatorSubsystem, WristSubsystem wristSubsystem) {
     this.intakeSubsystem = intakeSubsystem;
     this.shoulderSubsystem = shoulderSubsystem;
@@ -45,26 +45,16 @@ public class AutoIntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // elevatorSubsystem.elevatorIN();
-    // shoulderSubsystem.set(shoulderPID.calculate(shoulderSubsystem.getShoulderEncoder(),
-    // 7));
-    // if (shoulderSubsystem.getShoulderEncoder() >= 0) {
-    // elevatorSubsystem.set(elevatorPID.calculate(elevatorSubsystem.getElevatorEncoder(),
-    // 50));
-    // }
-    // if ((shoulderSubsystem.getShoulderEncoder() >= 0) &&
-    // (elevatorSubsystem.getElevatorEncoder() >= 48)) {
-    // intakeSubsystem.intakeGamePiece();
-    // }
 
-    shoulderSubsystem.moveShoulderCoralStation();
-    elevatorSubsystem.moveElevatorCoralStation();
+    shoulderSubsystem.moveShoulderLowerAlgae();
+    elevatorSubsystem.moveElevatorLowerAlgae();
     if(elevatorSubsystem.getElevatorEncoder() <= 100){
       wristSubsystem.verticalPID();
     }
     if (shoulderSubsystem.getShoulderEncoder() >= -1) {
-      intakeSubsystem.intakeGamePiece();
+      
     }
+    intakeSubsystem.intakeMotorFWD();
   }
 
   // Called once the command ends or is interrupted.

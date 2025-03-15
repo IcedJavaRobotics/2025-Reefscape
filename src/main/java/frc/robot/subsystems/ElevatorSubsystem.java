@@ -115,7 +115,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void moveElevatorLowerAlgae() {
             myVAR = elevatorPosition.LOWER_ALGAE;
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 10));
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), LOWER_ALGAE_SETPOINT));
     }
 
     public void elevatorOUT() {

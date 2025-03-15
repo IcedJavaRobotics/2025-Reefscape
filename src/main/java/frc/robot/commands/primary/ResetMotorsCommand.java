@@ -46,18 +46,8 @@ public class ResetMotorsCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // elevatorSubsystem.elevatorIN();
-    // shoulderSubsystem.set(shoulderPID.calculate(shoulderSubsystem.getShoulderEncoder(),
-    // 7));
-    // if (shoulderSubsystem.getShoulderEncoder() >= 0) {
-    // elevatorSubsystem.set(elevatorPID.calculate(elevatorSubsystem.getElevatorEncoder(),
-    // 50));
-    // }
-    // if ((shoulderSubsystem.getShoulderEncoder() >= 0) &&
-    // (elevatorSubsystem.getElevatorEncoder() >= 48)) {
-    // intakeSubsystem.intakeGamePiece();
-    // }
 
+    //reset motors in order: moves elevator in, rotates wrist horizontal, moves shoulder to relative zero, moves shoulder to absolute zero.
     elevatorSubsystem.elevatorIN();
     if(elevatorSubsystem.getElevatorEncoder() <= 50){
       wristSubsystem.horizontalPID();

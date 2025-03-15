@@ -79,7 +79,7 @@ public final class Constants {
     public static final double L1_SETPOINT = 0;
     public static final double L2_SETPOINT = 43.71;
     public static final double L3_SETPOINT = 102.275;
-    public static final double L4_SETPOINT = 220;
+    public static final double L4_SETPOINT = 230;
     public static final double CORAL_STATION_SETPOINT = 30.272;
     public static final double GROUND_SETPOINT = 20.115; // TODO
     public static final double UPPER_ALGAE_SETPOINT = 90.941; // TODO

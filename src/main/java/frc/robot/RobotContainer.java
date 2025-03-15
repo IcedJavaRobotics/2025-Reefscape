@@ -121,7 +121,7 @@ public class RobotContainer {
 
                 autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be
                 // `Commands.none()`
-                // SmartDashboard.putData("AutoMode", autoChooser);
+                SmartDashboard.putData("AutoSelec", autoChooser);
 
         }
 
@@ -250,13 +250,13 @@ public class RobotContainer {
                                 .whileTrue(new CursorLeftCommand(selectorSubsystem));
 
                 // Movement presets
-                new JoystickButton(auxController, XboxController.Button.kA.value)
-                                .whileTrue(new MoveRightL4Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
-                new JoystickButton(auxController, XboxController.Button.kB.value)
-                                .whileTrue(new MoveRightL1Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
                 new JoystickButton(auxController, XboxController.Button.kY.value)
-                                .whileTrue(new MoveRightL2Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+                                .whileTrue(new MoveRightL4Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
                 new JoystickButton(auxController, XboxController.Button.kX.value)
+                                .whileTrue(new MoveRightL1Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+                new JoystickButton(auxController, XboxController.Button.kA.value)
+                                .whileTrue(new MoveRightL2Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+                new JoystickButton(auxController, XboxController.Button.kB.value)
                                 .whileTrue(new MoveRightL3Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
                 
                 // new JoystickButton(auxController, XboxController.Button.)

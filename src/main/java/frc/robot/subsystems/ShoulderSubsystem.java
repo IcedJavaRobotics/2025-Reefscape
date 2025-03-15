@@ -19,7 +19,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     START, L1, L2, L2_SCORE, L3, L3_SCORE, L4, CORAL_STATION, GROUND, UPPER_ALGAE, LOWER_ALGAE
   }
 
-  shoulderPosition myVAR = shoulderPosition.START;
+  public shoulderPosition myVAR = shoulderPosition.START;
 
   DutyCycleEncoder absoluteEncoder;
 
