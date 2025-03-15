@@ -21,6 +21,7 @@ import frc.robot.commands.intake.IntakeOutSlowCommand;
 import frc.robot.commands.misc.ArmDemonstrationCommand;
 import frc.robot.commands.misc.ZeroGyroCommand;
 import frc.robot.commands.moveToCommands.MoveGroundCommand;
+import frc.robot.commands.moveToCommands.MoveLowerAlgaeCommand;
 import frc.robot.commands.moveToCommands.MoveRightL1Command;
 import frc.robot.commands.moveToCommands.MoveRightL2Command;
 import frc.robot.commands.moveToCommands.MoveRightL3Command;
@@ -117,14 +118,12 @@ public class RobotContainer {
                 // shoulderSubsystem.setDefaultCommand(
                 // new RunCommand(() -> shoulderSubsystem.reset(() -> elevatorInEnough()),
                 // shoulderSubsystem));
-                    
 
                 autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be
                 // `Commands.none()`
                 SmartDashboard.putData("AutoSelec", autoChooser);
 
         }
-
 
         PIDController headingController = new PIDController(0.02, 0, 0);
 
@@ -238,7 +237,8 @@ public class RobotContainer {
 
                 // Grid navigation
                 new Trigger(() -> getRightAuxTriggerValue()) // FOR SELECTOR SUBSYSTEM
-                                .whileTrue(new ResetMotorsCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+                                .whileTrue(new ResetMotorsCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem,
+                                                wristSubsystem));
 
                 // new POVButton(auxController, 180) /* D-Pad pressed DOWN */
                 //                 .whileTrue(new CursorDownCommand(selectorSubsystem));
@@ -257,16 +257,24 @@ public class RobotContainer {
                 // new POVButton(auxController, 270) /* D-Pad pressed Left */
                 //                 .whileTrue(new CursorLeftCommand(selectorSubsystem));
 
+
                 // Movement presets
                 new JoystickButton(auxController, XboxController.Button.kY.value)
-                                .whileTrue(new MoveRightL4Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+                                .whileTrue(new MoveRightL4Command(shoulderSubsystem, elevatorSubsystem,
+                                                wristSubsystem));
                 new JoystickButton(auxController, XboxController.Button.kX.value)
-                                .whileTrue(new MoveRightL1Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+                                .whileTrue(new MoveRightL1Command(shoulderSubsystem, elevatorSubsystem,
+                                                wristSubsystem));
                 new JoystickButton(auxController, XboxController.Button.kA.value)
-                                .whileTrue(new MoveRightL2Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+                                .whileTrue(new MoveRightL2Command(shoulderSubsystem, elevatorSubsystem,
+                                                wristSubsystem));
                 new JoystickButton(auxController, XboxController.Button.kB.value)
-                                .whileTrue(new MoveRightL3Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
-                
+                                .whileTrue(new MoveRightL3Command(shoulderSubsystem, elevatorSubsystem,
+                                                wristSubsystem));
+                new POVButton(auxController, 180) /* D-Pad pressed DOWN */
+                                .whileTrue(new MoveLowerAlgaeCommand(shoulderSubsystem, elevatorSubsystem,
+                                                wristSubsystem, intakeSubsystem));
+
                 // new JoystickButton(auxController, XboxController.Button.)
 
                 // Wrist PIDs
@@ -407,6 +415,6 @@ public class RobotContainer {
          */
         public Command getAutonomousCommand() {
                 return autoChooser.getSelected();
-                //return null;
+                // return null;
         }
 }
