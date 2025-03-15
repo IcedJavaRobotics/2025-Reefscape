@@ -6,6 +6,7 @@ package frc.robot.commands.moveToCommands;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
 import frc.robot.subsystems.WristSubsystem;
 
@@ -15,18 +16,20 @@ public class MoveLowerAlgaeCommand extends Command {
     ShoulderSubsystem shoulderSubsystem;
     ElevatorSubsystem elevatorSubsystem;
     WristSubsystem wristSubsystem;
+    IntakeSubsystem intakeSubsystem;
     PIDController wristPID = new PIDController(0.03, 0, 0);
 
     /**
      * Creates a new MoveUpperAlgaeCommand.
      */
     public MoveLowerAlgaeCommand(ShoulderSubsystem shoulderSubsystem, ElevatorSubsystem elevatorSubsystem,
-            WristSubsystem wristSubsystem) {
+            WristSubsystem wristSubsystem, IntakeSubsystem intakeSubsystem) {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(shoulderSubsystem, elevatorSubsystem, wristSubsystem);
         this.shoulderSubsystem = shoulderSubsystem;
         this.elevatorSubsystem = elevatorSubsystem;
         this.wristSubsystem = wristSubsystem;
+        this.intakeSubsystem = intakeSubsystem;
     }
 
     public void initialize() {
@@ -37,11 +40,15 @@ public class MoveLowerAlgaeCommand extends Command {
     public void execute() {
         wristSubsystem.set(wristPID.calculate(wristSubsystem.getEncoder(), 0));
         shoulderSubsystem.moveShoulderLowerAlgae();
-        // if (elevatorSubsystem.extensionChecker()) {
-        // elevatorSubsystem.elevatorIN();
-        // } else {
         elevatorSubsystem.moveElevatorLowerAlgae();
-        // }
+
+        if (elevatorSubsystem.getElevatorEncoder() <= 100) {
+            wristSubsystem.verticalPID();
+        }
+        if (shoulderSubsystem.getShoulderEncoder() >= -1) {
+
+        }
+        intakeSubsystem.intakeMotorFWD();
     }
 
     // Called once the command ends or is interrupted.
@@ -49,6 +56,7 @@ public class MoveLowerAlgaeCommand extends Command {
     public void end(boolean interrupted) {
         wristSubsystem.wristMotorOFF();
         elevatorSubsystem.elevatorOFF();
+        intakeSubsystem.intakeMotorOFF();
         shoulderSubsystem.shoulderMotorOFF();
     }
 

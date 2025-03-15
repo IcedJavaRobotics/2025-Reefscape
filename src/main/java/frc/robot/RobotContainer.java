@@ -264,7 +264,7 @@ public class RobotContainer {
                                                 wristSubsystem));
                 new POVButton(auxController, 180) /* D-Pad pressed DOWN */
                                 .whileTrue(new MoveLowerAlgaeCommand(shoulderSubsystem, elevatorSubsystem,
-                                                wristSubsystem));
+                                                wristSubsystem, intakeSubsystem));
 
                 // new JoystickButton(auxController, XboxController.Button.)
 
