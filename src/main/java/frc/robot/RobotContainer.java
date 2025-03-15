@@ -24,6 +24,7 @@ import frc.robot.commands.moveToCommands.MoveGroundCommand;
 import frc.robot.commands.moveToCommands.MoveRightL1Command;
 import frc.robot.commands.moveToCommands.MoveRightL2Command;
 import frc.robot.commands.moveToCommands.MoveRightL3Command;
+import frc.robot.commands.moveToCommands.MoveRightL4Command;
 import frc.robot.commands.primary.AutoIntakeCommand;
 import frc.robot.commands.primary.AutoPlaceCommand;
 import frc.robot.commands.shoulder.ShoulderCommand;
@@ -249,7 +250,7 @@ public class RobotContainer {
 
                 // Movement presets
                 new JoystickButton(auxController, XboxController.Button.kA.value)
-                                .whileTrue(new MoveGroundCommand(shoulderSubsystem, elevatorSubsystem));
+                                .whileTrue(new MoveRightL4Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
                 new JoystickButton(auxController, XboxController.Button.kB.value)
                                 .whileTrue(new MoveRightL1Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
                 new JoystickButton(auxController, XboxController.Button.kY.value)

@@ -27,6 +27,8 @@ public class AutoPlaceCommand extends Command {
 
   private double initialShoulder;
   private double desiredShoulder;
+  private double shoulderSpeed;
+  private boolean outtake = true;
 
   public AutoPlaceCommand(IntakeSubsystem intakeSubsystem, ShoulderSubsystem shoulderSubsystem,
       ElevatorSubsystem elevatorSubsystem) {
@@ -44,8 +46,16 @@ public class AutoPlaceCommand extends Command {
     initialShoulder = shoulderSubsystem.getShoulderEncoder();
     if((initialShoulder <= ShoulderConstants.L2_SETPOINT + 2) && (initialShoulder >= ShoulderConstants.L2_SETPOINT - 2)) {
       desiredShoulder = initialShoulder - 30;
+      shoulderSpeed = -0.3;
+      outtake = true;
+    } else if(elevatorSubsystem.getElevatorEncoder() >= 200){
+      desiredShoulder = initialShoulder - 14;
+      shoulderSpeed = -0.1;
+      outtake = false;
     } else{
       desiredShoulder = initialShoulder - 20;
+      shoulderSpeed = -0.4;
+      outtake = true;
     }
   }
 
@@ -53,10 +63,12 @@ public class AutoPlaceCommand extends Command {
   @Override
   public void execute() {
     if(shoulderSubsystem.getShoulderEncoder() > desiredShoulder){
-        shoulderSubsystem.set(-0.3);
+        shoulderSubsystem.set(shoulderSpeed);
     } else{
         shoulderSubsystem.set(0);
-        intakeSubsystem.ejectGamePiece();
+        if(outtake){
+          intakeSubsystem.ejectGamePiece();
+        }
         elevatorSubsystem.reset();
     }
   }

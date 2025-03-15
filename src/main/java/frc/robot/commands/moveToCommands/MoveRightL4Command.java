@@ -41,7 +41,9 @@ public class MoveRightL4Command extends Command {
         // if (elevatorSubsystem.extensionChecker()) {
         // elevatorSubsystem.elevatorIN();
         // } else {
-        elevatorSubsystem.moveElevatorL4();
+        if(shoulderSubsystem.getShoulderEncoder() >= 32){
+            elevatorSubsystem.moveElevatorL4();
+        }
         // }
     }
 
