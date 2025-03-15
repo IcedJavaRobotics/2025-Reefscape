@@ -10,12 +10,13 @@ import frc.robot.subsystems.IntakeSubsystem;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class IntakeCommand extends Command {
   IntakeSubsystem intakeSubsystem;
-
+  boolean forceful;
   /** Creates a new IntakeCommand. */
-  public IntakeCommand(IntakeSubsystem intakeSubsystem) {
+  public IntakeCommand(IntakeSubsystem intakeSubsystem, boolean forceful) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);
     this.intakeSubsystem = intakeSubsystem;
+    this.forceful = forceful;
   }
 
   // Called when the command is initially scheduled.
@@ -28,8 +29,11 @@ public class IntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.intakeGamePiece();
-
+    if(forceful){
+      intakeSubsystem.set(0.2);
+    } else{
+      intakeSubsystem.intakeGamePiece();
+    }
   }
 
   // Called once the command ends or is interrupted.

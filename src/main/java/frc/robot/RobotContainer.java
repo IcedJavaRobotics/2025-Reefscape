@@ -227,11 +227,11 @@ public class RobotContainer {
 
                 // Intake Control
                 new JoystickButton(driverController, XboxController.Button.kY.value)
-                                .whileTrue(new IntakeOutCommand(intakeSubsystem));
+                                .whileTrue(new IntakeOutCommand(intakeSubsystem, false));
                 new POVButton(driverController, 0)
                                 .whileTrue(new IntakeOutSlowCommand(intakeSubsystem));
                 new POVButton(driverController, 180)
-                                .whileTrue(new IntakeCommand(intakeSubsystem));
+                                .whileTrue(new IntakeCommand(intakeSubsystem, false));
 
                 // ---------AUX CONTROLS
                 // --------------------------------------------------------------
@@ -240,14 +240,22 @@ public class RobotContainer {
                 new Trigger(() -> getRightAuxTriggerValue()) // FOR SELECTOR SUBSYSTEM
                                 .whileTrue(new ResetMotorsCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem, wristSubsystem));
 
-                new POVButton(auxController, 180) /* D-Pad pressed DOWN */
-                                .whileTrue(new CursorDownCommand(selectorSubsystem));
-                new POVButton(auxController, 0) /* D-Pad pressed UP */
-                                .whileTrue(new CursorUpCommand(selectorSubsystem));
-                new POVButton(auxController, 90) /* D-Pad pressed Right */
-                                .whileTrue(new CursorRightCommand(selectorSubsystem));
-                new POVButton(auxController, 270) /* D-Pad pressed Left */
-                                .whileTrue(new CursorLeftCommand(selectorSubsystem));
+                // new POVButton(auxController, 180) /* D-Pad pressed DOWN */
+                //                 .whileTrue(new CursorDownCommand(selectorSubsystem));
+                // new POVButton(auxController, 0) /* D-Pad pressed UP */
+                //                 .whileTrue(new CursorUpCommand(selectorSubsystem));
+                // new POVButton(auxController, 90) /* D-Pad pressed Right */
+                //                 .whileTrue(new CursorRightCommand(selectorSubsystem));
+                // new POVButton(auxController, 270) /* D-Pad pressed Left */
+                //                 .whileTrue(new CursorLeftCommand(selectorSubsystem));
+                new POVButton(auxController, 90) /* D-Pad pressed DOWN */
+                                .whileTrue(new IntakeCommand(intakeSubsystem, true));
+                new POVButton(auxController, 270) /* D-Pad pressed UP */
+                                .whileTrue(new IntakeOutCommand(intakeSubsystem, true));
+                // new POVButton(auxController, 90) /* D-Pad pressed Right */
+                //                 .whileTrue(new CursorRightCommand(selectorSubsystem));
+                // new POVButton(auxController, 270) /* D-Pad pressed Left */
+                //                 .whileTrue(new CursorLeftCommand(selectorSubsystem));
 
                 // Movement presets
                 new JoystickButton(auxController, XboxController.Button.kY.value)

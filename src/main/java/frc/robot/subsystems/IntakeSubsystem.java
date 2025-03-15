@@ -84,6 +84,10 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotorBKWD(INTAKE_OUT_MOTOR_SLOW_SPEED);
   }
 
+  public void set(double speed){
+    intakeMotor.set(speed);
+  }
+  
   @Override
   public void periodic() {
     SmartDashboard.putNumber("range", CANrange.getDistance().getValueAsDouble());
