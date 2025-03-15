@@ -74,6 +74,9 @@ public class ShoulderSubsystem extends SubsystemBase {
   public double getShoulderEncoder() {
     return shoulderMotor.getPosition().getValueAsDouble();
   }
+  public double getAbsoluteEncoder(){
+    return absoluteEncoder.get();
+  }
 
   public void zeroShoulderEncoder() {
     shoulderMotor.setPosition(0);

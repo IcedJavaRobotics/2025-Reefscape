@@ -27,6 +27,7 @@ import frc.robot.commands.moveToCommands.MoveRightL3Command;
 import frc.robot.commands.moveToCommands.MoveRightL4Command;
 import frc.robot.commands.primary.AutoIntakeCommand;
 import frc.robot.commands.primary.AutoPlaceCommand;
+import frc.robot.commands.primary.ResetMotorsCommand;
 import frc.robot.commands.shoulder.ShoulderCommand;
 import frc.robot.commands.wrist.WristCommand;
 import frc.robot.commands.wrist.WristHorizontalCommand;
@@ -237,7 +238,7 @@ public class RobotContainer {
 
                 // Grid navigation
                 new Trigger(() -> getRightAuxTriggerValue()) // FOR SELECTOR SUBSYSTEM
-                                .whileTrue(new ToggleAuxLockCommand(selectorSubsystem));
+                                .whileTrue(new ResetMotorsCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem, wristSubsystem));
 
                 new POVButton(auxController, 180) /* D-Pad pressed DOWN */
                                 .whileTrue(new CursorDownCommand(selectorSubsystem));
@@ -257,6 +258,8 @@ public class RobotContainer {
                                 .whileTrue(new MoveRightL2Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
                 new JoystickButton(auxController, XboxController.Button.kX.value)
                                 .whileTrue(new MoveRightL3Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+                
+                // new JoystickButton(auxController, XboxController.Button.)
 
                 // Wrist PIDs
                 new JoystickButton(auxController, XboxController.Button.kLeftBumper.value)
