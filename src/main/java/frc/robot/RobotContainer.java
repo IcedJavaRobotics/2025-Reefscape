@@ -156,7 +156,7 @@ public class RobotContainer {
                         () -> driverController.getLeftX() * 1)
                         .withControllerRotationAxis(() -> getRightX())
                         .deadband(getDeadzone())
-                        .scaleTranslation(0.9)// Can be changed to alter speed
+                        .scaleTranslation(1)// Can be changed to alter speed
                         .allianceRelativeControl(true);
 
         SwerveInputStream driveDirectAngle = driveAngularVelocity.copy()

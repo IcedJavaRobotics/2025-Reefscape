@@ -182,11 +182,11 @@ public class SelectorSubsystem extends SubsystemBase {
                 break;
             case 5:
                 displaySetter();
-                if (auxLock && driverLock) {
-                    CommandScheduler.getInstance()
-                            .schedule(new MoveLowerAlgaeCommand(this.shoulderSubsystem, this.elevatorSubsystem,
-                                    this.wristSubsystem));
-                }
+                // if (auxLock && driverLock) {
+                //     CommandScheduler.getInstance()
+                //             .schedule(new MoveLowerAlgaeCommand(this.shoulderSubsystem, this.elevatorSubsystem,
+                //                     this.wristSubsystem, ));
+                // }
                 break;
             case 6:
                 displaySetter();

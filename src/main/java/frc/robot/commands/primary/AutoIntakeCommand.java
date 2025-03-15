@@ -62,7 +62,7 @@ public class AutoIntakeCommand extends Command {
     if(elevatorSubsystem.getElevatorEncoder() <= 100){
       wristSubsystem.verticalPID();
     }
-    if (shoulderSubsystem.getShoulderEncoder() >= -1) {
+    if (shoulderSubsystem.getShoulderEncoder() >= -4) {
       intakeSubsystem.intakeGamePiece();
     }
   }

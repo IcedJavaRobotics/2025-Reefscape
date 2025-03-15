@@ -26,7 +26,7 @@ public final class Constants {
     public static final int DRIVER_STATION_PORT = 2;
     // public static final String DEADBAND = "0.5";
     public static final double DEADBAND = 0.02;
-    public static final double MAX_SPEED = Units.feetToMeters(4.5);
+    public static final double MAX_SPEED = Units.feetToMeters(8); //4.5
     public static final int[] driverstationButtons = { 14, 20, 30, 40 }; // 0 = top left, and then read it like a book
   }
 
@@ -49,7 +49,7 @@ public final class Constants {
     public static final double L1_SETPOINT = -78.788;
     public static final double L2_SETPOINT = -37.433;
     public static final double L3_SETPOINT = 6.926;
-    public static final double CORAL_STATION_SETPOINT = -2.4;
+    public static final double CORAL_STATION_SETPOINT = -1;
     public static final double GROUND_SETPOINT = -70; // TODO
     public static final double UPPER_ALGAE_SETPOINT = 3.927; // TODO
     public static final double LOWER_ALGAE_SETPOINT = -67.7; // TODO

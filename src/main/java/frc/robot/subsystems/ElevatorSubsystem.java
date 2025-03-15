@@ -175,7 +175,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putNumber("elev-encoder-val", elevatorMotor.getPosition().getValueAsDouble());
         SmartDashboard.putString("elevatorPosition", myVAR.toString());
-        SmartDashboard.putBoolean("Limit Switch Elebator", elevatorLimitSwitch.get());
+        SmartDashboard.putBoolean("Limit Switch Elebator", !elevatorLimitSwitch.get());
         SmartDashboard.putNumber("inner-encoder", ((shoulderSubsystem.getShoulderEncoder() + 141) * 360) / 1000);
         // This method will be called once per scheduler run
     }

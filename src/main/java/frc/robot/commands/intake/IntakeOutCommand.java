@@ -28,7 +28,7 @@ public class IntakeOutCommand extends Command {
   @Override
   public void execute() {
     if(forceful){
-      intakeSubsystem.intakeMotorBKWD(0.2);
+      intakeSubsystem.intakeMotorBKWD(0.7);
     } else{
       intakeSubsystem.ejectGamePiece();
     }

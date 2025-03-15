@@ -48,7 +48,7 @@ public class MoveLowerAlgaeCommand extends Command {
         if (shoulderSubsystem.getShoulderEncoder() >= -1) {
 
         }
-        intakeSubsystem.intakeMotorFWD();
+        intakeSubsystem.intakeMotorBKWD(1);
     }
 
     // Called once the command ends or is interrupted.
