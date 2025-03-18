@@ -101,6 +101,8 @@ public class RobotContainer {
         XboxController auxController = new XboxController(DriverConstants.AUX_DRIVER_PORT);
         private final Joystick driverStation = new Joystick(DriverConstants.DRIVER_STATION_PORT);
 
+        PIDController headingController = new PIDController(0.02, 0, 0);
+
         private final SwerveSubsystem drivebase = new SwerveSubsystem();
 
         /**
@@ -108,6 +110,7 @@ public class RobotContainer {
          */
         public RobotContainer() {
                 // Configure the trigger bindings
+                headingController.enableContinuousInput(-180, 180);
                 configureBindings();
                 candleSubsystem.setCandleJavaBlue();
                 drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
@@ -125,7 +128,8 @@ public class RobotContainer {
 
         }
 
-        PIDController headingController = new PIDController(0.02, 0, 0);
+
+
 
         private boolean elevatorInEnough() {
                 if (elevatorSubsystem.getElevatorEncoder() <= 50) {
@@ -135,11 +139,11 @@ public class RobotContainer {
         }
 
         private double getDeadzone() {
-                if (auxController.getRightX() >= 0.5 || auxController.getRightX() <= -0.5) {
-                        return 0;
-                } else if (getLeftDriverTriggerValue()) {
-                        return 0;
-                }
+                // if (auxController.getRightX() >= 0.5 || auxController.getRightX() <= -0.5) {
+                //         return 0;
+                // } else if (getLeftDriverTriggerValue()) {
+                //         return 0;
+                // }
                 return DriverConstants.DEADBAND;
         }
 

@@ -21,7 +21,7 @@ public class LimelightSubsystem extends SubsystemBase {
     // Creates a new LimelightSubsystem.
     public LimelightSubsystem() {
 
-        HttpCamera httpCamera = new HttpCamera("Limelight-4", "http://10.68.94.11/:48398/");
+        HttpCamera httpCamera = new HttpCamera("Limelight-4", "http://10.68.94.11:5801/");
         CameraServer.getVideo(httpCamera);
         Shuffleboard.getTab("LiveWindow").add(httpCamera);
 

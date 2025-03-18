@@ -137,6 +137,7 @@ public ChassisSpeeds getRobotRelativeSpeeds(){
     for (SwerveModule swerveModule : swerveDrive.getModules()) {
       SmartDashboard.putNumber(swerveModule.toString(), swerveModule.getAbsolutePosition());
     }
+    SmartDashboard.putNumber("Gyro", this.getPose().getRotation().getDegrees());
   }
 
   @Override
