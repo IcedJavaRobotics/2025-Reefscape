@@ -36,7 +36,9 @@ public class MoveRightL3Command extends Command {
     @Override
     public void execute() {
         wristSubsystem.set(wristPID.calculate(wristSubsystem.getEncoder(), 0));
-        shoulderSubsystem.moveShoulderL3();
+        if(elevatorSubsystem.getElevatorEncoder() <= 120){
+            shoulderSubsystem.moveShoulderL3();
+        }
         elevatorSubsystem.moveElevatorL3();
         // if (elevatorSubsystem.extensionChecker()) {
         // elevatorSubsystem.elevatorIN();

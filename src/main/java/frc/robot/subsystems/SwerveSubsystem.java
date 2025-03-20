@@ -72,7 +72,7 @@ public class SwerveSubsystem extends SubsystemBase {
                                       this::getPose, // Robot pose supplier
                                       this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
                                       this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-                                      (speeds, feedforwards) -> driveFieldOriented(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+                                      (speeds, feedforwards) -> driveRobotOriented(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
                                       new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
                                               new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
                                               new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
@@ -156,6 +156,16 @@ public ChassisSpeeds getRobotRelativeSpeeds(){
   public Command driveFieldOriented(Supplier<ChassisSpeeds> velocity) {
     return run(() -> {
       swerveDrive.driveFieldOriented(velocity.get());
+    });
+  }
+
+  public void driveRobotOriented(ChassisSpeeds velocity){
+    swerveDrive.drive(velocity);
+  }
+
+  public Command driveRobotOriented(Supplier<ChassisSpeeds> velocity){
+    return run(() -> {
+      swerveDrive.drive(velocity.get());
     });
   }
 
