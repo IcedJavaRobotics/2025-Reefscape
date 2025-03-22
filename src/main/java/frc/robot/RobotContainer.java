@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.DriverConstants;
 import frc.robot.commands.actuator.ActuatorInCommand;
 import frc.robot.commands.actuator.ActuatorOutCommand;
+import frc.robot.commands.candle.CandleCommand;
 import frc.robot.commands.candle.CandleRed;
 import frc.robot.commands.cursor.CursorDownCommand;
 import frc.robot.commands.cursor.CursorLeftCommand;
@@ -59,6 +60,7 @@ import swervelib.SwerveInputStream;
 import java.util.function.Supplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -111,6 +113,7 @@ public class RobotContainer {
         public RobotContainer() {
                 // Configure the trigger bindings
                 headingController.enableContinuousInput(-180, 180);
+                configureNamedCommands();
                 configureBindings();
                 candleSubsystem.setCandleJavaBlue();
                 drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
@@ -154,10 +157,16 @@ public class RobotContainer {
         private double getLeftY() {
                 return -driverController.getLeftY();
         }
+        private double getMultiplier(){
+                if(driverController.getLeftStickButton()){
+                        return 1;
+                }
+                return 0.5;
+        }
 
         SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                        () -> driverController.getLeftY() * 1,
-                        () -> driverController.getLeftX() * 1)
+                        () -> driverController.getLeftY() * getMultiplier(),
+                        () -> driverController.getLeftX() * getMultiplier())
                         .withControllerRotationAxis(() -> getRightX())
                         .deadband(getDeadzone())
                         .scaleTranslation(1)// Can be changed to alter speed
@@ -236,6 +245,7 @@ public class RobotContainer {
                 new POVButton(driverController, 180)
                                 .whileTrue(new IntakeCommand(intakeSubsystem, false));
 
+
                 // ---------AUX CONTROLS
                 // --------------------------------------------------------------
 
@@ -293,6 +303,9 @@ public class RobotContainer {
                 new JoystickButton(auxController, XboxController.Button.kBack.value)
                                 .whileTrue(new ActuatorOutCommand(actuatorSubsystem));
 
+
+
+
                 /*
                  * OTHER CONTROLS::
                  * DRIVER:
@@ -305,6 +318,15 @@ public class RobotContainer {
 
         }
 
+        private void configureNamedCommands(){
+                NamedCommands.registerCommand("armL1", new MoveRightL1Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+                NamedCommands.registerCommand("armL2", new MoveRightL2Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+                NamedCommands.registerCommand("armL3", new MoveRightL3Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+
+                NamedCommands.registerCommand("place", new AutoPlaceCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
+                NamedCommands.registerCommand("autoIntake", new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+                
+        }
         private boolean auxRightstickLeft() {
                 if (auxController != null) {
                         if (auxController.getRightX() <= -0.5) {

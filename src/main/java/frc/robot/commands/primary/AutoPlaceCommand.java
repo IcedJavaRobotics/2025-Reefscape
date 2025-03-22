@@ -89,6 +89,9 @@ public class AutoPlaceCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if(elevatorSubsystem.getElevatorEncoder() <= 10 && shoulderSubsystem.getShoulderEncoder() <= desiredShoulder){
+      return true;
+    }
     return false;
   }
 }

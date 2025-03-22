@@ -5,6 +5,7 @@ package frc.robot.commands.moveToCommands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
 import frc.robot.subsystems.WristSubsystem;
@@ -58,6 +59,12 @@ public class MoveRightL3Command extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+        if(wristSubsystem.getEncoder() <= 3 && 
+        (shoulderSubsystem.getShoulderEncoder() >= (Constants.ShoulderConstants.L3_SETPOINT-3) && (shoulderSubsystem.getShoulderEncoder() <= (Constants.ShoulderConstants.L3_SETPOINT+3)))
+         && elevatorSubsystem.getElevatorEncoder() >= (Constants.ElevatorConstants.L3_SETPOINT -4) && elevatorSubsystem.getElevatorEncoder() <= (Constants.ElevatorConstants.L3_SETPOINT + 4)
+         ){
+            return true;
+        }
         return false;
     }
 }

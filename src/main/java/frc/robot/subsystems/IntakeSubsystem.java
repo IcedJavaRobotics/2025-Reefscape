@@ -9,6 +9,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.IntakeConstants.*;
 
@@ -35,6 +36,12 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.set(-speed);
   }
 
+  // /** Grabs the hatch. */
+  // public Command intakePiece() {
+  //   // implicitly require `this`
+  //   return this.runOnce(() -> intakeMotorFWD());
+  // }
+
   public void intakeMotorOFF() {
     intakeMotor.set(0);
   }
@@ -42,6 +49,13 @@ public class IntakeSubsystem extends SubsystemBase {
   public double getTime() {
     recordedTime = Timer.getTimestamp();
     return recordedTime;
+  }
+
+  public boolean havePiece(){
+    if(CANrange.getDistance().getValueAsDouble() > (DISTANCE_FROM_PIECE / 39.3701) * 2){
+      return false;
+    }
+    return true;
   }
 
   public void intakeGamePiece() {
