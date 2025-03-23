@@ -81,13 +81,14 @@ public class IntakeSubsystem extends SubsystemBase {
     // }
     // }
 
-    SmartDashboard.putBoolean("intakeWorking",
-        (CANrange.getDistance().getValueAsDouble() > DISTANCE_FROM_PIECE / 39.3701));
-    if (CANrange.getDistance().getValueAsDouble() > (DISTANCE_FROM_PIECE / 39.3701) * 2) {
-      intakeMotorFWD();
-    } else {
-      intakeMotorOFF();
-    }
+    // SmartDashboard.putBoolean("intakeWorking",
+    //     (CANrange.getDistance().getValueAsDouble() > DISTANCE_FROM_PIECE / 39.3701));
+    // if (CANrange.getDistance().getValueAsDouble() > (DISTANCE_FROM_PIECE / 39.3701) * 2) {
+          
+    // } else {
+    //   intakeMotorOFF();
+    // }
+    intakeMotorFWD();
   }
 
   public void ejectGamePiece() {

@@ -46,10 +46,14 @@ public final class Constants {
 
     public static final double SHOULDER_MOTOR_SPEED = 0.2;
 
-    public static final double L1_SETPOINT = -78.788;
-    public static final double L2_SETPOINT = -37.433;
-    public static final double L3_SETPOINT = 6.926;
-    public static final double CORAL_STATION_SETPOINT = -4.07;
+    public static final double TOTAL_OFFSET = 4;
+
+    public static final double L1_SETPOINT = -64.788 + TOTAL_OFFSET;
+    public static final double L2_SETPOINT = -23.433 + TOTAL_OFFSET;
+    public static final double L3_SETPOINT = 20.926 + TOTAL_OFFSET;
+    public static final double L4_SETPOINT = 48 + TOTAL_OFFSET;
+
+    public static final double CORAL_STATION_SETPOINT = -4.07; //4
     public static final double GROUND_SETPOINT = -70; // TODO
     public static final double UPPER_ALGAE_SETPOINT = 3.927; // TODO
     public static final double LOWER_ALGAE_SETPOINT = -67.7; // TODO
@@ -75,15 +79,17 @@ public final class Constants {
     public static final double ELEVATOR_MOTOR_SPEED = 0.2;
     public static final double ELEVATOR_LIMIT = 230;
 
+    public static final double TOTAL_OFFSET = 0;
+
     public static final double SAFE_RESET_SETPOINT = 5;
-    public static final double L1_SETPOINT = 0;
-    public static final double L2_SETPOINT = 43.71;
-    public static final double L3_SETPOINT = 102.275;
-    public static final double L4_SETPOINT = 230;
-    public static final double CORAL_STATION_SETPOINT = 31;
+    public static final double L1_SETPOINT = 0 + TOTAL_OFFSET;
+    public static final double L2_SETPOINT = 48.71 + TOTAL_OFFSET;
+    public static final double L3_SETPOINT = 108.275 + TOTAL_OFFSET;
+    public static final double L4_SETPOINT = 230 + TOTAL_OFFSET;
+    public static final double CORAL_STATION_SETPOINT = 26 + TOTAL_OFFSET; //32
     public static final double GROUND_SETPOINT = 20.115; // TODO
-    public static final double UPPER_ALGAE_SETPOINT = 90.941; // TODO
-    public static final double LOWER_ALGAE_SETPOINT = 22; // TODO
+    public static final double UPPER_ALGAE_SETPOINT = 90.941 + TOTAL_OFFSET; // TODO
+    public static final double LOWER_ALGAE_SETPOINT = 22 + TOTAL_OFFSET; // TODO
   }
 
   public static final class LimelightConstants {

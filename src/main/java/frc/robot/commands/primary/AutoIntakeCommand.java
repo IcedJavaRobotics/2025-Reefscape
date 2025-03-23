@@ -79,9 +79,9 @@ public class AutoIntakeCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(intakeSubsystem.havePiece()){
-      return true;
-    }
+    // if(intakeSubsystem.havePiece()){
+    //   return true;
+    // }
     return false;
   }
 }

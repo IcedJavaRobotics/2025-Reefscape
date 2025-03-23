@@ -169,7 +169,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     myVAR = shoulderPosition.L4;
     // return;
     // }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 34.64));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), L4_SETPOINT));
   }
 
   public void moveShoulderCoralStation() {

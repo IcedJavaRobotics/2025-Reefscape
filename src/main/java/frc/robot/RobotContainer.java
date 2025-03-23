@@ -239,11 +239,11 @@ public class RobotContainer {
 
                 // Intake Control
                 new JoystickButton(driverController, XboxController.Button.kY.value)
-                                .whileTrue(new IntakeOutCommand(intakeSubsystem, false));
+                                .whileTrue(new IntakeOutCommand(intakeSubsystem, true));
                 new POVButton(driverController, 0)
                                 .whileTrue(new IntakeOutSlowCommand(intakeSubsystem));
                 new POVButton(driverController, 180)
-                                .whileTrue(new IntakeCommand(intakeSubsystem, false));
+                                .whileTrue(new IntakeCommand(intakeSubsystem, true));
 
 
                 // ---------AUX CONTROLS
@@ -325,6 +325,7 @@ public class RobotContainer {
 
                 NamedCommands.registerCommand("place", new AutoPlaceCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
                 NamedCommands.registerCommand("autoIntake", new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+                NamedCommands.registerCommand("intakeOut", new IntakeOutCommand(intakeSubsystem, true));
                 
         }
         private boolean auxRightstickLeft() {

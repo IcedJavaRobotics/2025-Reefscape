@@ -30,7 +30,7 @@ public class IntakeCommand extends Command {
   @Override
   public void execute() {
     if(forceful){
-      intakeSubsystem.set(0.2);
+      intakeSubsystem.set(0.4);
     } else{
       intakeSubsystem.intakeGamePiece();
     }

@@ -9,15 +9,15 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "Start to reef 1-2"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "armL1"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "alt-start to reef 3"
                 }
               }
             ]
@@ -49,36 +49,23 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "reef 1-2 to coral"
+                  "pathName": "Reef3 to coral"
                 }
               },
               {
-                "type": "sequential",
+                "type": "race",
                 "data": {
                   "commands": [
                     {
-                      "type": "wait",
+                      "type": "named",
                       "data": {
-                        "waitTime": 0.2
+                        "name": "autoIntake"
                       }
                     },
                     {
-                      "type": "race",
+                      "type": "wait",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 1.8
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "autoIntake"
-                            }
-                          }
-                        ]
+                        "waitTime": 1.5
                       }
                     }
                   ]
@@ -92,15 +79,15 @@
           "data": {
             "commands": [
               {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.0
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "autoIntake"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.5
                 }
               }
             ]
@@ -113,7 +100,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Coral to reef 1-1"
+                  "pathName": "coral2 to reef3-1"
                 }
               },
               {
@@ -126,22 +113,9 @@
           }
         },
         {
-          "type": "race",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakeOut"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.4
-                }
-              }
-            ]
+            "name": "intakeOut"
           }
         }
       ]

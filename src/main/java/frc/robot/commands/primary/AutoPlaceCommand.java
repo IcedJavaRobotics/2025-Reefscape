@@ -45,12 +45,12 @@ public class AutoPlaceCommand extends Command {
   public void initialize() {
     initialShoulder = shoulderSubsystem.getShoulderEncoder();
     if((initialShoulder <= ShoulderConstants.L2_SETPOINT + 10) && (initialShoulder >= ShoulderConstants.L2_SETPOINT - 10)) { //checks if the shoulder is in a range of 2 away from the setpoint of L2
-      desiredShoulder = initialShoulder - 30; //Setpoint is 30 under where it was originally
-      shoulderSpeed = -0.4;
+      desiredShoulder = initialShoulder - 40; //Setpoint is 30 under where it was originally
+      shoulderSpeed = -0.6;
       outtake = true;
     } else if(elevatorSubsystem.getElevatorEncoder() >= 200){ //checks if the elevator is really far out, indicating L4
       desiredShoulder = initialShoulder - 14;
-      shoulderSpeed = -0.1;
+      shoulderSpeed = -0.15;
       outtake = false;
     } else if((initialShoulder <= ShoulderConstants.L1_SETPOINT + 10) && (initialShoulder >= ShoulderConstants.L1_SETPOINT - 10)){
       desiredShoulder = initialShoulder;
@@ -58,8 +58,8 @@ public class AutoPlaceCommand extends Command {
       outtake = true;
 
     }else{ //anything else, so usually L3
-      desiredShoulder = initialShoulder - 20;
-      shoulderSpeed = -0.4;
+      desiredShoulder = initialShoulder - 25;
+      shoulderSpeed = -0.6;
       outtake = true;
     }
   }
