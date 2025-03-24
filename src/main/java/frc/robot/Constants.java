@@ -20,13 +20,15 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
+  public static String armPreset = "L2"; //L1, L2, L3, L4, coralstation, 
+
   public static class DriverConstants {
     public static final int MAIN_DRIVER_PORT = 0;
     public static final int AUX_DRIVER_PORT = 1;
     public static final int DRIVER_STATION_PORT = 2;
     // public static final String DEADBAND = "0.5";
     public static final double DEADBAND = 0.01;
-    public static final double MAX_SPEED = Units.feetToMeters(13.5); //4.5
+    public static final double MAX_SPEED = Units.feetToMeters(9); //4.5
     public static final int[] driverstationButtons = { 14, 20, 30, 40 }; // 0 = top left, and then read it like a book
   }
 

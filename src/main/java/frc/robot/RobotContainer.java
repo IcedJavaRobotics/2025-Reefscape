@@ -94,9 +94,8 @@ public class RobotContainer {
         private final ActuatorSubsystem actuatorSubsystem = new ActuatorSubsystem();
         private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
         private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem(shoulderSubsystem);
-
-        private final SelectorSubsystem selectorSubsystem = new SelectorSubsystem(shoulderSubsystem, elevatorSubsystem,
-                        wristSubsystem);
+        private final SwerveSubsystem drivebase = new SwerveSubsystem();
+        //private final SelectorSubsystem selectorSubsystem = new SelectorSubsystem(shoulderSubsystem, elevatorSubsystem,wristSubsystem);
 
         private final SendableChooser<Command> autoChooser;
 
@@ -106,7 +105,6 @@ public class RobotContainer {
 
         PIDController headingController = new PIDController(0.02, 0, 0);
 
-        private final SwerveSubsystem drivebase = new SwerveSubsystem();
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -162,7 +160,7 @@ public class RobotContainer {
                 if(driverController.getLeftStickButton()){
                         return 1;
                 }
-                return 0.33;
+                return 0.5;
         }
 
         private double getTurnMultiplier(){
@@ -176,7 +174,7 @@ public class RobotContainer {
         SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
                         () -> driverController.getLeftY() * getMultiplier(),
                         () -> driverController.getLeftX() * getMultiplier())
-                        .withControllerRotationAxis(() -> getRightX() * getTurnMultiplier())
+                        .withControllerRotationAxis(() -> getRightX())
                         .deadband(getDeadzone())
                         .scaleTranslation(1)// Can be changed to alter speed
                         .allianceRelativeControl(true);
@@ -241,10 +239,10 @@ public class RobotContainer {
                                 .whileTrue(new ShoulderCommand(shoulderSubsystem, -1));
 
                 // Elevator Movement
-                new JoystickButton(driverController, XboxController.Button.kLeftBumper.value)
-                                .whileTrue(new ElevatorINCommand(elevatorSubsystem));
-                new JoystickButton(driverController, XboxController.Button.kRightBumper.value)
-                                .whileTrue(new ElevatorOUTCommand(elevatorSubsystem));
+                // new JoystickButton(driverController, XboxController.Button.kLeftBumper.value)
+                //                 .whileTrue(new ElevatorINCommand(elevatorSubsystem));
+                // new JoystickButton(driverController, XboxController.Button.kRightBumper.value)
+                //                 .whileTrue(new ElevatorOUTCommand(elevatorSubsystem));
 
                 // Intake Control
                 new JoystickButton(driverController, XboxController.Button.kY.value)
@@ -339,6 +337,12 @@ public class RobotContainer {
                 NamedCommands.registerCommand("algae-clear", new ClearAlgaeCommand(shoulderSubsystem, elevatorSubsystem, wristSubsystem, intakeSubsystem));
                 
         }
+
+        private void initializeDashboard(){
+                SmartDashboard.putNumber("Gyro", drivebase.getSwerveDrive().getGyro().getRotation3d().getZ() * (180/Math.PI));
+                SmartDashboard.putNumber("odometry angle", drivebase.getPose().getRotation().getDegrees());
+        }
+
         private boolean auxRightstickLeft() {
                 if (auxController != null) {
                         if (auxController.getRightX() <= -0.5) {
@@ -414,11 +418,11 @@ public class RobotContainer {
         private double getRightX() {
                 if (auxController.getRightX() >= 0.5) {
                         return headingController.calculate(
-                                        drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), 120);
+                                drivebase.getSwerveDrive().getGyro().getRotation3d().getZ(), 126);
                 } else if (auxController.getRightX() <= -0.5) {
                         return headingController.calculate(
-                                        drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), -150);
-                } else if (getLeftDriverTriggerValue()) { // aux movement gets priority over the auto align
+                                drivebase.getSwerveDrive().getGyro().getRotation3d().getZ(), -126);
+                } else if (driverController.getLeftBumperButton()) { // aux movement gets priority over the auto align
                         double id = limelightSubsystem.getTid();
                         // shoulderSubsystem.coralStationPID();
 

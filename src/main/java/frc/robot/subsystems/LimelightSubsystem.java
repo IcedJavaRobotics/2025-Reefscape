@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.LimelightConstants;
 
 import static frc.robot.Constants.LimelightConstants;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -105,6 +106,28 @@ public class LimelightSubsystem extends SubsystemBase {
             return (LimelightConstants.LIMELIGHT_HEIGHT) / Math.tan(angleToGoalRadians);
         }
 
+    }
+
+    public double getReefHeading(){
+        double id = getTid();
+
+        if (id == 10 || id == 21) {return 0;}
+                        if (id == 9 || id == 22) {
+                                return 60;
+                        }
+                        if (id == 8 || id == 17) {
+                                return 120;
+                        }
+                        if (id == 7 || id == 18) {
+                                return 180;
+                        }
+                        if (id == 6 || id == 19) {
+                                return 240;
+                        }
+                        if (id == 11 || id == 20) {
+                                return 300;
+                        }
+            return 0;
     }
 
     @Override

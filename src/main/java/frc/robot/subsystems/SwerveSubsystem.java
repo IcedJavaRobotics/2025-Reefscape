@@ -43,7 +43,8 @@ public class SwerveSubsystem extends SubsystemBase {
       swerveDrive = new SwerveParser(directory).createSwerveDrive(Constants.DriverConstants.MAX_SPEED,
           new Pose2d(new Translation2d(Units.feetToMeters(1),
               Units.feetToMeters(4)),
-              Rotation2d.fromDegrees(0)));
+              Rotation2d.fromDegrees(0))); //TODO: TEST CHANGING THESE VALUES
+              
       // Alternative method if you don't want to supply the conversion factor via JSON
       // files.
       // swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed,
