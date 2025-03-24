@@ -35,7 +35,7 @@ public class LimelightSubsystem extends SubsystemBase {
      * @return The ID of the apriltag it can see
      */
     public double getTid() {
-        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDouble(0);
+        return NetworkTableInstance.getDefault().getTable("limelight-sauron").getEntry("tid").getDouble(0);
     }
 
     /**
@@ -43,7 +43,7 @@ public class LimelightSubsystem extends SubsystemBase {
      *         horizontally
      */
     public double getTx() {
-        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+        return NetworkTableInstance.getDefault().getTable("limelight-sauron").getEntry("tx").getDouble(0);
     }
 
     /**
@@ -51,7 +51,7 @@ public class LimelightSubsystem extends SubsystemBase {
      *         vertically
      */
     public double getTy() {
-        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+        return NetworkTableInstance.getDefault().getTable("limelight-sauron").getEntry("ty").getDouble(0);
     }
 
     /**
@@ -60,7 +60,7 @@ public class LimelightSubsystem extends SubsystemBase {
      *         to distance away from the apriltag
      */
     public double getTa() {
-        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+        return NetworkTableInstance.getDefault().getTable("limelight-sauron").getEntry("ta").getDouble(0);
     }
 
     /**
@@ -68,7 +68,7 @@ public class LimelightSubsystem extends SubsystemBase {
      * @param mode 1.0 for on, 0.0 for off
      */
     public void setFlasher(double mode) {
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setDouble(mode);
+        NetworkTableInstance.getDefault().getTable("limelight-sauron").getEntry("ledMode").setDouble(mode);
     }
 
     /**
@@ -78,7 +78,7 @@ public class LimelightSubsystem extends SubsystemBase {
      */
     public Boolean tagDetected() {
 
-        if (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0) == 1) {
+        if (NetworkTableInstance.getDefault().getTable("limelight-sauron").getEntry("tv").getDouble(0) == 1) {
             return true;
         }
         return false;
@@ -111,22 +111,25 @@ public class LimelightSubsystem extends SubsystemBase {
     public double getReefHeading(){
         double id = getTid();
 
-        if (id == 10 || id == 21) {return 0;}
-                        if (id == 9 || id == 22) {
-                                return 60;
-                        }
-                        if (id == 8 || id == 17) {
-                                return 120;
-                        }
-                        if (id == 7 || id == 18) {
-                                return 180;
-                        }
-                        if (id == 6 || id == 19) {
-                                return 240;
-                        }
-                        if (id == 11 || id == 20) {
-                                return 300;
-                        }
+        // if (id == 10 || id == 21) {return 0;}
+        //                 if (id == 9 || id == 22) {
+        //                         return 60;
+        //                 }
+        //                 if (id == 8 || id == 17) {
+        //                         return 120;
+        //                 }
+        //                 if (id == 7 || id == 18) {
+        //                         return 180;
+        //                 }
+        //                 if (id == 6 || id == 19) {
+        //                         return 240;
+        //                 }
+        //                 if (id == 11 || id == 20) {
+        //                         return 300;
+        //                 }
+        if(id==11){
+            return 90;
+        }
             return 0;
     }
 

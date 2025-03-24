@@ -239,10 +239,10 @@ public class RobotContainer {
                                 .whileTrue(new ShoulderCommand(shoulderSubsystem, -1));
 
                 // Elevator Movement
-                // new JoystickButton(driverController, XboxController.Button.kLeftBumper.value)
-                //                 .whileTrue(new ElevatorINCommand(elevatorSubsystem));
-                // new JoystickButton(driverController, XboxController.Button.kRightBumper.value)
-                //                 .whileTrue(new ElevatorOUTCommand(elevatorSubsystem));
+                new JoystickButton(driverStation, 6)
+                                .whileTrue(new ElevatorINCommand(elevatorSubsystem));
+                new JoystickButton(driverStation, 1)
+                                .whileTrue(new ElevatorOUTCommand(elevatorSubsystem));
 
                 // Intake Control
                 new JoystickButton(driverController, XboxController.Button.kY.value)
@@ -416,46 +416,49 @@ public class RobotContainer {
         }
 
         private double getRightX() {
-                if (auxController.getRightX() >= 0.5) {
-                        return headingController.calculate(
-                                drivebase.getSwerveDrive().getGyro().getRotation3d().getZ(), 126);
-                } else if (auxController.getRightX() <= -0.5) {
-                        return headingController.calculate(
-                                drivebase.getSwerveDrive().getGyro().getRotation3d().getZ(), -126);
-                } else if (driverController.getLeftBumperButton()) { // aux movement gets priority over the auto align
-                        double id = limelightSubsystem.getTid();
-                        // shoulderSubsystem.coralStationPID();
+                // if (auxController.getRightX() >= 0.5) {
+                //         return headingController.calculate(
+                //                 drivebase.getSwerveDrive().getGyro().getRotation3d().getZ(), 126);
+                // } else if (auxController.getRightX() <= -0.5) {
+                //         return headingController.calculate(
+                //                 drivebase.getSwerveDrive().getGyro().getRotation3d().getZ(), -126);
+                // } else if (driverController.getLeftBumperButton()) { // aux movement gets priority over the auto align
+                        // double id = limelightSubsystem.getTid();
+                        // // shoulderSubsystem.coralStationPID();
 
-                        if (id == 10 || id == 21) {
-                                return headingController
-                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                                                                .getDegrees(), 0);
-                        }
-                        if (id == 9 || id == 22) {
-                                return headingController
-                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                                                                .getDegrees(), 60);
-                        }
-                        if (id == 8 || id == 17) {
-                                return headingController
-                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                                                                .getDegrees(), 120);
-                        }
-                        if (id == 7 || id == 18) {
-                                return headingController
-                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                                                                .getDegrees(), 180);
-                        }
-                        if (id == 6 || id == 19) {
-                                return headingController
-                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                                                                .getDegrees(), 240);
-                        }
-                        if (id == 11 || id == 20) {
-                                return headingController
-                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                                                                .getDegrees(), 300);
-                        }
+                        // if (id == 10 || id == 21) {
+                        //         return headingController
+                        //                         .calculate(drivebase.getSwerveDrive().getPose().getRotation()
+                        //                                         .getDegrees(), 0);
+                        // }
+                        // if (id == 9 || id == 22) {
+                        //         return headingController
+                        //                         .calculate(drivebase.getSwerveDrive().getPose().getRotation()
+                        //                                         .getDegrees(), 60);
+                        // }
+                        // if (id == 8 || id == 17) {
+                        //         return headingController
+                        //                         .calculate(drivebase.getSwerveDrive().getPose().getRotation()
+                        //                                         .getDegrees(), 120);
+                        // }
+                        // if (id == 7 || id == 18) {
+                        //         return headingController
+                        //                         .calculate(drivebase.getSwerveDrive().getPose().getRotation()
+                        //                                         .getDegrees(), 180);
+                        // }
+                        // if (id == 6 || id == 19) {
+                        //         return headingController
+                        //                         .calculate(drivebase.getSwerveDrive().getPose().getRotation()
+                        //                                         .getDegrees(), 240);
+                        // }
+                        // if (id == 11 || id == 20) {
+                        //         return headingController
+                        //                         .calculate(drivebase.getSwerveDrive().getPose().getRotation()
+                        //                                         .getDegrees(), 300);
+                        // }
+                //}
+                if(false){
+                        return headingController.calculate(drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), 90);
                 }
                 return -driverController.getRightX();
         }
