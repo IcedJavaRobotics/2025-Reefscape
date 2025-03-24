@@ -26,7 +26,7 @@ public final class Constants {
     public static final int DRIVER_STATION_PORT = 2;
     // public static final String DEADBAND = "0.5";
     public static final double DEADBAND = 0.01;
-    public static final double MAX_SPEED = Units.feetToMeters(9); //4.5
+    public static final double MAX_SPEED = Units.feetToMeters(13.5); //4.5
     public static final int[] driverstationButtons = { 14, 20, 30, 40 }; // 0 = top left, and then read it like a book
   }
 
@@ -49,11 +49,11 @@ public final class Constants {
     public static final double TOTAL_OFFSET = 4;
 
     public static final double L1_SETPOINT = -64.788 + TOTAL_OFFSET;
-    public static final double L2_SETPOINT = -23.433 + TOTAL_OFFSET;
-    public static final double L3_SETPOINT = 20.926 + TOTAL_OFFSET;
+    public static final double L2_SETPOINT = -30 + TOTAL_OFFSET;
+    public static final double L3_SETPOINT = 12 + TOTAL_OFFSET;
     public static final double L4_SETPOINT = 48 + TOTAL_OFFSET;
 
-    public static final double CORAL_STATION_SETPOINT = -4.07; //4
+    public static final double CORAL_STATION_SETPOINT = 1; //4
     public static final double GROUND_SETPOINT = -70; // TODO
     public static final double UPPER_ALGAE_SETPOINT = 3.927; // TODO
     public static final double LOWER_ALGAE_SETPOINT = -67.7; // TODO
@@ -83,10 +83,10 @@ public final class Constants {
 
     public static final double SAFE_RESET_SETPOINT = 5;
     public static final double L1_SETPOINT = 0 + TOTAL_OFFSET;
-    public static final double L2_SETPOINT = 48.71 + TOTAL_OFFSET;
+    public static final double L2_SETPOINT = 40 + TOTAL_OFFSET;
     public static final double L3_SETPOINT = 108.275 + TOTAL_OFFSET;
     public static final double L4_SETPOINT = 230 + TOTAL_OFFSET;
-    public static final double CORAL_STATION_SETPOINT = 26 + TOTAL_OFFSET; //32
+    public static final double CORAL_STATION_SETPOINT = 31 + TOTAL_OFFSET; //32
     public static final double GROUND_SETPOINT = 20.115; // TODO
     public static final double UPPER_ALGAE_SETPOINT = 90.941 + TOTAL_OFFSET; // TODO
     public static final double LOWER_ALGAE_SETPOINT = 22 + TOTAL_OFFSET; // TODO

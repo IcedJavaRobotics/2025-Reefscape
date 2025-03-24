@@ -32,7 +32,7 @@ public class IntakeCommand extends Command {
     if(forceful){
       intakeSubsystem.set(0.4);
     } else{
-      intakeSubsystem.intakeGamePiece();
+      intakeSubsystem.set(1);
     }
   }
 

@@ -29,6 +29,7 @@ import frc.robot.commands.moveToCommands.MoveRightL3Command;
 import frc.robot.commands.moveToCommands.MoveRightL4Command;
 import frc.robot.commands.primary.AutoIntakeCommand;
 import frc.robot.commands.primary.AutoPlaceCommand;
+import frc.robot.commands.primary.ClearAlgaeCommand;
 import frc.robot.commands.primary.ResetMotorsCommand;
 import frc.robot.commands.shoulder.ShoulderCommand;
 import frc.robot.commands.wrist.WristCommand;
@@ -161,13 +162,21 @@ public class RobotContainer {
                 if(driverController.getLeftStickButton()){
                         return 1;
                 }
-                return 0.5;
+                return 0.33;
+        }
+
+        private double getTurnMultiplier(){
+                if(driverController.getRightStickButton()){
+                        return 1;
+                } else{
+                        return 0.5;
+                }
         }
 
         SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
                         () -> driverController.getLeftY() * getMultiplier(),
                         () -> driverController.getLeftX() * getMultiplier())
-                        .withControllerRotationAxis(() -> getRightX())
+                        .withControllerRotationAxis(() -> getRightX() * getTurnMultiplier())
                         .deadband(getDeadzone())
                         .scaleTranslation(1)// Can be changed to alter speed
                         .allianceRelativeControl(true);
@@ -243,7 +252,7 @@ public class RobotContainer {
                 new POVButton(driverController, 0)
                                 .whileTrue(new IntakeOutSlowCommand(intakeSubsystem));
                 new POVButton(driverController, 180)
-                                .whileTrue(new IntakeCommand(intakeSubsystem, true));
+                                .whileTrue(new IntakeCommand(intakeSubsystem, false));
 
 
                 // ---------AUX CONTROLS
@@ -251,8 +260,9 @@ public class RobotContainer {
 
                 // Grid navigation
                 new Trigger(() -> getRightAuxTriggerValue()) // FOR SELECTOR SUBSYSTEM
-                                .whileTrue(new ResetMotorsCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem,
-                                                wristSubsystem));
+                                .whileTrue(new AutoPlaceCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
+                new Trigger(() -> getLeftAuxTriggerValue())
+                                .whileTrue(new ClearAlgaeCommand(shoulderSubsystem, elevatorSubsystem, wristSubsystem, intakeSubsystem));
 
                 // new POVButton(auxController, 180) /* D-Pad pressed DOWN */
                 //                 .whileTrue(new CursorDownCommand(selectorSubsystem));
@@ -326,6 +336,7 @@ public class RobotContainer {
                 NamedCommands.registerCommand("place", new AutoPlaceCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
                 NamedCommands.registerCommand("autoIntake", new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem, wristSubsystem));
                 NamedCommands.registerCommand("intakeOut", new IntakeOutCommand(intakeSubsystem, true));
+                NamedCommands.registerCommand("algae-clear", new ClearAlgaeCommand(shoulderSubsystem, elevatorSubsystem, wristSubsystem, intakeSubsystem));
                 
         }
         private boolean auxRightstickLeft() {
@@ -363,6 +374,16 @@ public class RobotContainer {
         private boolean getRightAuxTriggerValue() {
                 if (auxController != null) {
                         if (auxController.getRightTriggerAxis() >= 0.5) {
+                                return true;
+                        }
+                        return false;
+                } else {
+                        return false;
+                }
+        }
+        private boolean getLeftAuxTriggerValue() {
+                if (auxController != null) {
+                        if (auxController.getLeftTriggerAxis() >= 0.5) {
                                 return true;
                         }
                         return false;
