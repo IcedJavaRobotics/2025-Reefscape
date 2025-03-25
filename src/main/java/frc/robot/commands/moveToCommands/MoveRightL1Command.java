@@ -61,9 +61,9 @@ public class MoveRightL1Command extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-                if(wristSubsystem.getEncoder() >= 22 && 
+                if(wristSubsystem.getEncoder() >= 23 && 
         (shoulderSubsystem.getShoulderEncoder() >= (Constants.ShoulderConstants.L1_SETPOINT-3) && (shoulderSubsystem.getShoulderEncoder() <= (Constants.ShoulderConstants.L1_SETPOINT+3)))
-         && elevatorSubsystem.getElevatorEncoder() >= (Constants.ElevatorConstants.L1_SETPOINT -4) && elevatorSubsystem.getElevatorEncoder() <= (Constants.ElevatorConstants.L1_SETPOINT + 4)
+         && elevatorSubsystem.getElevatorEncoder() >= (Constants.ElevatorConstants.L1_SETPOINT -7) && elevatorSubsystem.getElevatorEncoder() <= (Constants.ElevatorConstants.L1_SETPOINT + 7)
          ){
             return true;
         }

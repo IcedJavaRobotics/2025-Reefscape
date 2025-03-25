@@ -2,7 +2,9 @@
   "robotWidth": 0.914,
   "robotLength": 0.914,
   "holonomicMode": true,
-  "pathFolders": [],
+  "pathFolders": [
+    "Algae "
+  ],
   "autoFolders": [],
   "defaultMaxVel": 2.5,
   "defaultMaxAccel": 2.0,

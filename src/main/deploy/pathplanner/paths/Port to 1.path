@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.394826158940397,
-        "y": 4.678766556291389
+        "x": 6.225833333333332,
+        "y": 6.274871794871794
       },
       "isLocked": false,
       "linkedName": "port-start"
     },
     {
       "anchor": {
-        "x": 5.942011589403974,
-        "y": 4.017735927152317
+        "x": 5.2041025641025636,
+        "y": 5.30474358974359
       },
       "prevControl": {
-        "x": 7.561899834437086,
-        "y": 3.828870033112582
+        "x": 5.74076923076923,
+        "y": 5.944615384615385
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "algae-1"
     }
   ],
   "rotationTargets": [],
@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -119.99999999999999
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Algae ",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -135.0
