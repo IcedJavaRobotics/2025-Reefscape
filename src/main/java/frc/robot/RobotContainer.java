@@ -103,7 +103,7 @@ public class RobotContainer {
         XboxController auxController = new XboxController(DriverConstants.AUX_DRIVER_PORT);
         private final Joystick driverStation = new Joystick(DriverConstants.DRIVER_STATION_PORT);
 
-        PIDController headingController = new PIDController(0.02, 0, 0);
+        PIDController headingController = new PIDController(0.02, 0, 0.001);
 
 
         /**
@@ -215,8 +215,8 @@ public class RobotContainer {
                                 .whileTrue(new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem,
                                                 elevatorSubsystem, wristSubsystem));
 
-                new Trigger(() -> getLeftDriverTriggerValue()) // Place Coral On Reef
-                                .whileTrue(new AutoPlaceCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
+                // new Trigger(() -> getLeftDriverTriggerValue()) // Place Coral On Reef
+                //                 .whileTrue(new AutoPlaceCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
 
                 // Driver movement
                 new JoystickButton(driverController, XboxController.Button.kB.value)
@@ -457,10 +457,11 @@ public class RobotContainer {
                         //                                         .getDegrees(), 300);
                         // }
                 //}
-                if(false){
+                SmartDashboard.putNumber("pos rot", drivebase.getSwerveDrive().getPose().getRotation().getDegrees());
+                if(getLeftDriverTriggerValue()){
                         return headingController.calculate(drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), 90);
                 }
-                return -driverController.getRightX();
+                return -driverController.getRightX() / 2;
         }
 
         /**
