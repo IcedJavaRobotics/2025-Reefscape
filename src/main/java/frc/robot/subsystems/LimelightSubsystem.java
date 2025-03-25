@@ -14,12 +14,16 @@ import frc.robot.Constants.LimelightConstants;
 import static frc.robot.Constants.LimelightConstants;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.HttpCamera;
+import frc.robot.LimelightHelpers;
 
 public class LimelightSubsystem extends SubsystemBase {
 
     // private Spark blinkin = new Spark(0); //Creates a blinkin as if it were a
     // spark.
     // Creates a new LimelightSubsystem.
+
+    public double lockedApriltag = -1;
+
     public LimelightSubsystem() {
 
         HttpCamera httpCamera = new HttpCamera("sauron", "http://10.68.94.11:5801/");
@@ -84,6 +88,11 @@ public class LimelightSubsystem extends SubsystemBase {
         return false;
     }
 
+    public void lockApriltag(){
+        this.lockedApriltag = getTid();
+        SmartDashboard.putNumber("locked tag", lockedApriltag);
+    }
+
     /**
      * command for calculating limelight distance
      * 
@@ -109,28 +118,24 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     public double getReefHeading(){
-        double id = getTid();
 
-        // if (id == 10 || id == 21) {return 0;}
-        //                 if (id == 9 || id == 22) {
-        //                         return 60;
-        //                 }
-        //                 if (id == 8 || id == 17) {
-        //                         return 120;
-        //                 }
-        //                 if (id == 7 || id == 18) {
-        //                         return 180;
-        //                 }
-        //                 if (id == 6 || id == 19) {
-        //                         return 240;
-        //                 }
-        //                 if (id == 11 || id == 20) {
-        //                         return 300;
-        //                 }
-        if(id==11){
-            return 90;
-        }
+        if(lockedApriltag == 18 || lockedApriltag == 7){
             return 0;
+        } else if(lockedApriltag == 17 || lockedApriltag == 8){
+            return -60;
+        } else if(lockedApriltag == 22 || lockedApriltag == 9){
+            return -120;
+        } else if(lockedApriltag == 21 || lockedApriltag == 10){
+            return 179.99;
+        } else if(lockedApriltag == 20 || lockedApriltag == 11){
+            return 120;
+        } else if(lockedApriltag == 19 || lockedApriltag == 6){
+            return 60;
+        }
+        // if(id==11){
+        //     return 90;
+        // }
+         return 0;
     }
 
     @Override

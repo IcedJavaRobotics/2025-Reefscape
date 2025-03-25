@@ -22,13 +22,14 @@ public class AutoPlaceCommand extends Command {
   private ShoulderSubsystem shoulderSubsystem;
   private ElevatorSubsystem elevatorSubsystem;
 
-  private PIDController shoulderPID = new PIDController(0, 0, 0);
+  private PIDController shoulderPID = new PIDController(0.02, 0, 0);
   private PIDController elevatorPID = new PIDController(0, 0, 0);
 
   private double initialShoulder;
   private double desiredShoulder;
   private double shoulderSpeed;
   private boolean outtake = true;
+  private int level = 3;
 
   public AutoPlaceCommand(IntakeSubsystem intakeSubsystem, ShoulderSubsystem shoulderSubsystem,
       ElevatorSubsystem elevatorSubsystem) {
@@ -44,20 +45,24 @@ public class AutoPlaceCommand extends Command {
   @Override
   public void initialize() {
     initialShoulder = shoulderSubsystem.getShoulderEncoder();
-    if((initialShoulder <= ShoulderConstants.L2_SETPOINT + 10) && (initialShoulder >= ShoulderConstants.L2_SETPOINT - 10)) { //checks if the shoulder is in a range of 2 away from the setpoint of L2
+    if((initialShoulder <= ShoulderConstants.L2_SETPOINT + 15) && (initialShoulder >= ShoulderConstants.L2_SETPOINT - 15)) { //checks if the shoulder is in a range of 2 away from the setpoint of L2
+      level = 2;
       desiredShoulder = initialShoulder - 40; //Setpoint is 30 under where it was originally
       shoulderSpeed = -0.6;
       outtake = true;
     } else if(elevatorSubsystem.getElevatorEncoder() >= 200){ //checks if the elevator is really far out, indicating L4
+      level = 4;
       desiredShoulder = initialShoulder - 14;
       shoulderSpeed = -0.15;
       outtake = false;
-    } else if((initialShoulder <= ShoulderConstants.L1_SETPOINT + 10) && (initialShoulder >= ShoulderConstants.L1_SETPOINT - 10)){
+    } else if((initialShoulder <= ShoulderConstants.L1_SETPOINT + 20) && (initialShoulder >= ShoulderConstants.L1_SETPOINT - 20)){
+      level = 1;
       desiredShoulder = initialShoulder;
       shoulderSpeed = 0;
       outtake = true;
 
     }else{ //anything else, so usually L3
+      level = 3;
       desiredShoulder = initialShoulder - 25;
       shoulderSpeed = -0.6;
       outtake = true;
@@ -68,7 +73,13 @@ public class AutoPlaceCommand extends Command {
   @Override
   public void execute() {
     if(shoulderSubsystem.getShoulderEncoder() > desiredShoulder){
+      if(level == 4){
         shoulderSubsystem.set(shoulderSpeed);
+      } else if(level ==1){
+        shoulderSubsystem.set(0);
+      }else{
+        shoulderSubsystem.set(shoulderPID.calculate(shoulderSubsystem.getShoulderEncoder(), desiredShoulder));
+      }
     } else{
         shoulderSubsystem.set(0);
         if(outtake){

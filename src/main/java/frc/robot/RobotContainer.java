@@ -20,6 +20,7 @@ import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.intake.IntakeOutCommand;
 import frc.robot.commands.intake.IntakeOutSlowCommand;
 import frc.robot.commands.misc.ArmDemonstrationCommand;
+import frc.robot.commands.misc.LockApriltag;
 import frc.robot.commands.misc.ZeroGyroCommand;
 import frc.robot.commands.moveToCommands.MoveGroundCommand;
 import frc.robot.commands.moveToCommands.MoveLowerAlgaeCommand;
@@ -103,7 +104,7 @@ public class RobotContainer {
         XboxController auxController = new XboxController(DriverConstants.AUX_DRIVER_PORT);
         private final Joystick driverStation = new Joystick(DriverConstants.DRIVER_STATION_PORT);
 
-        PIDController headingController = new PIDController(0.02, 0, 0.001);
+        PIDController headingController = new PIDController(0.015, 0, 0.001);
 
 
         /**
@@ -159,6 +160,8 @@ public class RobotContainer {
         private double getMultiplier(){
                 if(driverController.getLeftStickButton()){
                         return 1;
+                } else if(getLeftDriverTriggerValue()){
+                        return 0.2;
                 }
                 return 0.5;
         }
@@ -214,6 +217,8 @@ public class RobotContainer {
                 new Trigger(() -> getRightDriverTriggerValue()) // CORAL STATION COMMAND
                                 .whileTrue(new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem,
                                                 elevatorSubsystem, wristSubsystem));
+                new Trigger(() -> getLeftDriverTriggerValue())
+                                .whileTrue(new LockApriltag(limelightSubsystem));
 
                 // new Trigger(() -> getLeftDriverTriggerValue()) // Place Coral On Reef
                 //                 .whileTrue(new AutoPlaceCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
@@ -458,8 +463,9 @@ public class RobotContainer {
                         // }
                 //}
                 SmartDashboard.putNumber("pos rot", drivebase.getSwerveDrive().getPose().getRotation().getDegrees());
+                SmartDashboard.putNumber("limelight rot", limelightSubsystem.getReefHeading());
                 if(getLeftDriverTriggerValue()){
-                        return headingController.calculate(drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), 90);
+                        return headingController.calculate(drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), limelightSubsystem.getReefHeading());
                 }
                 return -driverController.getRightX() / 2;
         }
