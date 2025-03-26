@@ -125,6 +125,7 @@ public class RobotContainer {
                 // new RunCommand(() -> shoulderSubsystem.reset(() -> elevatorInEnough()),
                 // shoulderSubsystem));
 
+                DriverStation.silenceJoystickConnectionWarning(true);
                 autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be
                 // `Commands.none()`
                 SmartDashboard.putData("AutoSelec", autoChooser);
@@ -180,16 +181,18 @@ public class RobotContainer {
                         .withControllerRotationAxis(() -> getRightX())
                         .deadband(getDeadzone())
                         .scaleTranslation(1)// Can be changed to alter speed
-                        .allianceRelativeControl(true).robotRelative(isRobotRelative());
+                        .allianceRelativeControl(true).robotRelative(() -> isRobotRelative());
 
-        SwerveInputStream driveDirectAngle = driveAngularVelocity.copy()
-                        .withControllerHeadingAxis(() -> driverController.getRightX(),
-                                        () -> driverController.getRightY())
-                        .headingWhile(true);
+        SwerveInputStream driveRobotOrientedVelocity = driveAngularVelocity.copy().robotRelative(true).allianceRelativeControl(false);
+        // SwerveInputStream driveDirectAngle = driveAngularVelocity.copy() .robotRelative(() -> isRobotRelative())
+        //                 .withControllerHeadingAxis(() -> driverController.getRightX(),
+        //                                 () -> driverController.getRightY())
+        //                 .headingWhile(true);
 
-        Command driveFieldOrientedDirectAngle = drivebase.driveFieldOriented(driveDirectAngle);
+        //Command driveFieldOrientedDirectAngle = drivebase.driveRobotOriented(driveDirectAngle);
 
         Command driveFieldOrientedAngularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
+        Command driveRobotOriented = drivebase.driveFieldOriented(driveRobotOrientedVelocity);
 
         /**
          * Use this method to define your trigger->command mappings. Triggers can be

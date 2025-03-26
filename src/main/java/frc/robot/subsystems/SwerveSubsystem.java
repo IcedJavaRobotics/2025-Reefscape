@@ -11,6 +11,8 @@ import frc.robot.Constants;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.spec.ECPublicKeySpec;
+import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 import org.json.simple.parser.ParseException;
@@ -140,7 +142,8 @@ public ChassisSpeeds getRobotRelativeSpeeds(){
     for (SwerveModule swerveModule : swerveDrive.getModules()) {
       SmartDashboard.putNumber(swerveModule.toString(), swerveModule.getAbsolutePosition());
     }
-    SmartDashboard.putNumber("Gyro", this.getPose().getRotation().getDegrees());
+    SmartDashboard.putNumber("pose", this.getPose().getRotation().getDegrees());
+    SmartDashboard.putNumber("yaw", swerveDrive.getYaw().getDegrees());
   }
 
   @Override
@@ -168,6 +171,16 @@ public ChassisSpeeds getRobotRelativeSpeeds(){
   public Command driveFieldOriented(Supplier<ChassisSpeeds> velocity) {
     return run(() -> {
       swerveDrive.driveFieldOriented(velocity.get());
+    });
+  }
+
+  public Command driveToggleOriented(Supplier<ChassisSpeeds> velocity, BooleanSupplier robotOriented) {
+    return run(() -> {
+      if(!robotOriented.getAsBoolean()){
+        swerveDrive.driveFieldOriented(velocity.get());
+      } else{
+        swerveDrive.drive(velocity.get());
+      }
     });
   }
 
