@@ -156,6 +156,15 @@ public ChassisSpeeds getRobotRelativeSpeeds(){
     swerveDrive.driveFieldOriented(velocity);
   }
 
+  public void drive(ChassisSpeeds velocity){
+    swerveDrive.drive(velocity);
+  }
+  // public Command drive(ChassisSpeeds velocity) {
+  //   return run(() -> {
+  //     swerveDrive.drive(velocity);
+  //   });
+  // }
+
   public Command driveFieldOriented(Supplier<ChassisSpeeds> velocity) {
     return run(() -> {
       swerveDrive.driveFieldOriented(velocity.get());

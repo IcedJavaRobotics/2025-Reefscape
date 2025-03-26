@@ -180,7 +180,7 @@ public class RobotContainer {
                         .withControllerRotationAxis(() -> getRightX())
                         .deadband(getDeadzone())
                         .scaleTranslation(1)// Can be changed to alter speed
-                        .allianceRelativeControl(true);
+                        .allianceRelativeControl(true).robotRelative(isRobotRelative());
 
         SwerveInputStream driveDirectAngle = driveAngularVelocity.copy()
                         .withControllerHeadingAxis(() -> driverController.getRightX(),
@@ -346,6 +346,13 @@ public class RobotContainer {
         private void initializeDashboard(){
                 SmartDashboard.putNumber("Gyro", drivebase.getSwerveDrive().getGyro().getRotation3d().getZ() * (180/Math.PI));
                 SmartDashboard.putNumber("odometry angle", drivebase.getPose().getRotation().getDegrees());
+        }
+
+        private boolean isRobotRelative(){
+                if(driverController.getRightBumperButton()){
+                        return true;
+                }
+                return false;
         }
 
         private boolean auxRightstickLeft() {
