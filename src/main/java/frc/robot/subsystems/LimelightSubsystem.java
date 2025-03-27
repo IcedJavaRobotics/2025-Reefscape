@@ -22,7 +22,8 @@ public class LimelightSubsystem extends SubsystemBase {
     // spark.
     // Creates a new LimelightSubsystem.
 
-    public double lockedApriltag = -1;
+    private double lockedApriltag = -1;
+    private double lastSeenApriltag = -1;
 
     public LimelightSubsystem() {
 
@@ -89,8 +90,7 @@ public class LimelightSubsystem extends SubsystemBase {
     }
 
     public void lockApriltag(){
-        this.lockedApriltag = getTid();
-        SmartDashboard.putNumber("locked tag", lockedApriltag);
+        this.lockedApriltag = lastSeenApriltag;
     }
 
     /**
@@ -117,6 +117,10 @@ public class LimelightSubsystem extends SubsystemBase {
 
     }
 
+    /**
+     * Based on the ID, returns the heading to turn to the reef to place
+     * @return the robot goal heading
+     */
     public double getReefHeading(){
 
         if(lockedApriltag == 21 || lockedApriltag == 7){
@@ -141,8 +145,13 @@ public class LimelightSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+        if(getTid() != -1){
+            lastSeenApriltag = this.getTid();
+        }
         SmartDashboard.putNumber("apriltag", getTid());
         SmartDashboard.putNumber("Locked apriltag", lockedApriltag);
+        SmartDashboard.putNumber("last apriltag", lastSeenApriltag);
+
 
     }
 }

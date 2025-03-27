@@ -433,48 +433,11 @@ public class RobotContainer {
                 return driverStation.getRawButtonPressed(7);
         }
 
+        /**
+         * 
+         * @return Will return the controller input either divided by two or not based on whether you hold the joystick button. If you hold left trigger, it will use the limelight to auto rotate
+         */
         private double getRightX() {
-                // if (auxController.getRightX() >= 0.5) {
-                //         return headingController.calculate(
-                //                 drivebase.getSwerveDrive().getGyro().getRotation3d().getZ(), 126);
-                // } else if (auxController.getRightX() <= -0.5) {
-                //         return headingController.calculate(
-                //                 drivebase.getSwerveDrive().getGyro().getRotation3d().getZ(), -126);
-                // } else if (driverController.getLeftBumperButton()) { // aux movement gets priority over the auto align
-                        // double id = limelightSubsystem.getTid();
-                        // // shoulderSubsystem.coralStationPID();
-
-                        // if (id == 10 || id == 21) {
-                        //         return headingController
-                        //                         .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                        //                                         .getDegrees(), 0);
-                        // }
-                        // if (id == 9 || id == 22) {
-                        //         return headingController
-                        //                         .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                        //                                         .getDegrees(), 60);
-                        // }
-                        // if (id == 8 || id == 17) {
-                        //         return headingController
-                        //                         .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                        //                                         .getDegrees(), 120);
-                        // }
-                        // if (id == 7 || id == 18) {
-                        //         return headingController
-                        //                         .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                        //                                         .getDegrees(), 180);
-                        // }
-                        // if (id == 6 || id == 19) {
-                        //         return headingController
-                        //                         .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                        //                                         .getDegrees(), 240);
-                        // }
-                        // if (id == 11 || id == 20) {
-                        //         return headingController
-                        //                         .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                        //                                         .getDegrees(), 300);
-                        // }
-                //}
                 SmartDashboard.putNumber("pos rot", drivebase.getSwerveDrive().getPose().getRotation().getDegrees());
                 SmartDashboard.putNumber("limelight rot", limelightSubsystem.getReefHeading());
                 if(getLeftDriverTriggerValue()){
