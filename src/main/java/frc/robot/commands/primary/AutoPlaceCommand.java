@@ -78,7 +78,7 @@ public class AutoPlaceCommand extends Command {
       } else if(level ==1){
         shoulderSubsystem.set(0);
       }else{
-        shoulderSubsystem.set(shoulderPID.calculate(shoulderSubsystem.getShoulderEncoder(), desiredShoulder));
+        shoulderSubsystem.set(shoulderPID.calculate(shoulderSubsystem.getShoulderEncoder(), desiredShoulder-5));
       }
     } else{
         shoulderSubsystem.set(0);

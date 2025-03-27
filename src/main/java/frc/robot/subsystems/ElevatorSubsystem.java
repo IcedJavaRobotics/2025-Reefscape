@@ -117,6 +117,9 @@ public class ElevatorSubsystem extends SubsystemBase {
             myVAR = elevatorPosition.LOWER_ALGAE;
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), LOWER_ALGAE_SETPOINT));
     }
+    public void moveElevatorGroundVertical(){
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), LOWER_ALGAE_SETPOINT));
+    }
 
     public void elevatorOUT() {
         if (getElevatorEncoder() >= ELEVATOR_LIMIT){

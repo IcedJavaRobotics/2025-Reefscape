@@ -198,6 +198,19 @@ public class ShoulderSubsystem extends SubsystemBase {
     shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), GROUND_SETPOINT));
   }
 
+  public void moveShoulderGroundVertical() {
+    /*
+     * This moves the shoulder to the lowest possible position and updates the
+     * string shoulderPosition
+     */
+    // if (shoulderMotor.getPosition().getValueAsDouble() >= -174.5) {
+    // shoulderMotorOFF();
+    myVAR = shoulderPosition.GROUND;
+    // return;
+    // }
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), GROUND_VERTICAL_SETPOINT));
+  }
+
   public void moveShoulderUpperAlgae() {
     /*
      * This moves the shoulder to the position of upper algae on the Reef and

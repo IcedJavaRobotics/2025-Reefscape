@@ -4,6 +4,7 @@
 package frc.robot.commands.moveToCommands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -17,13 +18,15 @@ public class MoveRightL3Command extends Command {
     ElevatorSubsystem elevatorSubsystem;
     WristSubsystem wristSubsystem;
     PIDController wristPID = new PIDController(0.03, 0, 0);
-
+    PIDController elevatorPID = new PIDController(0,0,0);
+    boolean reset = false;
     /**
      * Creates a new MoveRightL3Command.
      */
     public MoveRightL3Command(ShoulderSubsystem shoulderSubsystem, ElevatorSubsystem elevatorSubsystem,
             WristSubsystem wristSubsystem) {
         // Use addRequirements() here to declare subsystem dependencies.
+        this.reset = false;
         addRequirements(shoulderSubsystem, elevatorSubsystem, wristSubsystem);
         this.shoulderSubsystem = shoulderSubsystem;
         this.elevatorSubsystem = elevatorSubsystem;
@@ -37,10 +40,18 @@ public class MoveRightL3Command extends Command {
     @Override
     public void execute() {
         wristSubsystem.set(wristPID.calculate(wristSubsystem.getEncoder(), 0));
-        if(elevatorSubsystem.getElevatorEncoder() <= 120){
-            shoulderSubsystem.moveShoulderL3();
+        if(elevatorSubsystem.getElevatorEncoder() <= 7){
+            reset = true;
         }
-        elevatorSubsystem.moveElevatorL3();
+        if(reset){
+            shoulderSubsystem.moveShoulderL3();
+            elevatorSubsystem.moveElevatorL3();
+        } else{
+            elevatorSubsystem.set(-0.2);
+            //-13
+        }
+        
+        SmartDashboard.putBoolean("resetBool", reset);
         // if (elevatorSubsystem.extensionChecker()) {
         // elevatorSubsystem.elevatorIN();
         // } else {

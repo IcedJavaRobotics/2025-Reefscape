@@ -119,29 +119,30 @@ public class LimelightSubsystem extends SubsystemBase {
 
     public double getReefHeading(){
 
-        if(lockedApriltag == 18 || lockedApriltag == 7){
+        if(lockedApriltag == 21 || lockedApriltag == 7){
             return 0;
-        } else if(lockedApriltag == 17 || lockedApriltag == 8){
-            return -60;
-        } else if(lockedApriltag == 22 || lockedApriltag == 9){
-            return -120;
-        } else if(lockedApriltag == 21 || lockedApriltag == 10){
-            return 179.99;
-        } else if(lockedApriltag == 20 || lockedApriltag == 11){
-            return 120;
-        } else if(lockedApriltag == 19 || lockedApriltag == 6){
+        } else if(lockedApriltag == 19 || lockedApriltag == 8){
             return 60;
+        } else if(lockedApriltag == 20 || lockedApriltag == 9){
+            return 120;
+        } else if(lockedApriltag == 18 || lockedApriltag == 10){
+            return 179.99;
+        } else if(lockedApriltag == 22 || lockedApriltag == 11){
+            return -120;
+        } else if(lockedApriltag == 17 || lockedApriltag == 6){
+            return -60;
         }
         // if(id==11){
         //     return 90;
         // }
-         return 0;
+         return 6894;
     }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
         SmartDashboard.putNumber("apriltag", getTid());
+        SmartDashboard.putNumber("Locked apriltag", lockedApriltag);
 
     }
 }

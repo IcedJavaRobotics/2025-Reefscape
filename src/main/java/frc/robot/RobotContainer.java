@@ -31,6 +31,7 @@ import frc.robot.commands.moveToCommands.MoveRightL4Command;
 import frc.robot.commands.primary.AutoIntakeCommand;
 import frc.robot.commands.primary.AutoPlaceCommand;
 import frc.robot.commands.primary.ClearAlgaeCommand;
+import frc.robot.commands.primary.GroundVerticalPickupCommand;
 import frc.robot.commands.primary.ResetMotorsCommand;
 import frc.robot.commands.shoulder.ShoulderCommand;
 import frc.robot.commands.wrist.WristCommand;
@@ -116,7 +117,7 @@ public class RobotContainer {
                 configureNamedCommands();
                 configureBindings();
                 candleSubsystem.setCandleJavaBlue();
-                drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
+                drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity); 
 
                 // elevatorSubsystem.setDefaultCommand(new RunCommand(() ->
                 // elevatorSubsystem.reset(), elevatorSubsystem));
@@ -181,7 +182,7 @@ public class RobotContainer {
                         .withControllerRotationAxis(() -> getRightX())
                         .deadband(getDeadzone())
                         .scaleTranslation(1)// Can be changed to alter speed
-                        .allianceRelativeControl(true).robotRelative(() -> isRobotRelative());
+                        .allianceRelativeControl(true);
 
         SwerveInputStream driveRobotOrientedVelocity = driveAngularVelocity.copy().robotRelative(true).allianceRelativeControl(false);
         // SwerveInputStream driveDirectAngle = driveAngularVelocity.copy() .robotRelative(() -> isRobotRelative())
@@ -192,7 +193,7 @@ public class RobotContainer {
         //Command driveFieldOrientedDirectAngle = drivebase.driveRobotOriented(driveDirectAngle);
 
         Command driveFieldOrientedAngularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
-        Command driveRobotOriented = drivebase.driveFieldOriented(driveRobotOrientedVelocity);
+        //Command driveRobotOriented = drivebase.driveFieldOriented(driveRobotOrientedVelocity);
 
         /**
          * Use this method to define your trigger->command mappings. Triggers can be
@@ -223,6 +224,8 @@ public class RobotContainer {
                 new Trigger(() -> getLeftDriverTriggerValue())
                                 .whileTrue(new LockApriltag(limelightSubsystem));
 
+                new JoystickButton(driverController, XboxController.Button.kRightBumper.value)
+                                .whileTrue(new GroundVerticalPickupCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem, wristSubsystem));
                 // new Trigger(() -> getLeftDriverTriggerValue()) // Place Coral On Reef
                 //                 .whileTrue(new AutoPlaceCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
 
@@ -475,6 +478,9 @@ public class RobotContainer {
                 SmartDashboard.putNumber("pos rot", drivebase.getSwerveDrive().getPose().getRotation().getDegrees());
                 SmartDashboard.putNumber("limelight rot", limelightSubsystem.getReefHeading());
                 if(getLeftDriverTriggerValue()){
+                        if(limelightSubsystem.getReefHeading() == 6894){
+                                return -driverController.getRightX() / 2;
+                        }
                         return headingController.calculate(drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), limelightSubsystem.getReefHeading());
                 }
                 return -driverController.getRightX() / 2;
