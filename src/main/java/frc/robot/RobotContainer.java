@@ -193,7 +193,7 @@ public class RobotContainer {
         //Command driveFieldOrientedDirectAngle = drivebase.driveRobotOriented(driveDirectAngle);
 
         Command driveFieldOrientedAngularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
-        //Command driveRobotOriented = drivebase.driveFieldOriented(driveRobotOrientedVelocity);
+        Command driveRobotOriented = drivebase.driveFieldOriented(driveRobotOrientedVelocity);
 
         /**
          * Use this method to define your trigger->command mappings. Triggers can be
@@ -224,8 +224,9 @@ public class RobotContainer {
                 new Trigger(() -> getLeftDriverTriggerValue())
                                 .whileTrue(new LockApriltag(limelightSubsystem));
 
-                new JoystickButton(driverController, XboxController.Button.kRightBumper.value)
+                new JoystickButton(driverController, XboxController.Button.kLeftBumper.value)
                                 .whileTrue(new GroundVerticalPickupCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+                new Trigger(driverController::getRightBumperButton).whileTrue(driveRobotOriented);
                 // new Trigger(() -> getLeftDriverTriggerValue()) // Place Coral On Reef
                 //                 .whileTrue(new AutoPlaceCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
 
