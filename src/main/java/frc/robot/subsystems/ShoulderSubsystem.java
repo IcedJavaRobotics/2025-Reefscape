@@ -169,7 +169,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     myVAR = shoulderPosition.L4;
     // return;
     // }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), 34.64));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), L4_SETPOINT));
   }
 
   public void moveShoulderCoralStation() {
@@ -196,6 +196,19 @@ public class ShoulderSubsystem extends SubsystemBase {
     // return;
     // }
     shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), GROUND_SETPOINT));
+  }
+
+  public void moveShoulderGroundVertical() {
+    /*
+     * This moves the shoulder to the lowest possible position and updates the
+     * string shoulderPosition
+     */
+    // if (shoulderMotor.getPosition().getValueAsDouble() >= -174.5) {
+    // shoulderMotorOFF();
+    myVAR = shoulderPosition.GROUND;
+    // return;
+    // }
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), GROUND_VERTICAL_SETPOINT));
   }
 
   public void moveShoulderUpperAlgae() {

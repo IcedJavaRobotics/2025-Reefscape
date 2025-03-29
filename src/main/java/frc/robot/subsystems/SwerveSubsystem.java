@@ -11,6 +11,8 @@ import frc.robot.Constants;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.spec.ECPublicKeySpec;
+import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 import org.json.simple.parser.ParseException;
@@ -43,7 +45,8 @@ public class SwerveSubsystem extends SubsystemBase {
       swerveDrive = new SwerveParser(directory).createSwerveDrive(Constants.DriverConstants.MAX_SPEED,
           new Pose2d(new Translation2d(Units.feetToMeters(1),
               Units.feetToMeters(4)),
-              Rotation2d.fromDegrees(0)));
+              Rotation2d.fromDegrees(0))); //TODO: TEST CHANGING THESE VALUES
+              
       // Alternative method if you don't want to supply the conversion factor via JSON
       // files.
       // swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed,
@@ -72,7 +75,7 @@ public class SwerveSubsystem extends SubsystemBase {
                                       this::getPose, // Robot pose supplier
                                       this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
                                       this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-                                      (speeds, feedforwards) -> driveFieldOriented(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+                                      (speeds, feedforwards) -> driveRobotOriented(speeds), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
                                       new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller for holonomic drive trains
                                               new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
                                               new PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
@@ -92,6 +95,8 @@ public class SwerveSubsystem extends SubsystemBase {
                                       },
                                       this // Reference to this subsystem to set requirements
                               );
+
+                      
 
   }
 
@@ -137,6 +142,8 @@ public ChassisSpeeds getRobotRelativeSpeeds(){
     for (SwerveModule swerveModule : swerveDrive.getModules()) {
       SmartDashboard.putNumber(swerveModule.toString(), swerveModule.getAbsolutePosition());
     }
+    SmartDashboard.putNumber("pose", this.getPose().getRotation().getDegrees());
+    SmartDashboard.putNumber("yaw", swerveDrive.getYaw().getDegrees());
   }
 
   @Override
@@ -152,9 +159,38 @@ public ChassisSpeeds getRobotRelativeSpeeds(){
     swerveDrive.driveFieldOriented(velocity);
   }
 
+  public void drive(ChassisSpeeds velocity){
+    swerveDrive.drive(velocity);
+  }
+  // public Command drive(ChassisSpeeds velocity) {
+  //   return run(() -> {
+  //     swerveDrive.drive(velocity);
+  //   });
+  // }
+
   public Command driveFieldOriented(Supplier<ChassisSpeeds> velocity) {
     return run(() -> {
       swerveDrive.driveFieldOriented(velocity.get());
+    });
+  }
+
+  public Command driveToggleOriented(Supplier<ChassisSpeeds> velocity, BooleanSupplier robotOriented) {
+    return run(() -> {
+      if(!robotOriented.getAsBoolean()){
+        swerveDrive.driveFieldOriented(velocity.get());
+      } else{
+        swerveDrive.drive(velocity.get());
+      }
+    });
+  }
+
+  public void driveRobotOriented(ChassisSpeeds velocity){
+    swerveDrive.drive(velocity);
+  }
+
+  public Command driveRobotOriented(Supplier<ChassisSpeeds> velocity){
+    return run(() -> {
+      swerveDrive.drive(velocity.get());
     });
   }
 

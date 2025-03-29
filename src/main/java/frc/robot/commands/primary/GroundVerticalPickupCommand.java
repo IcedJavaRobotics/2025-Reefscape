@@ -16,17 +16,17 @@ import frc.robot.subsystems.WristSubsystem;
  * in robotContainer swerve object)
  * 
  */
-public class AutoIntakeCommand extends Command {
+public class GroundVerticalPickupCommand extends Command {
   /** Creates a new AutoIntake. */
   private IntakeSubsystem intakeSubsystem;
   private ShoulderSubsystem shoulderSubsystem;
   private ElevatorSubsystem elevatorSubsystem;
   private WristSubsystem wristSubsystem;
 
-  private PIDController shoulderPID = new PIDController(0, 0, 0);
-  private PIDController elevatorPID = new PIDController(0, 0, 0);
+  private PIDController shoulderPID = new PIDController(0., 0, 0);
+  private PIDController elevatorPID = new PIDController(0., 0, 0);
 
-  public AutoIntakeCommand(IntakeSubsystem intakeSubsystem, ShoulderSubsystem shoulderSubsystem,
+  public GroundVerticalPickupCommand(IntakeSubsystem intakeSubsystem, ShoulderSubsystem shoulderSubsystem,
       ElevatorSubsystem elevatorSubsystem, WristSubsystem wristSubsystem) {
     this.intakeSubsystem = intakeSubsystem;
     this.shoulderSubsystem = shoulderSubsystem;
@@ -57,12 +57,12 @@ public class AutoIntakeCommand extends Command {
     // intakeSubsystem.intakeGamePiece();
     // }
 
-    shoulderSubsystem.moveShoulderCoralStation();
-    elevatorSubsystem.moveElevatorCoralStation();
-    if(elevatorSubsystem.getElevatorEncoder() <= 100){
-      wristSubsystem.verticalPID();
+    shoulderSubsystem.moveShoulderGroundVertical();
+    elevatorSubsystem.moveElevatorGroundVertical();
+    if(elevatorSubsystem.getElevatorEncoder() <= 60){
+      wristSubsystem.horizontalPID();
     }
-    if (shoulderSubsystem.getShoulderEncoder() >= -20) {
+    if (shoulderSubsystem.getShoulderEncoder() <= -50) {
       intakeSubsystem.intakeGamePiece();
     }
   }

@@ -20,13 +20,15 @@ import edu.wpi.first.math.util.Units;
  */
 public final class Constants {
 
+  public static String armPreset = "L2"; //L1, L2, L3, L4, coralstation, 
+
   public static class DriverConstants {
     public static final int MAIN_DRIVER_PORT = 0;
     public static final int AUX_DRIVER_PORT = 1;
     public static final int DRIVER_STATION_PORT = 2;
     // public static final String DEADBAND = "0.5";
-    public static final double DEADBAND = 0.02;
-    public static final double MAX_SPEED = Units.feetToMeters(8); //4.5
+    public static final double DEADBAND = 0;
+    public static final double MAX_SPEED = Units.feetToMeters(9); //4.5
     public static final int[] driverstationButtons = { 14, 20, 30, 40 }; // 0 = top left, and then read it like a book
   }
 
@@ -46,11 +48,16 @@ public final class Constants {
 
     public static final double SHOULDER_MOTOR_SPEED = 0.2;
 
-    public static final double L1_SETPOINT = -78.788;
-    public static final double L2_SETPOINT = -37.433;
-    public static final double L3_SETPOINT = 6.926;
-    public static final double CORAL_STATION_SETPOINT = -1;
+    public static final double TOTAL_OFFSET = 4;
+
+    public static final double L1_SETPOINT = -64.788 + TOTAL_OFFSET;
+    public static final double L2_SETPOINT = -30 + TOTAL_OFFSET;
+    public static final double L3_SETPOINT = 12 + TOTAL_OFFSET;
+    public static final double L4_SETPOINT = 48 + TOTAL_OFFSET;
+
+    public static final double CORAL_STATION_SETPOINT = 1; //4
     public static final double GROUND_SETPOINT = -70; // TODO
+    public static final double GROUND_VERTICAL_SETPOINT = -168;
     public static final double UPPER_ALGAE_SETPOINT = 3.927; // TODO
     public static final double LOWER_ALGAE_SETPOINT = -67.7; // TODO
   }
@@ -75,15 +82,18 @@ public final class Constants {
     public static final double ELEVATOR_MOTOR_SPEED = 0.2;
     public static final double ELEVATOR_LIMIT = 230;
 
+    public static final double TOTAL_OFFSET = 0;
+
     public static final double SAFE_RESET_SETPOINT = 5;
-    public static final double L1_SETPOINT = 0;
-    public static final double L2_SETPOINT = 43.71;
-    public static final double L3_SETPOINT = 102.275;
-    public static final double L4_SETPOINT = 230;
-    public static final double CORAL_STATION_SETPOINT = 30.4;
+    public static final double L1_SETPOINT = 0 + TOTAL_OFFSET;
+    public static final double L2_SETPOINT = 40 + TOTAL_OFFSET;
+    public static final double L3_SETPOINT = 108.275 + TOTAL_OFFSET;
+    public static final double L4_SETPOINT = 230 + TOTAL_OFFSET;
+    public static final double CORAL_STATION_SETPOINT = 31 + TOTAL_OFFSET; //32
     public static final double GROUND_SETPOINT = 20.115; // TODO
-    public static final double UPPER_ALGAE_SETPOINT = 90.941; // TODO
-    public static final double LOWER_ALGAE_SETPOINT = 22; // TODO
+    public static final double GROUND_VERTICAL_SETPOINT = 24;
+    public static final double UPPER_ALGAE_SETPOINT = 90.941 + TOTAL_OFFSET; // TODO
+    public static final double LOWER_ALGAE_SETPOINT = 22 + TOTAL_OFFSET; // TODO
   }
 
   public static final class LimelightConstants {

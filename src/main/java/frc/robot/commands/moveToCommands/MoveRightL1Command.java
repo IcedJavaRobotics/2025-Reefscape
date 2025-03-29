@@ -5,6 +5,7 @@ package frc.robot.commands.moveToCommands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.ShoulderSubsystem;
 import frc.robot.subsystems.WristSubsystem;
@@ -37,7 +38,10 @@ public class MoveRightL1Command extends Command {
     @Override
     public void execute() {
         wristSubsystem.set(wristPID.calculate(wristSubsystem.getEncoder(), 25));
-        shoulderSubsystem.moveShoulderL1();
+        if(elevatorSubsystem.getElevatorEncoder() <= 20){
+            shoulderSubsystem.moveShoulderL1();
+        }
+
         elevatorSubsystem.moveElevatorL1();
         // if (elevatorSubsystem.extensionChecker()) {
         // elevatorSubsystem.elevatorIN();
@@ -57,6 +61,12 @@ public class MoveRightL1Command extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+                if(wristSubsystem.getEncoder() >= 23 && 
+        (shoulderSubsystem.getShoulderEncoder() >= (Constants.ShoulderConstants.L1_SETPOINT-3) && (shoulderSubsystem.getShoulderEncoder() <= (Constants.ShoulderConstants.L1_SETPOINT+3)))
+         && elevatorSubsystem.getElevatorEncoder() >= (Constants.ElevatorConstants.L1_SETPOINT -7) && elevatorSubsystem.getElevatorEncoder() <= (Constants.ElevatorConstants.L1_SETPOINT + 7)
+         ){
+            return true;
+        }
         return false;
     }
 }

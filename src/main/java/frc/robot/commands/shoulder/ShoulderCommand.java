@@ -29,7 +29,6 @@ public class ShoulderCommand extends Command {
   @Override
   public void execute() {
     shoulderSubsystem.shoulderSet(0.3, multiplier);
-    System.out.println("SHOULDER COMMAND");
   }
 
   // Called once the command ends or is interrupted.

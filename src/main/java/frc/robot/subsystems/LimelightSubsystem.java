@@ -9,19 +9,25 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.LimelightConstants;
 
 import static frc.robot.Constants.LimelightConstants;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.HttpCamera;
+import frc.robot.LimelightHelpers;
 
 public class LimelightSubsystem extends SubsystemBase {
 
     // private Spark blinkin = new Spark(0); //Creates a blinkin as if it were a
     // spark.
     // Creates a new LimelightSubsystem.
+
+    private double lockedApriltag = -1;
+    private double lastSeenApriltag = -1;
+
     public LimelightSubsystem() {
 
-        HttpCamera httpCamera = new HttpCamera("Limelight-4", "http://limelight.local:5801/");
+        HttpCamera httpCamera = new HttpCamera("sauron", "http://10.68.94.11:5801/");
         CameraServer.getVideo(httpCamera);
         Shuffleboard.getTab("LiveWindow").add(httpCamera);
 
@@ -34,7 +40,7 @@ public class LimelightSubsystem extends SubsystemBase {
      * @return The ID of the apriltag it can see
      */
     public double getTid() {
-        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDouble(0);
+        return NetworkTableInstance.getDefault().getTable("limelight-sauron").getEntry("tid").getDouble(0);
     }
 
     /**
@@ -42,7 +48,7 @@ public class LimelightSubsystem extends SubsystemBase {
      *         horizontally
      */
     public double getTx() {
-        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+        return NetworkTableInstance.getDefault().getTable("limelight-sauron").getEntry("tx").getDouble(0);
     }
 
     /**
@@ -50,7 +56,7 @@ public class LimelightSubsystem extends SubsystemBase {
      *         vertically
      */
     public double getTy() {
-        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+        return NetworkTableInstance.getDefault().getTable("limelight-sauron").getEntry("ty").getDouble(0);
     }
 
     /**
@@ -59,7 +65,7 @@ public class LimelightSubsystem extends SubsystemBase {
      *         to distance away from the apriltag
      */
     public double getTa() {
-        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+        return NetworkTableInstance.getDefault().getTable("limelight-sauron").getEntry("ta").getDouble(0);
     }
 
     /**
@@ -67,7 +73,7 @@ public class LimelightSubsystem extends SubsystemBase {
      * @param mode 1.0 for on, 0.0 for off
      */
     public void setFlasher(double mode) {
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setDouble(mode);
+        NetworkTableInstance.getDefault().getTable("limelight-sauron").getEntry("ledMode").setDouble(mode);
     }
 
     /**
@@ -77,10 +83,14 @@ public class LimelightSubsystem extends SubsystemBase {
      */
     public Boolean tagDetected() {
 
-        if (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0) == 1) {
+        if (NetworkTableInstance.getDefault().getTable("limelight-sauron").getEntry("tv").getDouble(0) == 1) {
             return true;
         }
         return false;
+    }
+
+    public void lockApriltag(){
+        this.lockedApriltag = lastSeenApriltag;
     }
 
     /**
@@ -107,10 +117,41 @@ public class LimelightSubsystem extends SubsystemBase {
 
     }
 
+    /**
+     * Based on the ID, returns the heading to turn to the reef to place
+     * @return the robot goal heading
+     */
+    public double getReefHeading(){
+
+        if(lockedApriltag == 21 || lockedApriltag == 7){
+            return 0;
+        } else if(lockedApriltag == 19 || lockedApriltag == 8){
+            return 60;
+        } else if(lockedApriltag == 20 || lockedApriltag == 9){
+            return 120;
+        } else if(lockedApriltag == 18 || lockedApriltag == 10){
+            return 179.99;
+        } else if(lockedApriltag == 22 || lockedApriltag == 11){
+            return -120;
+        } else if(lockedApriltag == 17 || lockedApriltag == 6){
+            return -60;
+        }
+        // if(id==11){
+        //     return 90;
+        // }
+         return 6894;
+    }
+
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+        if(getTid() != -1){
+            lastSeenApriltag = this.getTid();
+        }
         SmartDashboard.putNumber("apriltag", getTid());
+        SmartDashboard.putNumber("Locked apriltag", lockedApriltag);
+        SmartDashboard.putNumber("last apriltag", lastSeenApriltag);
+
 
     }
 }

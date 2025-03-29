@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.DriverConstants;
 import frc.robot.commands.actuator.ActuatorInCommand;
 import frc.robot.commands.actuator.ActuatorOutCommand;
+import frc.robot.commands.candle.CandleCommand;
 import frc.robot.commands.candle.CandleRed;
 import frc.robot.commands.cursor.CursorDownCommand;
 import frc.robot.commands.cursor.CursorLeftCommand;
@@ -19,6 +20,7 @@ import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.intake.IntakeOutCommand;
 import frc.robot.commands.intake.IntakeOutSlowCommand;
 import frc.robot.commands.misc.ArmDemonstrationCommand;
+import frc.robot.commands.misc.LockApriltag;
 import frc.robot.commands.misc.ZeroGyroCommand;
 import frc.robot.commands.moveToCommands.MoveGroundCommand;
 import frc.robot.commands.moveToCommands.MoveLowerAlgaeCommand;
@@ -28,6 +30,8 @@ import frc.robot.commands.moveToCommands.MoveRightL3Command;
 import frc.robot.commands.moveToCommands.MoveRightL4Command;
 import frc.robot.commands.primary.AutoIntakeCommand;
 import frc.robot.commands.primary.AutoPlaceCommand;
+import frc.robot.commands.primary.ClearAlgaeCommand;
+import frc.robot.commands.primary.GroundVerticalPickupCommand;
 import frc.robot.commands.primary.ResetMotorsCommand;
 import frc.robot.commands.shoulder.ShoulderCommand;
 import frc.robot.commands.wrist.WristCommand;
@@ -59,6 +63,7 @@ import swervelib.SwerveInputStream;
 import java.util.function.Supplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
@@ -87,13 +92,12 @@ public class RobotContainer {
         private final ShoulderSubsystem shoulderSubsystem = new ShoulderSubsystem();
         private final WristSubsystem wristSubsystem = new WristSubsystem();
         private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-        private final TestSubsystem testSubsystem = new TestSubsystem();
+        //private final TestSubsystem testSubsystem = new TestSubsystem();
         private final ActuatorSubsystem actuatorSubsystem = new ActuatorSubsystem();
         private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
         private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem(shoulderSubsystem);
-
-        private final SelectorSubsystem selectorSubsystem = new SelectorSubsystem(shoulderSubsystem, elevatorSubsystem,
-                        wristSubsystem);
+        private final SwerveSubsystem drivebase = new SwerveSubsystem();
+        //private final SelectorSubsystem selectorSubsystem = new SelectorSubsystem(shoulderSubsystem, elevatorSubsystem,wristSubsystem);
 
         private final SendableChooser<Command> autoChooser;
 
@@ -101,16 +105,19 @@ public class RobotContainer {
         XboxController auxController = new XboxController(DriverConstants.AUX_DRIVER_PORT);
         private final Joystick driverStation = new Joystick(DriverConstants.DRIVER_STATION_PORT);
 
-        private final SwerveSubsystem drivebase = new SwerveSubsystem();
+        PIDController headingController = new PIDController(0.015, 0, 0.001);
+
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
          */
         public RobotContainer() {
                 // Configure the trigger bindings
+                headingController.enableContinuousInput(-180, 180);
+                configureNamedCommands();
                 configureBindings();
                 candleSubsystem.setCandleJavaBlue();
-                drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity);
+                drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity); 
 
                 // elevatorSubsystem.setDefaultCommand(new RunCommand(() ->
                 // elevatorSubsystem.reset(), elevatorSubsystem));
@@ -119,13 +126,15 @@ public class RobotContainer {
                 // new RunCommand(() -> shoulderSubsystem.reset(() -> elevatorInEnough()),
                 // shoulderSubsystem));
 
+                DriverStation.silenceJoystickConnectionWarning(true);
                 autoChooser = AutoBuilder.buildAutoChooser(); // Default auto will be
                 // `Commands.none()`
                 SmartDashboard.putData("AutoSelec", autoChooser);
 
         }
 
-        PIDController headingController = new PIDController(0.02, 0, 0);
+
+
 
         private boolean elevatorInEnough() {
                 if (elevatorSubsystem.getElevatorEncoder() <= 50) {
@@ -135,11 +144,11 @@ public class RobotContainer {
         }
 
         private double getDeadzone() {
-                if (auxController.getRightX() >= 0.5 || auxController.getRightX() <= -0.5) {
-                        return 0;
-                } else if (getLeftDriverTriggerValue()) {
-                        return 0;
-                }
+                // if (auxController.getRightX() >= 0.5 || auxController.getRightX() <= -0.5) {
+                //         return 0;
+                // } else if (getLeftDriverTriggerValue()) {
+                //         return 0;
+                // }
                 return DriverConstants.DEADBAND;
         }
 
@@ -150,23 +159,41 @@ public class RobotContainer {
         private double getLeftY() {
                 return -driverController.getLeftY();
         }
+        private double getMultiplier(){
+                if(driverController.getLeftStickButton()){
+                        return 1;
+                } else if(getLeftDriverTriggerValue()){
+                        return 0.2;
+                }
+                return 0.5;
+        }
+
+        private double getTurnMultiplier(){
+                if(driverController.getRightStickButton()){
+                        return 1;
+                } else{
+                        return 0.5;
+                }
+        }
 
         SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                        () -> driverController.getLeftY() * 1,
-                        () -> driverController.getLeftX() * 1)
+                        () -> driverController.getLeftY() * getMultiplier(),
+                        () -> driverController.getLeftX() * getMultiplier())
                         .withControllerRotationAxis(() -> getRightX())
                         .deadband(getDeadzone())
                         .scaleTranslation(1)// Can be changed to alter speed
                         .allianceRelativeControl(true);
 
-        SwerveInputStream driveDirectAngle = driveAngularVelocity.copy()
-                        .withControllerHeadingAxis(() -> driverController.getRightX(),
-                                        () -> driverController.getRightY())
-                        .headingWhile(true);
+        SwerveInputStream driveRobotOrientedVelocity = driveAngularVelocity.copy().robotRelative(true).allianceRelativeControl(false);
+        // SwerveInputStream driveDirectAngle = driveAngularVelocity.copy() .robotRelative(() -> isRobotRelative())
+        //                 .withControllerHeadingAxis(() -> driverController.getRightX(),
+        //                                 () -> driverController.getRightY())
+        //                 .headingWhile(true);
 
-        Command driveFieldOrientedDirectAngle = drivebase.driveFieldOriented(driveDirectAngle);
+        //Command driveFieldOrientedDirectAngle = drivebase.driveRobotOriented(driveDirectAngle);
 
         Command driveFieldOrientedAngularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
+        //Command driveRobotOriented = drivebase.driveFieldOriented(driveRobotOrientedVelocity);
 
         /**
          * Use this method to define your trigger->command mappings. Triggers can be
@@ -194,9 +221,13 @@ public class RobotContainer {
                 new Trigger(() -> getRightDriverTriggerValue()) // CORAL STATION COMMAND
                                 .whileTrue(new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem,
                                                 elevatorSubsystem, wristSubsystem));
+                new Trigger(() -> getLeftDriverTriggerValue())
+                                .whileTrue(new LockApriltag(limelightSubsystem));
 
-                new Trigger(() -> getLeftDriverTriggerValue()) // Place Coral On Reef
-                                .whileTrue(new AutoPlaceCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
+                new JoystickButton(driverController, XboxController.Button.kRightBumper.value)
+                                .whileTrue(new GroundVerticalPickupCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+                // new Trigger(() -> getLeftDriverTriggerValue()) // Place Coral On Reef
+                //                 .whileTrue(new AutoPlaceCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
 
                 // Driver movement
                 new JoystickButton(driverController, XboxController.Button.kB.value)
@@ -219,26 +250,28 @@ public class RobotContainer {
                                 .whileTrue(new ShoulderCommand(shoulderSubsystem, -1));
 
                 // Elevator Movement
-                new JoystickButton(driverController, XboxController.Button.kLeftBumper.value)
+                new JoystickButton(driverStation, 6)
                                 .whileTrue(new ElevatorINCommand(elevatorSubsystem));
-                new JoystickButton(driverController, XboxController.Button.kRightBumper.value)
+                new JoystickButton(driverStation, 1)
                                 .whileTrue(new ElevatorOUTCommand(elevatorSubsystem));
 
                 // Intake Control
                 new JoystickButton(driverController, XboxController.Button.kY.value)
-                                .whileTrue(new IntakeOutCommand(intakeSubsystem, false));
+                                .whileTrue(new IntakeOutCommand(intakeSubsystem, true));
                 new POVButton(driverController, 0)
                                 .whileTrue(new IntakeOutSlowCommand(intakeSubsystem));
                 new POVButton(driverController, 180)
                                 .whileTrue(new IntakeCommand(intakeSubsystem, false));
+
 
                 // ---------AUX CONTROLS
                 // --------------------------------------------------------------
 
                 // Grid navigation
                 new Trigger(() -> getRightAuxTriggerValue()) // FOR SELECTOR SUBSYSTEM
-                                .whileTrue(new ResetMotorsCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem,
-                                                wristSubsystem));
+                                .whileTrue(new AutoPlaceCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
+                new Trigger(() -> getLeftAuxTriggerValue())
+                                .whileTrue(new ClearAlgaeCommand(shoulderSubsystem, elevatorSubsystem, wristSubsystem, intakeSubsystem));
 
                 // new POVButton(auxController, 180) /* D-Pad pressed DOWN */
                 //                 .whileTrue(new CursorDownCommand(selectorSubsystem));
@@ -289,6 +322,9 @@ public class RobotContainer {
                 new JoystickButton(auxController, XboxController.Button.kBack.value)
                                 .whileTrue(new ActuatorOutCommand(actuatorSubsystem));
 
+
+
+
                 /*
                  * OTHER CONTROLS::
                  * DRIVER:
@@ -299,6 +335,30 @@ public class RobotContainer {
                  * 
                  */
 
+        }
+
+        private void configureNamedCommands(){
+                NamedCommands.registerCommand("armL1", new MoveRightL1Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+                NamedCommands.registerCommand("armL2", new MoveRightL2Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+                NamedCommands.registerCommand("armL3", new MoveRightL3Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+
+                NamedCommands.registerCommand("place", new AutoPlaceCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
+                NamedCommands.registerCommand("autoIntake", new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+                NamedCommands.registerCommand("intakeOut", new IntakeOutCommand(intakeSubsystem, true));
+                NamedCommands.registerCommand("algae-clear", new ClearAlgaeCommand(shoulderSubsystem, elevatorSubsystem, wristSubsystem, intakeSubsystem));
+                
+        }
+
+        private void initializeDashboard(){
+                SmartDashboard.putNumber("Gyro", drivebase.getSwerveDrive().getGyro().getRotation3d().getZ() * (180/Math.PI));
+                SmartDashboard.putNumber("odometry angle", drivebase.getPose().getRotation().getDegrees());
+        }
+
+        private boolean isRobotRelative(){
+                if(driverController.getRightBumperButton()){
+                        return true;
+                }
+                return false;
         }
 
         private boolean auxRightstickLeft() {
@@ -343,6 +403,16 @@ public class RobotContainer {
                         return false;
                 }
         }
+        private boolean getLeftAuxTriggerValue() {
+                if (auxController != null) {
+                        if (auxController.getLeftTriggerAxis() >= 0.5) {
+                                return true;
+                        }
+                        return false;
+                } else {
+                        return false;
+                }
+        }
 
         private boolean getLeftTriggerValue() {
                 if (driverController != null) {
@@ -363,49 +433,20 @@ public class RobotContainer {
                 return driverStation.getRawButtonPressed(7);
         }
 
+        /**
+         * 
+         * @return Will return the controller input either divided by two or not based on whether you hold the joystick button. If you hold left trigger, it will use the limelight to auto rotate
+         */
         private double getRightX() {
-                if (auxController.getRightX() >= 0.5) {
-                        return headingController.calculate(
-                                        drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), 120);
-                } else if (auxController.getRightX() <= -0.5) {
-                        return headingController.calculate(
-                                        drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), -150);
-                } else if (getLeftDriverTriggerValue()) { // aux movement gets priority over the auto align
-                        double id = limelightSubsystem.getTid();
-                        // shoulderSubsystem.coralStationPID();
-
-                        if (id == 10 || id == 21) {
-                                return headingController
-                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                                                                .getDegrees(), 0);
+                SmartDashboard.putNumber("pos rot", drivebase.getSwerveDrive().getPose().getRotation().getDegrees());
+                SmartDashboard.putNumber("limelight rot", limelightSubsystem.getReefHeading());
+                if(getLeftDriverTriggerValue()){
+                        if(limelightSubsystem.getReefHeading() == 6894){
+                                return -driverController.getRightX() / 2;
                         }
-                        if (id == 9 || id == 22) {
-                                return headingController
-                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                                                                .getDegrees(), 60);
-                        }
-                        if (id == 8 || id == 17) {
-                                return headingController
-                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                                                                .getDegrees(), 120);
-                        }
-                        if (id == 7 || id == 18) {
-                                return headingController
-                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                                                                .getDegrees(), 180);
-                        }
-                        if (id == 6 || id == 19) {
-                                return headingController
-                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                                                                .getDegrees(), 240);
-                        }
-                        if (id == 11 || id == 20) {
-                                return headingController
-                                                .calculate(drivebase.getSwerveDrive().getPose().getRotation()
-                                                                .getDegrees(), 300);
-                        }
+                        return headingController.calculate(drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), limelightSubsystem.getReefHeading());
                 }
-                return -driverController.getRightX();
+                return -driverController.getRightX() / 2;
         }
 
         /**

@@ -110,11 +110,14 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void moveElevatorUpperAlgae() {
         myVAR = elevatorPosition.UPPER_ALGAE;
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), 10));
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), UPPER_ALGAE_SETPOINT));
     }
 
     public void moveElevatorLowerAlgae() {
             myVAR = elevatorPosition.LOWER_ALGAE;
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), LOWER_ALGAE_SETPOINT));
+    }
+    public void moveElevatorGroundVertical(){
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), LOWER_ALGAE_SETPOINT));
     }
 
@@ -124,19 +127,6 @@ public class ElevatorSubsystem extends SubsystemBase {
             return;
         }
         elevatorMotor.set(ELEVATOR_MOTOR_SPEED);
-
-        // if (getElevatorLimit(shoulderSubsystem.getShoulderEncoder()) > this
-        //         .getElevatorEncoder()) {
-
-        // } else {
-        //     // elevatorMotor.set(0);
-        // }
-
-        // if (!extensionChecker()) {
-        // elevatorMotor.set(ElevatorConstants.Elevator_MOTOR_SPEED);
-        // } else {
-        // elevatorOFF();
-        // }
     }
 
     /**
