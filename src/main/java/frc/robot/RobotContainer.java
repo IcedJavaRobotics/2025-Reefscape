@@ -32,6 +32,7 @@ import frc.robot.commands.primary.AutoIntakeCommand;
 import frc.robot.commands.primary.AutoPlaceCommand;
 import frc.robot.commands.primary.ClearAlgaeCommand;
 import frc.robot.commands.primary.GroundVerticalPickupCommand;
+import frc.robot.commands.primary.MoveToStationCommand;
 import frc.robot.commands.primary.ResetMotorsCommand;
 import frc.robot.commands.shoulder.ShoulderCommand;
 import frc.robot.commands.wrist.WristCommand;
@@ -76,6 +77,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+import java.util.Date;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -107,11 +111,17 @@ public class RobotContainer {
 
         PIDController headingController = new PIDController(0.015, 0, 0.001);
 
+        private String formattedTime = "hi";
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
          */
         public RobotContainer() {
+                Date currentDate = new Date();
+                LocalTime currentTime = LocalTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                formattedTime = currentTime.format(formatter);
+
                 // Configure the trigger bindings
                 headingController.enableContinuousInput(-180, 180);
                 configureNamedCommands();
@@ -163,7 +173,7 @@ public class RobotContainer {
                 if(driverController.getLeftStickButton()){
                         return 1;
                 } else if(getLeftDriverTriggerValue()){
-                        return 0.2;
+                        return 0.4;
                 }
                 return 0.5;
         }
@@ -343,6 +353,8 @@ public class RobotContainer {
                 NamedCommands.registerCommand("armL2", new MoveRightL2Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
                 NamedCommands.registerCommand("armL3", new MoveRightL3Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
 
+                NamedCommands.registerCommand("moveTo", new MoveToStationCommand(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+
                 NamedCommands.registerCommand("place", new AutoPlaceCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
                 NamedCommands.registerCommand("autoIntake", new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem, wristSubsystem));
                 NamedCommands.registerCommand("intakeOut", new IntakeOutCommand(intakeSubsystem, true));
@@ -441,13 +453,20 @@ public class RobotContainer {
         private double getRightX() {
                 SmartDashboard.putNumber("pos rot", drivebase.getSwerveDrive().getPose().getRotation().getDegrees());
                 SmartDashboard.putNumber("limelight rot", limelightSubsystem.getReefHeading());
+                SmartDashboard.putString("time", formattedTime);
                 if(getLeftDriverTriggerValue()){
                         if(limelightSubsystem.getReefHeading() == 6894){
-                                return -driverController.getRightX() / 2;
+                                return getControllerRotation();
                         }
-                        return headingController.calculate(drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), limelightSubsystem.getReefHeading());
+                        
+                        return headingController.calculate(drivebase.getSwerveDrive().getYaw().getDegrees(), limelightSubsystem.getReefHeading());
                 }
-                return -driverController.getRightX() / 2;
+                
+                return getControllerRotation();
+        }
+
+        private double getControllerRotation() {
+                return -driverController.getRightX() * getTurnMultiplier();     
         }
 
         /**
