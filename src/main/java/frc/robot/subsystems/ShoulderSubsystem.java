@@ -26,6 +26,8 @@ public class ShoulderSubsystem extends SubsystemBase {
   TalonFX shoulderMotor;
   public PIDController shoulderPidController = new PIDController(0.02, 0, 0.001);
 
+  private double shoulderOffset = 0;
+
   // 1000:1 GEAR RATIO
 
   /**
@@ -78,6 +80,10 @@ public class ShoulderSubsystem extends SubsystemBase {
     return absoluteEncoder.get();
   }
 
+  public void setOffset(double newOffset){
+    this.shoulderOffset = newOffset;
+  }
+
   public void zeroShoulderEncoder() {
     shoulderMotor.setPosition(0);
   }
@@ -104,7 +110,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     myVAR = shoulderPosition.L1;
     // return;
     // }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), L1_SETPOINT));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), (L1_SETPOINT + shoulderOffset)));
   }
 
   public void moveShoulderL2() {
@@ -117,7 +123,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     myVAR = shoulderPosition.L2;
     // return;
     // }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), L2_SETPOINT));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), (L2_SETPOINT + shoulderOffset)));
   }
 
   public void moveShoulderL2Score() {
@@ -143,7 +149,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     myVAR = shoulderPosition.L3;
     // return;
     // }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), L3_SETPOINT));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), L3_SETPOINT+shoulderOffset));
   }
 
   public void moveShoulderL3Score() {
@@ -169,7 +175,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     myVAR = shoulderPosition.L4;
     // return;
     // }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), L4_SETPOINT));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), L4_SETPOINT+shoulderOffset));
   }
 
   public void moveShoulderCoralStation() {
@@ -182,7 +188,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     myVAR = shoulderPosition.CORAL_STATION;
     // return;
     // }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), CORAL_STATION_SETPOINT));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), CORAL_STATION_SETPOINT+shoulderOffset));
   }
 
   public void moveShoulderGround() {
@@ -195,7 +201,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     myVAR = shoulderPosition.GROUND;
     // return;
     // }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), GROUND_SETPOINT));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), GROUND_SETPOINT+shoulderOffset));
   }
 
   public void moveShoulderGroundVertical() {
@@ -208,7 +214,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     myVAR = shoulderPosition.GROUND;
     // return;
     // }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), GROUND_VERTICAL_SETPOINT));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), GROUND_VERTICAL_SETPOINT+shoulderOffset));
   }
 
   public void moveShoulderUpperAlgae() {
@@ -221,7 +227,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     myVAR = shoulderPosition.UPPER_ALGAE;
     // return;
     // }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), UPPER_ALGAE_SETPOINT));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), UPPER_ALGAE_SETPOINT+shoulderOffset));
   }
 
   public void moveShoulderLowerAlgae() {
@@ -234,7 +240,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     myVAR = shoulderPosition.LOWER_ALGAE;
     // return;
     // }
-    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), LOWER_ALGAE_SETPOINT));
+    shoulderMotor.set(shoulderPidController.calculate(shoulderMotor.getPosition().getValueAsDouble(), LOWER_ALGAE_SETPOINT+shoulderOffset));
   }
 
   @Override
@@ -243,6 +249,7 @@ public class ShoulderSubsystem extends SubsystemBase {
     SmartDashboard.putString("shoulderPosition", myVAR.toString());
     SmartDashboard.putNumber("shoulder torque", getTorque());
     SmartDashboard.putNumber("shold-abs-enc", absoluteEncoder.get());
+    SmartDashboard.putNumber("shoulderOffset", shoulderOffset);
     // This method will be called once per scheduler run
   }
 

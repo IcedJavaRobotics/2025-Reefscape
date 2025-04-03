@@ -14,7 +14,9 @@ import frc.robot.commands.cursor.CursorLeftCommand;
 import frc.robot.commands.cursor.CursorRightCommand;
 import frc.robot.commands.cursor.CursorUpCommand;
 import frc.robot.commands.cursor.ToggleAuxLockCommand;
+import frc.robot.commands.elevator.ElevatorINAdjustCommand;
 import frc.robot.commands.elevator.ElevatorINCommand;
+import frc.robot.commands.elevator.ElevatorOUTAdjustCommand;
 import frc.robot.commands.elevator.ElevatorOUTCommand;
 import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.intake.IntakeOutCommand;
@@ -35,6 +37,7 @@ import frc.robot.commands.primary.GroundVerticalPickupCommand;
 import frc.robot.commands.primary.MoveToStationCommand;
 import frc.robot.commands.primary.ResetMotorsCommand;
 import frc.robot.commands.shoulder.ShoulderCommand;
+import frc.robot.commands.swerve.ApriltagLineup;
 import frc.robot.commands.wrist.WristCommand;
 import frc.robot.commands.wrist.WristHorizontalCommand;
 import frc.robot.commands.wrist.WristTestCommand;
@@ -249,10 +252,12 @@ public class RobotContainer {
                 new POVButton(driverController, 270)
                                 .whileTrue(new WristTestCommand(wristSubsystem, -1));
                 // Wrist Movement PID
-                new JoystickButton(driverController, XboxController.Button.kX.value)
-                                .whileTrue(new WristVerticalCommand(wristSubsystem));
+                // new JoystickButton(driverController, XboxController.Button.kX.value)
+                //                 .whileTrue(new WristVerticalCommand(wristSubsystem));
+                // new JoystickButton(driverController, XboxController.Button.kA.value)
+                //                 .whileTrue(new WristHorizontalCommand(wristSubsystem));
                 new JoystickButton(driverController, XboxController.Button.kA.value)
-                                .whileTrue(new WristHorizontalCommand(wristSubsystem));
+                .whileTrue(new ApriltagLineup(drivebase, limelightSubsystem));
 
                 // Shoulder Movement
                 new JoystickButton(driverController, XboxController.Button.kStart.value)
@@ -263,8 +268,12 @@ public class RobotContainer {
                 // Elevator Movement
                 new JoystickButton(driverStation, 6)
                                 .whileTrue(new ElevatorINCommand(elevatorSubsystem));
+                new JoystickButton(driverStation, 8)
+                                .whileTrue(new ElevatorINAdjustCommand(elevatorSubsystem));
                 new JoystickButton(driverStation, 1)
-                                .whileTrue(new ElevatorOUTCommand(elevatorSubsystem));
+                                .whileTrue(new ElevatorOUTCommand(elevatorSubsystem)); 
+                 new JoystickButton(driverStation, 9)
+                                .whileTrue(new ElevatorOUTAdjustCommand(elevatorSubsystem));
 
                 // Intake Control
                 new JoystickButton(driverController, XboxController.Button.kY.value)
