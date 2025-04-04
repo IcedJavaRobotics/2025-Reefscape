@@ -9,6 +9,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ElevatorConstants;
 import static frc.robot.Constants.ElevatorConstants.*;
 
@@ -27,6 +28,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     elevatorPosition myVAR = elevatorPosition.START;
 
     TalonFX elevatorMotor;
+    private boolean loopingFromGround = false;
 
     public DigitalInput elevatorLimitSwitch;
 
@@ -98,8 +100,17 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void moveElevatorL3() {
+        if(myVAR == elevatorPosition.GROUND){
+            loopingFromGround = true;
+        }
         myVAR = elevatorPosition.L3;
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), (L3_SETPOINT + elevatorOffset)));
+        if(loopingFromGround){
+            if(shoulderSubsystem.getShoulderEncoder() >= Constants.ShoulderConstants.L1_SETPOINT){
+                loopingFromGround = false;
+            }
+        } else {
+            elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), (L3_SETPOINT + elevatorOffset)));
+        }
     }
 
     public void moveElevatorL4() {
@@ -127,7 +138,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), (LOWER_ALGAE_SETPOINT + elevatorOffset)));
     }
     public void moveElevatorGroundVertical(){
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), (LOWER_ALGAE_SETPOINT + elevatorOffset)));
+            myVAR = elevatorPosition.GROUND;
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), (GROUND_VERTICAL_SETPOINT + elevatorOffset)));
     }
 
     public void elevatorOUT() {

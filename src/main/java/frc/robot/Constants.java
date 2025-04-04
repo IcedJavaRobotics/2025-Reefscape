@@ -57,7 +57,7 @@ public final class Constants {
 
     public static final double CORAL_STATION_SETPOINT = 1; //4
     public static final double GROUND_SETPOINT = -70; // TODO
-    public static final double GROUND_VERTICAL_SETPOINT = -168;
+    public static final double GROUND_VERTICAL_SETPOINT = -170;
     public static final double UPPER_ALGAE_SETPOINT = 3.927; // TODO
     public static final double LOWER_ALGAE_SETPOINT = -67.7; // TODO
   }
@@ -91,7 +91,7 @@ public final class Constants {
     public static final double L4_SETPOINT = 230 + TOTAL_OFFSET;
     public static final double CORAL_STATION_SETPOINT = 31 + TOTAL_OFFSET; //32
     public static final double GROUND_SETPOINT = 20.115; // TODO
-    public static final double GROUND_VERTICAL_SETPOINT = 24;
+    public static final double GROUND_VERTICAL_SETPOINT = 30;
     public static final double UPPER_ALGAE_SETPOINT = 90.941 + TOTAL_OFFSET; // TODO
     public static final double LOWER_ALGAE_SETPOINT = 22 + TOTAL_OFFSET; // TODO
   }

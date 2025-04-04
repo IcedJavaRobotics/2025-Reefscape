@@ -60,7 +60,7 @@ public class GroundVerticalPickupCommand extends Command {
     shoulderSubsystem.moveShoulderGroundVertical();
     elevatorSubsystem.moveElevatorGroundVertical();
     if(elevatorSubsystem.getElevatorEncoder() <= 60){
-      wristSubsystem.horizontalPID();
+      wristSubsystem.verticalPID();
     }
     if (shoulderSubsystem.getShoulderEncoder() <= -50) {
       intakeSubsystem.intakeGamePiece();

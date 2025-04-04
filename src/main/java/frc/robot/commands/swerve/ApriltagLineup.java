@@ -35,8 +35,9 @@ public class ApriltagLineup extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveSpeeds = new ChassisSpeeds(translationPID.calculate(0, limelightSubsystem.getTx()), 0, rotationPID.calculate(limelightSubsystem.getReefHeading(), swerveSubsystem.getSwerveDrive().getYaw().getDegrees()));
-    swerveSubsystem.driveRobotOriented(() -> driveSpeeds);
+    //driveSpeeds = new ChassisSpeeds(translationPID.calculate(0, limelightSubsystem.getTx()), 0, rotationPID.calculate(limelightSubsystem.getReefHeading(), swerveSubsystem.getSwerveDrive().getYaw().getDegrees()));
+    driveSpeeds = new ChassisSpeeds(10, 10, 5);
+    swerveSubsystem.driveRobotOriented(driveSpeeds);
   }
 
   // Called once the command ends or is interrupted.

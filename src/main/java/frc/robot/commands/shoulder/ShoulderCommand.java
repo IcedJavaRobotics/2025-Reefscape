@@ -38,7 +38,7 @@ public class ShoulderCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     shoulderSubsystem.shoulderMotorOFF();
-    shoulderSubsystem.setOffset(shoulderSubsystem.getShoulderEncoder()-initialValue);
+    //shoulderSubsystem.setOffset(shoulderSubsystem.getShoulderEncoder()-initialValue);
 
   }
 
