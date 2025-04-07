@@ -18,6 +18,7 @@ import frc.robot.commands.elevator.ElevatorINAdjustCommand;
 import frc.robot.commands.elevator.ElevatorINCommand;
 import frc.robot.commands.elevator.ElevatorOUTAdjustCommand;
 import frc.robot.commands.elevator.ElevatorOUTCommand;
+import frc.robot.commands.elevator.ResetElevatorCommand;
 import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.intake.IntakeOutCommand;
 import frc.robot.commands.intake.IntakeOutSlowCommand;
@@ -270,11 +271,11 @@ public class RobotContainer {
                 new JoystickButton(driverStation, 6)
                                 .whileTrue(new ElevatorINCommand(elevatorSubsystem));
                 new JoystickButton(driverStation, 8)
-                                .whileTrue(new ElevatorINAdjustCommand(elevatorSubsystem));
+                                .whileTrue(new WristHorizontalCommand(wristSubsystem));
                 new JoystickButton(driverStation, 1)
                                 .whileTrue(new ElevatorOUTCommand(elevatorSubsystem)); 
                  new JoystickButton(driverStation, 9)
-                                .whileTrue(new ElevatorOUTAdjustCommand(elevatorSubsystem));
+                                .whileTrue(new WristVerticalCommand(wristSubsystem));
 
                 // Intake Control
                 new JoystickButton(driverController, XboxController.Button.kY.value)
@@ -369,6 +370,7 @@ public class RobotContainer {
                 NamedCommands.registerCommand("autoIntake", new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem, wristSubsystem));
                 NamedCommands.registerCommand("intakeOut", new IntakeOutCommand(intakeSubsystem, true));
                 NamedCommands.registerCommand("algae-clear", new ClearAlgaeCommand(shoulderSubsystem, elevatorSubsystem, wristSubsystem, intakeSubsystem));
+                NamedCommands.registerCommand("reset-elevator", new ResetElevatorCommand(elevatorSubsystem));
                 
         }
 
