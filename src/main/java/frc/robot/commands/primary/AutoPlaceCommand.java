@@ -45,7 +45,7 @@ public class AutoPlaceCommand extends Command {
   @Override
   public void initialize() {
     initialShoulder = shoulderSubsystem.getShoulderEncoder();
-    if((initialShoulder <= ShoulderConstants.L2_SETPOINT + 15) && (initialShoulder >= ShoulderConstants.L2_SETPOINT - 15)) { //checks if the shoulder is in a range of 2 away from the setpoint of L2
+    if((initialShoulder <= ShoulderConstants.L2_SETPOINT + 8) && (initialShoulder >= ShoulderConstants.L2_SETPOINT - 8)) { //checks if the shoulder is in a range of 2 away from the setpoint of L2
       level = 2;
       desiredShoulder = initialShoulder - 40; //Setpoint is 30 under where it was originally
       shoulderSpeed = -0.6;
@@ -63,7 +63,7 @@ public class AutoPlaceCommand extends Command {
 
     }else{ //anything else, so usually L3
       level = 3;
-      desiredShoulder = initialShoulder - 25;
+      desiredShoulder = initialShoulder - 30;
       shoulderSpeed = -0.6;
       outtake = true;
     }

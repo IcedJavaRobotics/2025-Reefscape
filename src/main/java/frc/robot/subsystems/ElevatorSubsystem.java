@@ -9,6 +9,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ElevatorConstants;
 import static frc.robot.Constants.ElevatorConstants.*;
 
@@ -21,17 +22,21 @@ public class ElevatorSubsystem extends SubsystemBase {
     public enum elevatorPosition {
         START, L1, L2, L3, L4, CORAL_STATION, GROUND, UPPER_ALGAE, LOWER_ALGAE
     }
-
+ 
+    
     // 60:1 GEAR RATIO
     elevatorPosition myVAR = elevatorPosition.START;
 
     TalonFX elevatorMotor;
+    private boolean loopingFromGround = false;
 
     public DigitalInput elevatorLimitSwitch;
 
     public PIDController elevatorPidController = new PIDController(0.02, 0, 0.001);
 
     ShoulderSubsystem shoulderSubsystem;
+
+    public double elevatorOffset;
 
     public ElevatorSubsystem(ShoulderSubsystem shoulderSubsystem) {
         this.shoulderSubsystem = shoulderSubsystem;
@@ -57,6 +62,11 @@ public class ElevatorSubsystem extends SubsystemBase {
         return elevatorMotor.getPosition().getValueAsDouble();
     }
 
+
+    public void setOffset(double newOffset){
+        this.elevatorOffset = newOffset;
+      }
+
     /**
      * @return true if past extension
      */
@@ -78,47 +88,58 @@ public class ElevatorSubsystem extends SubsystemBase {
         }
     }
 
+
     public void moveElevatorL1() {
         myVAR = elevatorPosition.L1;
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), L1_SETPOINT));
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), (L1_SETPOINT + elevatorOffset)));
     }
 
     public void moveElevatorL2() {
         myVAR = elevatorPosition.L2;
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), L2_SETPOINT));
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), (L2_SETPOINT + elevatorOffset)));
     }
 
     public void moveElevatorL3() {
+        if(myVAR == elevatorPosition.GROUND){
+            loopingFromGround = true;
+        }
         myVAR = elevatorPosition.L3;
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), L3_SETPOINT));
+        if(loopingFromGround){
+            if(shoulderSubsystem.getShoulderEncoder() >= Constants.ShoulderConstants.L1_SETPOINT){
+                loopingFromGround = false;
+            }
+        } else {
+            elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), (L3_SETPOINT + elevatorOffset)));
+        }
     }
 
     public void moveElevatorL4() {
         myVAR = elevatorPosition.L4;
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), L4_SETPOINT));
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), (L4_SETPOINT + elevatorOffset)));
     }
 
     public void moveElevatorCoralStation() {
         myVAR = elevatorPosition.CORAL_STATION;
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), CORAL_STATION_SETPOINT));
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), (CORAL_STATION_SETPOINT + elevatorOffset)));
     }
 
     public void moveElevatorGround() {
         myVAR = elevatorPosition.GROUND;
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), GROUND_SETPOINT));
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), (GROUND_SETPOINT + elevatorOffset)));
     }
 
     public void moveElevatorUpperAlgae() {
         myVAR = elevatorPosition.UPPER_ALGAE;
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), UPPER_ALGAE_SETPOINT));
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), (UPPER_ALGAE_SETPOINT + elevatorOffset)));
     }
 
     public void moveElevatorLowerAlgae() {
             myVAR = elevatorPosition.LOWER_ALGAE;
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), LOWER_ALGAE_SETPOINT));
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), (LOWER_ALGAE_SETPOINT + elevatorOffset)));
     }
     public void moveElevatorGroundVertical(){
-        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), LOWER_ALGAE_SETPOINT));
+            myVAR = elevatorPosition.GROUND;
+        elevatorMotor.set(elevatorPidController.calculate(elevatorMotor.getPosition().getValueAsDouble(), (GROUND_VERTICAL_SETPOINT + elevatorOffset)));
     }
 
     public void elevatorOUT() {

@@ -40,16 +40,8 @@ public class MoveRightL3Command extends Command {
     @Override
     public void execute() {
         wristSubsystem.set(wristPID.calculate(wristSubsystem.getEncoder(), 0));
-        if(elevatorSubsystem.getElevatorEncoder() <= 7){
-            reset = true;
-        }
-        if(reset){
             shoulderSubsystem.moveShoulderL3();
             elevatorSubsystem.moveElevatorL3();
-        } else{
-            elevatorSubsystem.set(-0.2);
-            //-13
-        }
         
         SmartDashboard.putBoolean("resetBool", reset);
         // if (elevatorSubsystem.extensionChecker()) {

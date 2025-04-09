@@ -151,6 +151,7 @@ public class LimelightSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("apriltag", getTid());
         SmartDashboard.putNumber("Locked apriltag", lockedApriltag);
         SmartDashboard.putNumber("last apriltag", lastSeenApriltag);
+        SmartDashboard.putNumber("desired heading", getReefHeading());
 
 
     }

@@ -34,6 +34,7 @@ public class ElevatorOUTCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     elevatorSubsystem.elevatorOFF();
+    //get offset value by subtracting new encoder value and the constant encoder
   }
 
   // Returns true when the command should end.

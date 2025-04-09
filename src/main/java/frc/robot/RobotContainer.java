@@ -14,8 +14,11 @@ import frc.robot.commands.cursor.CursorLeftCommand;
 import frc.robot.commands.cursor.CursorRightCommand;
 import frc.robot.commands.cursor.CursorUpCommand;
 import frc.robot.commands.cursor.ToggleAuxLockCommand;
+import frc.robot.commands.elevator.ElevatorINAdjustCommand;
 import frc.robot.commands.elevator.ElevatorINCommand;
+import frc.robot.commands.elevator.ElevatorOUTAdjustCommand;
 import frc.robot.commands.elevator.ElevatorOUTCommand;
+import frc.robot.commands.elevator.ResetElevatorCommand;
 import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.intake.IntakeOutCommand;
 import frc.robot.commands.intake.IntakeOutSlowCommand;
@@ -32,8 +35,10 @@ import frc.robot.commands.primary.AutoIntakeCommand;
 import frc.robot.commands.primary.AutoPlaceCommand;
 import frc.robot.commands.primary.ClearAlgaeCommand;
 import frc.robot.commands.primary.GroundVerticalPickupCommand;
+import frc.robot.commands.primary.MoveToStationCommand;
 import frc.robot.commands.primary.ResetMotorsCommand;
 import frc.robot.commands.shoulder.ShoulderCommand;
+import frc.robot.commands.swerve.ApriltagLineup;
 import frc.robot.commands.wrist.WristCommand;
 import frc.robot.commands.wrist.WristHorizontalCommand;
 import frc.robot.commands.wrist.WristTestCommand;
@@ -76,6 +81,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+import java.util.Date;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -107,11 +115,18 @@ public class RobotContainer {
 
         PIDController headingController = new PIDController(0.015, 0, 0.001);
 
+        private String formattedTime = "hi";
+
 
         /**
          * The container for the robot. Contains subsystems, OI devices, and commands.
          */
         public RobotContainer() {
+                Date currentDate = new Date();
+                LocalTime currentTime = LocalTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                formattedTime = currentTime.format(formatter);
+
                 // Configure the trigger bindings
                 headingController.enableContinuousInput(-180, 180);
                 configureNamedCommands();
@@ -163,7 +178,7 @@ public class RobotContainer {
                 if(driverController.getLeftStickButton()){
                         return 1;
                 } else if(getLeftDriverTriggerValue()){
-                        return 0.2;
+                        return 0.4;
                 }
                 return 0.5;
         }
@@ -193,7 +208,7 @@ public class RobotContainer {
         //Command driveFieldOrientedDirectAngle = drivebase.driveRobotOriented(driveDirectAngle);
 
         Command driveFieldOrientedAngularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
-        //Command driveRobotOriented = drivebase.driveFieldOriented(driveRobotOrientedVelocity);
+        Command driveRobotOriented = drivebase.driveFieldOriented(driveRobotOrientedVelocity);
 
         /**
          * Use this method to define your trigger->command mappings. Triggers can be
@@ -224,8 +239,9 @@ public class RobotContainer {
                 new Trigger(() -> getLeftDriverTriggerValue())
                                 .whileTrue(new LockApriltag(limelightSubsystem));
 
-                new JoystickButton(driverController, XboxController.Button.kRightBumper.value)
+                new JoystickButton(driverController, XboxController.Button.kLeftBumper.value)
                                 .whileTrue(new GroundVerticalPickupCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+                new Trigger(driverController::getRightBumperButton).whileTrue(driveRobotOriented);
                 // new Trigger(() -> getLeftDriverTriggerValue()) // Place Coral On Reef
                 //                 .whileTrue(new AutoPlaceCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
 
@@ -238,10 +254,12 @@ public class RobotContainer {
                 new POVButton(driverController, 270)
                                 .whileTrue(new WristTestCommand(wristSubsystem, -1));
                 // Wrist Movement PID
-                new JoystickButton(driverController, XboxController.Button.kX.value)
-                                .whileTrue(new WristVerticalCommand(wristSubsystem));
+                // new JoystickButton(driverController, XboxController.Button.kX.value)
+                //                 .whileTrue(new WristVerticalCommand(wristSubsystem));
+                // new JoystickButton(driverController, XboxController.Button.kA.value)
+                //                 .whileTrue(new WristHorizontalCommand(wristSubsystem));
                 new JoystickButton(driverController, XboxController.Button.kA.value)
-                                .whileTrue(new WristHorizontalCommand(wristSubsystem));
+                .whileTrue(new ApriltagLineup(drivebase, limelightSubsystem));
 
                 // Shoulder Movement
                 new JoystickButton(driverController, XboxController.Button.kStart.value)
@@ -252,8 +270,12 @@ public class RobotContainer {
                 // Elevator Movement
                 new JoystickButton(driverStation, 6)
                                 .whileTrue(new ElevatorINCommand(elevatorSubsystem));
+                new JoystickButton(driverStation, 8)
+                                .whileTrue(new WristHorizontalCommand(wristSubsystem));
                 new JoystickButton(driverStation, 1)
-                                .whileTrue(new ElevatorOUTCommand(elevatorSubsystem));
+                                .whileTrue(new ElevatorOUTCommand(elevatorSubsystem)); 
+                 new JoystickButton(driverStation, 9)
+                                .whileTrue(new WristVerticalCommand(wristSubsystem));
 
                 // Intake Control
                 new JoystickButton(driverController, XboxController.Button.kY.value)
@@ -342,10 +364,13 @@ public class RobotContainer {
                 NamedCommands.registerCommand("armL2", new MoveRightL2Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
                 NamedCommands.registerCommand("armL3", new MoveRightL3Command(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
 
+                NamedCommands.registerCommand("moveTo", new MoveToStationCommand(shoulderSubsystem, elevatorSubsystem, wristSubsystem));
+
                 NamedCommands.registerCommand("place", new AutoPlaceCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem));
                 NamedCommands.registerCommand("autoIntake", new AutoIntakeCommand(intakeSubsystem, shoulderSubsystem, elevatorSubsystem, wristSubsystem));
                 NamedCommands.registerCommand("intakeOut", new IntakeOutCommand(intakeSubsystem, true));
                 NamedCommands.registerCommand("algae-clear", new ClearAlgaeCommand(shoulderSubsystem, elevatorSubsystem, wristSubsystem, intakeSubsystem));
+                NamedCommands.registerCommand("reset-elevator", new ResetElevatorCommand(elevatorSubsystem));
                 
         }
 
@@ -440,13 +465,20 @@ public class RobotContainer {
         private double getRightX() {
                 SmartDashboard.putNumber("pos rot", drivebase.getSwerveDrive().getPose().getRotation().getDegrees());
                 SmartDashboard.putNumber("limelight rot", limelightSubsystem.getReefHeading());
+                SmartDashboard.putString("time", formattedTime);
                 if(getLeftDriverTriggerValue()){
                         if(limelightSubsystem.getReefHeading() == 6894){
-                                return -driverController.getRightX() / 2;
+                                return getControllerRotation();
                         }
-                        return headingController.calculate(drivebase.getSwerveDrive().getPose().getRotation().getDegrees(), limelightSubsystem.getReefHeading());
+                        
+                        return headingController.calculate(drivebase.getSwerveDrive().getYaw().getDegrees(), limelightSubsystem.getReefHeading());
                 }
-                return -driverController.getRightX() / 2;
+                
+                return getControllerRotation();
+        }
+
+        private double getControllerRotation() {
+                return -driverController.getRightX() * getTurnMultiplier();     
         }
 
         /**

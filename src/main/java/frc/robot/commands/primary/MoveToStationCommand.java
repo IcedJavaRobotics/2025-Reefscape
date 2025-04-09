@@ -16,24 +16,22 @@ import frc.robot.subsystems.WristSubsystem;
  * in robotContainer swerve object)
  * 
  */
-public class GroundVerticalPickupCommand extends Command {
+public class MoveToStationCommand extends Command {
   /** Creates a new AutoIntake. */
-  private IntakeSubsystem intakeSubsystem;
   private ShoulderSubsystem shoulderSubsystem;
   private ElevatorSubsystem elevatorSubsystem;
   private WristSubsystem wristSubsystem;
 
-  private PIDController shoulderPID = new PIDController(0., 0, 0);
-  private PIDController elevatorPID = new PIDController(0., 0, 0);
+  private PIDController shoulderPID = new PIDController(0, 0, 0);
+  private PIDController elevatorPID = new PIDController(0, 0, 0);
 
-  public GroundVerticalPickupCommand(IntakeSubsystem intakeSubsystem, ShoulderSubsystem shoulderSubsystem,
+  public MoveToStationCommand(ShoulderSubsystem shoulderSubsystem,
       ElevatorSubsystem elevatorSubsystem, WristSubsystem wristSubsystem) {
-    this.intakeSubsystem = intakeSubsystem;
     this.shoulderSubsystem = shoulderSubsystem;
     this.elevatorSubsystem = elevatorSubsystem;
     this.wristSubsystem = wristSubsystem;
 
-    addRequirements(intakeSubsystem, shoulderSubsystem, elevatorSubsystem);
+    addRequirements(shoulderSubsystem, elevatorSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -57,13 +55,13 @@ public class GroundVerticalPickupCommand extends Command {
     // intakeSubsystem.intakeGamePiece();
     // }
 
-    shoulderSubsystem.moveShoulderGroundVertical();
-    elevatorSubsystem.moveElevatorGroundVertical();
-    if(elevatorSubsystem.getElevatorEncoder() <= 60){
+    shoulderSubsystem.moveShoulderCoralStation();
+    elevatorSubsystem.moveElevatorCoralStation();
+    if(elevatorSubsystem.getElevatorEncoder() <= 100){
       wristSubsystem.verticalPID();
     }
-    if (shoulderSubsystem.getShoulderEncoder() <= -50) {
-      intakeSubsystem.intakeGamePiece();
+    if (shoulderSubsystem.getShoulderEncoder() >= -20) {
+
     }
   }
 
@@ -72,7 +70,6 @@ public class GroundVerticalPickupCommand extends Command {
   public void end(boolean interrupted) {
     shoulderSubsystem.shoulderMotorOFF();
     elevatorSubsystem.elevatorOFF();
-    intakeSubsystem.intakeMotorOFF();
     wristSubsystem.set(0);
   }
 

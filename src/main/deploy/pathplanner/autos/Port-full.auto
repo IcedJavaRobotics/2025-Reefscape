@@ -9,18 +9,24 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "Start to reef 1-2"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "armL1"
                 }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Start to reef 1-2"
+                }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "reef 1 extra push"
           }
         },
         {
@@ -36,7 +42,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.4
+                  "waitTime": 0.1
                 }
               }
             ]
@@ -78,7 +84,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.5
+                        "waitTime": 1.1
                       }
                     },
                     {
@@ -86,37 +92,18 @@
                       "data": {
                         "commands": [
                           {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 1.8
-                            }
-                          },
-                          {
                             "type": "named",
                             "data": {
                               "name": "moveTo"
                             }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 1.5
+                            }
                           }
                         ]
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "race",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "intakeOut"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.0
                       }
                     }
                   ]
@@ -130,15 +117,15 @@
           "data": {
             "commands": [
               {
-                "type": "wait",
-                "data": {
-                  "waitTime": 2.0
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "autoIntake"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 1.6
                 }
               }
             ]
@@ -164,22 +151,9 @@
           }
         },
         {
-          "type": "race",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "intakeOut"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.4
-                }
-              }
-            ]
+            "name": "intakeOut"
           }
         }
       ]

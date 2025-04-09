@@ -3,39 +3,39 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.3348011363636365,
-        "y": 2.923139204545454
+        "x": 5.947179487179486,
+        "y": 4.004358974358975
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.763579545456432,
-        "y": 0.48009943181589865
+        "x": 7.010028409090909,
+        "y": 3.471576704545454
       },
       "isLocked": false,
-      "linkedName": "reef3-center"
+      "linkedName": "algae-2"
     },
     {
       "anchor": {
-        "x": 0.8475852272727273,
-        "y": 1.1980539772727274
+        "x": 5.195198863636364,
+        "y": 2.7835369318181815
       },
       "prevControl": {
-        "x": 3.021392045456433,
-        "y": 2.4345312499977174
+        "x": 6.680965909090909,
+        "y": 2.3148721590909087
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "coralstation-bottom"
+      "linkedName": "algae-3"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.3570159857904091,
-      "rotationDegrees": -21.792040427462595
+      "waypointRelativePos": 0.4902309058614572,
+      "rotationDegrees": 77.42969811351296
     },
     {
-      "waypointRelativePos": 0.8117229129662497,
-      "rotationDegrees": -126.54738839331881
+      "waypointRelativePos": 0.6502301117685769,
+      "rotationDegrees": -87.10797790713951
     }
   ],
   "constraintZones": [],
@@ -51,13 +51,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -126.0
+    "rotation": 119.55368363230745
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Algae ",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 119.99999999999999
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }
