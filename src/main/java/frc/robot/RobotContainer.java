@@ -131,7 +131,7 @@ public class RobotContainer {
                 headingController.enableContinuousInput(-180, 180);
                 configureNamedCommands();
                 configureBindings();
-                candleSubsystem.setCandleJavaBlue();
+                candleSubsystem.setCandleGreen();
                 drivebase.setDefaultCommand(driveFieldOrientedAngularVelocity); 
 
                 // elevatorSubsystem.setDefaultCommand(new RunCommand(() ->
